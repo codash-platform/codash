@@ -2,6 +2,8 @@
 
 This frontend app focuses on providing (yet one more) dashboard to visualize the COVID-19 data.
 
+Live demo: https://jackd.popa-marius.com
+
 ### Getting started
 
 1. Clone this repo

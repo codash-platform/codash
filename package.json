@@ -1,13 +1,17 @@
 {
-  "name": "covid",
+  "name": "jackd",
   "version": "1.0.0",
-  "description": "covid",
+  "description": "Just Another COVID-19 Kick-ass Dashboard",
+  "author": {
+    "email": "contact@popa-marius.com",
+    "name": "Marius Popa"
+  },
   "scripts": {
     "prepare": "cp .env.example .env",
     "start": "npm run start:dev",
     "start:dev": "NODE_ENV=development webpack-dev-server --mode=development --progress",
     "start:prod": "NODE_ENV=production webpack-dev-server --mode=production --progress",
-    "build": "([ -d dist ] && rm -R dist) ; NODE_ENV=production webpack --mode=production --display-modules --progress",
+    "build": "([ -d dist ] && rm -R dist/*) ; NODE_ENV=production webpack --mode=production --display-modules --progress",
     "pretty": "prettier-eslint --ignore=dist/* --write \"$(pwd)/src/**/*.js\" --bracket-spacing false --jsx-bracket-same-line false",
     "serve": "pushstate-server -d dist"
   },

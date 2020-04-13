@@ -43,7 +43,7 @@ export const parseRawData = rawData => {
     })
 
     if (!globalPerDay[dateKey]) {
-      globalPerDay[dateKey] = createInitialEntryPerCountry('Global', 'WW', 0)
+      globalPerDay[dateKey] = createInitialEntryPerCountry('Combined Data', 'WW', 0)
     }
 
     globalPerDay[dateKey].cases += cases

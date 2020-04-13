@@ -13,6 +13,7 @@ class MainLayoutComponent extends React.Component {
         <Container>
           <Row>
             <Col xs={8}>
+              &copy;{' '}
               <a className="font-weight-bold" href="https://github.com/popa-marius/jackd">
                 JACKD
               </a>{' '}

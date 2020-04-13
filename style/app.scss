@@ -1,0 +1,10 @@
+// main variables, these can be re-used in the next files
+@use 'vars';
+
+// INTERNAL - custom styles
+@use 'main';
+
+// BOOTSTRAP
+@import 'bootstrap'; // custom overrides of the bootstrap variables
+@import '../node_modules/bootstrap/scss/bootstrap';
+@import '../node_modules/react-bootstrap-table-next/dist/react-bootstrap-table2.css';

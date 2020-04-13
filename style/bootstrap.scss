@@ -1,0 +1,12 @@
+@use 'vars';
+
+$theme-colors: (
+  "primary": vars.$color-contrast,
+  "secondary": vars.$color-secondary
+);
+
+$enable-rounded: true;
+$btn-border-width: 2px;
+$input-btn-focus-box-shadow: none;
+$yiq-contrasted-threshold: 160;
+$tooltip-bg: vars.$color-dark;

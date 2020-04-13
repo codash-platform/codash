@@ -1,0 +1,24 @@
+@use 'vars';
+@use 'breakpoints';
+
+body {
+  background-color: vars.$color-light;
+  font-family: vars.$font-regular;
+  min-width: 768px;
+  overflow-y: scroll;
+  font-size: 16px;
+  color: vars.$color-dark;
+}
+
+a,
+a:link,
+a:visited,
+a:hover,
+a:active {
+  color: vars.$color-primary;
+}
+
+#header {
+  background-color: vars.$color-primary;
+  color: vars.$color-dark
+}

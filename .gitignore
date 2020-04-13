@@ -1,0 +1,8 @@
+build
+dist
+node_modules
+.idea
+**/*.log
+.DS_Store
+.env
+src/i18n/*.json

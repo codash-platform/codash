@@ -32,7 +32,7 @@ class HeaderComponent extends React.Component {
       <div id="header">
         <Container fluid>
           <Row>
-            <Col lg={3} md={4} xs={12}>
+            <Col lg={3} xs={4}>
               <h2 className="m-0 text-light">{appName}</h2>
             </Col>
             <Col>

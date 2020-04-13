@@ -127,7 +127,7 @@ class TableOverviewComponent extends Component {
     const {SearchBar} = Search
     let tableData = data[dataSource] || null
 
-    if (dataSource === 'total') {
+    if (dataSource !== 'day') {
       if (!tableData) {
         return <p>no data</p>
       }
@@ -139,7 +139,7 @@ class TableOverviewComponent extends Component {
     }
 
     return (
-      <ToolkitProvider keyField="name" data={tableData} columns={this.columns} bootstrap4 search>
+      <ToolkitProvider keyField="geoId" data={tableData} columns={this.columns} bootstrap4 search>
         {props => (
           <div>
             <SearchBar {...props.searchProps} />

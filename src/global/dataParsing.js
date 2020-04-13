@@ -1,96 +1,84 @@
 import moment from 'moment'
 
+const ECDC_DATE_FORMAT = 'DD/MM/YYYY'
+const APP_DATE_FORMAT = 'DD.MM.YYYY'
+
 export const parseRawData = rawData => {
-  const totalPerCountry = {}
+  let mostRecentDate = null
   const perDayData = {}
   const datesAvailable = new Set()
-  let mostRecentDate = null
-  const globalTotal = createInitialEntryPerCountry('Global', 'WW', 0)
   const globalPerDay = []
 
-  if (!!rawData[0].dateRep) {
-    mostRecentDate = moment(rawData[0].dateRep, 'DD/MM/YYYY"')
-
-    rawData.map(record => {
-      const testDate = moment(record.dateRep, 'DD/MM/YYYY"')
-      if (testDate.isAfter(mostRecentDate)) {
-        mostRecentDate = testDate
-      }
-    })
-
-    const mostRecentDay = mostRecentDate.date().toString()
-    const mostRecentMonth = (mostRecentDate.month() + 1).toString()
-    const mostRecentYear = mostRecentDate.year().toString()
-
-    rawData.map(record => {
-      const cases = parseInt(record.cases)
-      const deaths = parseInt(record.deaths)
-      const population = parseInt(record.popData2018) || getMissingPopulation(record)
-      const name = record.countriesAndTerritories.split('_').join(' ')
-      const dateKey = record.dateRep.split('/').join('.')
-
-      datesAvailable.add(dateKey)
-
-      if (!totalPerCountry[record.geoId]) {
-        totalPerCountry[record.geoId] = createInitialEntryPerCountry(name, record.geoId, population)
-      }
-
-      totalPerCountry[record.geoId].cases += cases
-      totalPerCountry[record.geoId].deaths += deaths
-      globalTotal.cases += cases
-      globalTotal.deaths += deaths
-
-      if (!perDayData[dateKey]) {
-        perDayData[dateKey] = []
-      }
-
-      perDayData[dateKey].push({
-        name: name,
-        cases: cases,
-        deaths: deaths,
-        geoId: record.geoId,
-        population: population,
-      })
-
-      if (!globalPerDay[dateKey]) {
-        globalPerDay[dateKey] = createInitialEntryPerCountry('Global', 'WW', 0)
-      }
-
-      globalPerDay[dateKey].cases += cases
-      globalPerDay[dateKey].deaths += deaths
-      // todo fix calculation bug
-      globalPerDay[dateKey].population += population
-
-      // TODO optimize
-      if (record.day !== mostRecentDay || record.month !== mostRecentMonth || record.year !== mostRecentYear) {
-        return
-      }
-
-      globalTotal.population += population
-    })
+  if (!rawData[0].dateRep) {
+    return null
   }
-  let totalData = Object.values(totalPerCountry)
-  totalData.push(globalTotal)
-  totalData = calculateAdditionalData(totalData)
+
+  mostRecentDate = moment(rawData[0].dateRep, ECDC_DATE_FORMAT)
+  rawData.map(record => {
+    const testDate = moment(record.dateRep, ECDC_DATE_FORMAT)
+    if (testDate.isAfter(mostRecentDate, 'day')) {
+      mostRecentDate = testDate
+    }
+  })
+
+  rawData.map(record => {
+    const cases = parseInt(record.cases)
+    const deaths = parseInt(record.deaths)
+    const population = parseInt(record.popData2018) || getMissingPopulation(record)
+    const name = record.countriesAndTerritories.split('_').join(' ')
+    const dateKey = record.dateRep.split('/').join('.')
+
+    datesAvailable.add(dateKey)
+
+    if (!perDayData[dateKey]) {
+      perDayData[dateKey] = []
+    }
+
+    perDayData[dateKey].push({
+      name: name,
+      cases: cases,
+      deaths: deaths,
+      geoId: record.geoId,
+      population: population,
+    })
+
+    if (!globalPerDay[dateKey]) {
+      globalPerDay[dateKey] = createInitialEntryPerCountry('Global', 'WW', 0)
+    }
+
+    globalPerDay[dateKey].cases += cases
+    globalPerDay[dateKey].deaths += deaths
+    // todo fix calculation bug
+    globalPerDay[dateKey].population += population
+  })
 
   for (let [key, value] of Object.entries(perDayData)) {
     perDayData[key].push(globalPerDay[key])
     perDayData[key] = calculateAdditionalData(perDayData[key])
   }
 
+  const totalData = parseSectionData(perDayData)
+  const last7Days = parseSectionData(perDayData, mostRecentDate.subtract(7, 'days'))
+  const last14Days = parseSectionData(perDayData, mostRecentDate.subtract(14, 'days'))
+
   return {
     rawData: rawData,
-    mostRecentDay: mostRecentDate && mostRecentDate.format('DD.MM.YYYY'),
+    mostRecentDay: mostRecentDate && mostRecentDate.format(APP_DATE_FORMAT),
     perDayData: perDayData,
-    datesAvailable: [...datesAvailable],
+    datesAvailable: getSortedDates(datesAvailable),
     total: totalData,
+    last7Days: last7Days,
+    last14Days: last14Days,
   }
+}
+
+const getSortedDates = datesSet => {
+  return [...datesSet].sort((a, b) => moment(b, APP_DATE_FORMAT).toDate() - moment(a, APP_DATE_FORMAT).toDate())
 }
 
 const calculateAdditionalData = data => {
   return data.map(element => {
     // if (element.geoId === 'JPG11668') debugger
-    // if (element.geoId === 'CZ') debugger
 
     element.infectionPerCapita = calculateRate(element.cases, element.population, 1000000)
     element.mortalityPerCapita = calculateRate(element.deaths, element.population, 1000000)
@@ -100,21 +88,32 @@ const calculateAdditionalData = data => {
   })
 }
 
-const hardcodedData = {
-  AI: 14731,
-  BQ: 25711,
-  CZ: 10665677,
-  ER: 3452786,
-  FK: 3234,
-}
+const parseSectionData = (perDayData, startDate, endDate) => {
+  let resultData = []
+  const perCountryData = {}
 
-const getMissingPopulation = element => {
-  let population = null
-  if (!!hardcodedData[element.geoId]) {
-    population = hardcodedData[element.geoId]
+  for (let [dateKey, entriesForDate] of Object.entries(perDayData)) {
+    if (startDate && moment(dateKey, APP_DATE_FORMAT).isBefore(startDate, 'day')) {
+      continue
+    }
+
+    if (endDate && moment(dateKey, APP_DATE_FORMAT).isAfter(endDate, 'day')) {
+      continue
+    }
+
+    for (let entry of entriesForDate) {
+      if (!perCountryData[entry.geoId]) {
+        perCountryData[entry.geoId] = createInitialEntryPerCountry(entry.name, entry.geoId, entry.population)
+      }
+      perCountryData[entry.geoId].cases += entry.cases
+      perCountryData[entry.geoId].deaths += entry.deaths
+    }
   }
 
-  return population
+  resultData = Object.values(perCountryData)
+  resultData = calculateAdditionalData(resultData)
+
+  return resultData
 }
 
 /**
@@ -144,4 +143,22 @@ const createInitialEntryPerCountry = (name, geoId, population) => {
     geoId: geoId,
     population: population,
   }
+}
+
+// for some reason, the ECDC is missing the population count for these countries
+const hardcodedPopulationData = {
+  AI: 14731,
+  BQ: 25711,
+  CZ: 10665677,
+  ER: 3452786,
+  FK: 3234,
+}
+
+const getMissingPopulation = element => {
+  let population = null
+  if (!!hardcodedPopulationData[element.geoId]) {
+    population = hardcodedPopulationData[element.geoId]
+  }
+
+  return population
 }

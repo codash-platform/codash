@@ -16,6 +16,9 @@ import {appName, isProduction} from '../global/variables'
 const MenuButton = props => {
   let className = props.className || 'my-1 mx-1'
   const variant = props.variant || 'light'
+  if (props.active) {
+    className += ' text-primary'
+  }
 
   return (
     <Button size="sm" className={className} variant={variant} onClick={props.action}>
@@ -43,15 +46,29 @@ class HeaderComponent extends React.Component {
               <ButtonGroup>
                 <MenuButton
                   className="my-1 ml-1"
+                  active={tableOverview.dataSource === 'total'}
                   action={() => action(ACTION_CHANGE_DATA_SOURCE, {dataSource: 'total'})}
-                  title="Total Data"
+                  title="Total"
+                />
+                <MenuButton
+                  className="my-1 border-left"
+                  active={tableOverview.dataSource === 'last14Days'}
+                  action={() => action(ACTION_CHANGE_DATA_SOURCE, {dataSource: 'last14Days'})}
+                  title="Last 14 Days"
+                />
+                <MenuButton
+                  className="my-1 border-left"
+                  active={tableOverview.dataSource === 'last7Days'}
+                  action={() => action(ACTION_CHANGE_DATA_SOURCE, {dataSource: 'last7Days'})}
+                  title="Last 7 Days"
                 />
                 <MenuButton
                   className="my-1 mr-1 border-left"
+                  active={tableOverview.dataSource === 'day'}
                   action={() =>
                     action(ACTION_CHANGE_DATA_SOURCE, {dataSource: 'day', day: overview.data.mostRecentDay})
                   }
-                  title="Single Day Data"
+                  title="Single Day"
                 />
               </ButtonGroup>
               {tableOverview.dataSource === 'day' && (
@@ -63,7 +80,7 @@ class HeaderComponent extends React.Component {
                   onChange={e => action(ACTION_CHANGE_SELECTED_DAY, {selectedDay: e.target.value})}
                   value={tableOverview.selectedDay}
                 >
-                  {overview.data.datesAvailable.map(date => (
+                  {overview.data?.datesAvailable?.map(date => (
                     <option key={date} value={date}>
                       {date}
                     </option>

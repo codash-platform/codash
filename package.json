@@ -6,6 +6,7 @@
     "email": "contact@popa-marius.com",
     "name": "Marius Popa"
   },
+  "license": "MIT",
   "scripts": {
     "prepare": "cp .env.example .env",
     "start": "npm run start:dev",

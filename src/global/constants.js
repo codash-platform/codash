@@ -12,7 +12,7 @@ export const STORAGE_EXPIRY_KEY = 'updatedAt'
 export const REDUX_STORE_STORAGE_NAME = 'dataStore'
 
 // route urls
-export const ROUTE_OVERVIEW = '/overview'
+export const ROUTE_TABLE_OVERVIEW = '/overview'
 
 export const ACTION_GET_DATA_START = 'ACTION_GET_DATA_START'
 export const ACTION_GET_DATA_SUCCESS = 'ACTION_GET_DATA_SUCCESS'

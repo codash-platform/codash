@@ -24,7 +24,7 @@ const MenuButton = props => {
   )
 }
 
-class Header extends React.Component {
+class HeaderComponent extends React.Component {
   render() {
     const {message, overview, tableOverview} = this.props
 
@@ -102,4 +102,4 @@ const stateToProps = state => ({
 
 const dispatchToProps = {}
 
-export default withRouter(connect(stateToProps, dispatchToProps)(withTranslation()(Header)))
+export const Header = withRouter(connect(stateToProps, dispatchToProps)(withTranslation()(HeaderComponent)))

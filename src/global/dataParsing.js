@@ -58,8 +58,8 @@ export const parseRawData = rawData => {
   }
 
   const totalData = parseSectionData(perDayData)
-  const last7Days = parseSectionData(perDayData, mostRecentDate.subtract(7, 'days'))
-  const last14Days = parseSectionData(perDayData, mostRecentDate.subtract(14, 'days'))
+  const last7Days = parseSectionData(perDayData, mostRecentDate.clone().subtract(7, 'days'))
+  const last14Days = parseSectionData(perDayData, mostRecentDate.clone().subtract(14, 'days'))
 
   return {
     rawData: rawData,

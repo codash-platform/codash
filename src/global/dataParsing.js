@@ -1,4 +1,5 @@
 import moment from 'moment'
+import {TABLE_MODES} from './constants'
 
 const ECDC_DATE_FORMAT = 'DD/MM/YYYY'
 const APP_DATE_FORMAT = 'DD.MM.YYYY'
@@ -64,11 +65,11 @@ export const parseRawData = rawData => {
   return {
     rawData: rawData,
     mostRecentDay: mostRecentDate && mostRecentDate.format(APP_DATE_FORMAT),
-    perDayData: perDayData,
     datesAvailable: getSortedDates(datesAvailable),
-    total: totalData,
-    last7Days: last7Days,
-    last14Days: last14Days,
+    [TABLE_MODES.TOTAL]: totalData,
+    [TABLE_MODES.LAST7DAYS]: last7Days,
+    [TABLE_MODES.LAST14DAYS]: last14Days,
+    [TABLE_MODES.SINGLE_DAY]: perDayData,
   }
 }
 

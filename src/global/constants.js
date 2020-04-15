@@ -5,6 +5,14 @@ export const ASYNC_STATUS = {
   FAIL: 'FAIL',
 }
 
+export const TABLE_MODES = {
+  TOTAL: 'TOTAL',
+  CUSTOM_INTERVAL: 'CUSTOM_INTERVAL',
+  LAST7DAYS: 'LAST7DAYS',
+  LAST14DAYS: 'LAST14DAYS',
+  SINGLE_DAY: 'SINGLE_DAY',
+}
+
 // the expiry time of the local storage used for the redux store in minutes
 export const STORAGE_EXPIRY_TIMEOUT = 30
 export const STORAGE_EXPIRY_KEY = 'updatedAt'
@@ -24,5 +32,5 @@ export const ACTION_REPARSE_DATA = 'ACTION_REPARSE_DATA'
 export const ACTION_HEADER_MESSAGE_SET = 'ACTION_HEADER_MESSAGE_SET'
 export const ACTION_HEADER_MESSAGE_CLEAR = 'ACTION_HEADER_MESSAGE_CLEAR'
 
-export const REDUX_STORE_VERSION = '1'
+export const REDUX_STORE_VERSION = '2'
 export const REDUX_STORE_VERSION_PROPERTY = 'version'

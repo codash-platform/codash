@@ -1,8 +1,8 @@
-import {ACTION_CHANGE_DATA_SOURCE, ACTION_CHANGE_SELECTED_DAY, ASYNC_STATUS} from '../../../global/constants'
+import {ACTION_CHANGE_DATA_SOURCE, ACTION_CHANGE_SELECTED_DAY, TABLE_MODES} from '../../../global/constants'
 
 const initialState = {
   selectedDay: null,
-  dataSource: 'total',
+  tableMode: TABLE_MODES.TOTAL,
 }
 
 export const tableOverview = (state = initialState, action = {}) => {
@@ -10,7 +10,7 @@ export const tableOverview = (state = initialState, action = {}) => {
     case ACTION_CHANGE_DATA_SOURCE:
       let newState = {
         ...state,
-        dataSource: action.dataSource,
+        tableMode: action.tableMode,
       }
 
       if (!!action.day) {

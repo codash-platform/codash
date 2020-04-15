@@ -5,7 +5,7 @@ import {Alert, Col, Row} from 'react-bootstrap'
 import {withTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import {MainLayout} from '../../../components/MainLayout'
-import {ACTION_GET_DATA_START, ASYNC_STATUS} from '../../../global/constants'
+import {ACTION_GET_DATA_START, ASYNC_STATUS, TABLE_MODES} from '../../../global/constants'
 import {action} from '../../../global/util'
 import {MainTable} from './MainTable'
 
@@ -16,22 +16,22 @@ class TableOverviewComponent extends Component {
     }
   }
 
-  getTableData(data, dataSource, selectedDay) {
-    let tableData = data && data[dataSource] || null
+  getTableData(data, tableMode, selectedDay, isDayMode) {
+    let tableData = (data && data[tableMode]) || null
 
-    if (dataSource === 'day') {
-      tableData = data.perDayData[selectedDay] || null
+    if (isDayMode) {
+      tableData = data[TABLE_MODES.SINGLE_DAY][selectedDay] || null
     }
 
     return tableData || []
   }
 
   render() {
-    const {t, overview, tableOverview} = this.props
+    const {overview, tableOverview} = this.props
     const {loadingStatus, error, data} = overview
-    const {dataSource, selectedDay} = tableOverview
-    const isDayMode = dataSource === 'day'
-    const tableData = this.getTableData(data, dataSource, selectedDay)
+    const {tableMode, selectedDay} = tableOverview
+    const isDayMode = tableMode === TABLE_MODES.SINGLE_DAY
+    const tableData = this.getTableData(data, tableMode, selectedDay, isDayMode)
 
     return (
       <MainLayout pageTitle="">

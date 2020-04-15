@@ -1,16 +1,17 @@
 import React from 'react'
-import {Alert, Button, Col, Container, Form, Row, ButtonGroup} from 'react-bootstrap'
+import {Alert, Button, ButtonGroup, Col, Container, Form, Row} from 'react-bootstrap'
 import {withTranslation} from 'react-i18next'
+import {connect} from 'react-redux'
+import {withRouter} from 'react-router'
 import {
   ACTION_CHANGE_DATA_SOURCE,
   ACTION_CHANGE_SELECTED_DAY,
   ACTION_GET_DATA_START,
   ACTION_HEADER_MESSAGE_CLEAR,
   ACTION_REPARSE_DATA,
+  TABLE_MODES,
 } from '../global/constants'
 import {action} from '../global/util'
-import {withRouter} from 'react-router'
-import {connect} from 'react-redux'
 import {appName, isProduction} from '../global/variables'
 
 const MenuButton = props => {
@@ -46,32 +47,35 @@ class HeaderComponent extends React.Component {
               <ButtonGroup>
                 <MenuButton
                   className="my-1 ml-1"
-                  active={tableOverview.dataSource === 'total'}
-                  action={() => action(ACTION_CHANGE_DATA_SOURCE, {dataSource: 'total'})}
+                  active={tableOverview.tableMode === TABLE_MODES.TOTAL}
+                  action={() => action(ACTION_CHANGE_DATA_SOURCE, {tableMode: TABLE_MODES.TOTAL})}
                   title="Total"
                 />
                 <MenuButton
                   className="my-1 border-left"
-                  active={tableOverview.dataSource === 'last14Days'}
-                  action={() => action(ACTION_CHANGE_DATA_SOURCE, {dataSource: 'last14Days'})}
+                  active={tableOverview.tableMode === TABLE_MODES.LAST14DAYS}
+                  action={() => action(ACTION_CHANGE_DATA_SOURCE, {tableMode: TABLE_MODES.LAST14DAYS})}
                   title="Last 14 Days"
                 />
                 <MenuButton
                   className="my-1 border-left"
-                  active={tableOverview.dataSource === 'last7Days'}
-                  action={() => action(ACTION_CHANGE_DATA_SOURCE, {dataSource: 'last7Days'})}
+                  active={tableOverview.tableMode === TABLE_MODES.LAST7DAYS}
+                  action={() => action(ACTION_CHANGE_DATA_SOURCE, {tableMode: TABLE_MODES.LAST7DAYS})}
                   title="Last 7 Days"
                 />
                 <MenuButton
                   className="my-1 mr-1 border-left"
-                  active={tableOverview.dataSource === 'day'}
+                  active={tableOverview.tableMode === TABLE_MODES.SINGLE_DAY}
                   action={() =>
-                    action(ACTION_CHANGE_DATA_SOURCE, {dataSource: 'day', day: overview.data.mostRecentDay})
+                    action(ACTION_CHANGE_DATA_SOURCE, {
+                      tableMode: TABLE_MODES.SINGLE_DAY,
+                      day: overview.data.mostRecentDay,
+                    })
                   }
                   title="Single Day"
                 />
               </ButtonGroup>
-              {tableOverview.dataSource === 'day' && (
+              {tableOverview.tableMode === TABLE_MODES.SINGLE_DAY && (
                 <Form.Control
                   className="my-1 mx-1 d-inline-block"
                   style={{width: '150px'}}

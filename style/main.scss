@@ -22,3 +22,9 @@ a:active {
   background-color: vars.$color-primary;
   color: vars.$color-dark;
 }
+
+#main-table-container {
+  .pagination {
+    justify-content: center;
+  }
+}

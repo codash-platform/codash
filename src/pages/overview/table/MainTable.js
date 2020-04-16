@@ -1,19 +1,92 @@
 import React from 'react'
+import {Col, Dropdown, DropdownButton, Row} from 'react-bootstrap'
 import BootstrapTable from 'react-bootstrap-table-next'
+import paginationFactory, {
+  PaginationListStandalone,
+  PaginationProvider,
+  PaginationTotalStandalone,
+} from 'react-bootstrap-table2-paginator'
 import ToolkitProvider, {Search} from 'react-bootstrap-table2-toolkit'
+import {ACTION_CHANGE_SIZE_PER_PAGE} from '../../../global/constants'
+import {action} from '../../../global/util'
 
-export const MainTable = ({data}) => {
+export const MainTable = ({data, sizePerPage}) => {
   const {SearchBar} = Search
+  const paginationOptions = {
+    custom: true,
+    page: 1,
+    sizePerPage: sizePerPage,
+    totalSize: data.length,
+    sizePerPageList: [
+      {
+        text: '10',
+        value: 10,
+      },
+      {
+        text: '25',
+        value: 25,
+      },
+      {
+        text: '50',
+        value: 50,
+      },
+      {
+        text: '100',
+        value: 100,
+      },
+      {
+        text: 'All',
+        value: data.length,
+      },
+    ],
+  }
+  const hasPredefinedSizePerPage = paginationOptions.sizePerPageList.some(size => parseInt(size.text) === sizePerPage)
+  const sizePerPageButtonText = hasPredefinedSizePerPage ? sizePerPage : 'All'
 
   return (
-    <ToolkitProvider keyField="geoId" data={data} columns={columns} bootstrap4 search>
-      {props => (
-        <div>
-          <SearchBar {...props.searchProps} />
-          <BootstrapTable noDataIndication={'no table data'} hover condensed striped {...props.baseProps} />
-        </div>
+    <PaginationProvider pagination={paginationFactory(paginationOptions)}>
+      {({paginationProps, paginationTableProps}) => (
+        <ToolkitProvider keyField="geoId" data={data} columns={columns} bootstrap4 search>
+          {({searchProps, baseProps}) => (
+            <div id="main-table-container">
+              <SearchBar {...searchProps} />
+              <BootstrapTable
+                noDataIndication={'no table data'}
+                hover
+                condensed
+                striped
+                {...paginationTableProps}
+                {...baseProps}
+              />
+              <Row>
+                <Col xs={3}>
+                  <DropdownButton
+                    className="react-bs-table-sizePerPage-dropdown"
+                    id="pageDropDown"
+                    drop={'up'}
+                    onSelect={value => action(ACTION_CHANGE_SIZE_PER_PAGE, {sizePerPage: parseInt(value)})}
+                    variant="secondary"
+                    title={sizePerPageButtonText}
+                  >
+                    {paginationProps.sizePerPageList.map(size => (
+                      <Dropdown.Item key={size.value} eventKey={size.value}>
+                        {size.text}
+                      </Dropdown.Item>
+                    ))}
+                  </DropdownButton>
+                </Col>
+                <Col xs={6}>
+                  <PaginationListStandalone {...paginationProps} />
+                </Col>
+                <Col xs={3} className="text-right">
+                  <PaginationTotalStandalone {...paginationProps} />
+                </Col>
+              </Row>
+            </div>
+          )}
+        </ToolkitProvider>
       )}
-    </ToolkitProvider>
+    </PaginationProvider>
   )
 }
 

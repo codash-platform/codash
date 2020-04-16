@@ -29,7 +29,7 @@ class TableOverviewComponent extends Component {
   render() {
     const {overview, tableOverview} = this.props
     const {loadingStatus, error, data} = overview
-    const {tableMode, selectedDay} = tableOverview
+    const {tableMode, selectedDay, sizePerPage} = tableOverview
     const isDayMode = tableMode === TABLE_MODES.SINGLE_DAY
     const tableData = this.getTableData(data, tableMode, selectedDay, isDayMode)
 
@@ -48,7 +48,7 @@ class TableOverviewComponent extends Component {
                 <Alert variant="info">
                   Most recent date {data.mostRecentDay}. {isDayMode && selectedDay && `Loaded date ${selectedDay}`}
                 </Alert>
-                <MainTable data={tableData} />
+                <MainTable data={tableData} sizePerPage={sizePerPage} />
               </>
             )}
           </Col>

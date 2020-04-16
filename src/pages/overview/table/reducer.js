@@ -1,8 +1,14 @@
-import {ACTION_CHANGE_DATA_SOURCE, ACTION_CHANGE_SELECTED_DAY, TABLE_MODES} from '../../../global/constants'
+import {
+  ACTION_CHANGE_DATA_SOURCE,
+  ACTION_CHANGE_SELECTED_DAY,
+  ACTION_CHANGE_SIZE_PER_PAGE,
+  TABLE_MODES,
+} from '../../../global/constants'
 
 const initialState = {
   selectedDay: null,
   tableMode: TABLE_MODES.TOTAL,
+  sizePerPage: 50,
 }
 
 export const tableOverview = (state = initialState, action = {}) => {
@@ -23,6 +29,12 @@ export const tableOverview = (state = initialState, action = {}) => {
       return {
         ...state,
         selectedDay: action.selectedDay,
+      }
+
+    case ACTION_CHANGE_SIZE_PER_PAGE:
+      return {
+        ...state,
+        sizePerPage: action.sizePerPage,
       }
 
     default:

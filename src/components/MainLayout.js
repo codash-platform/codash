@@ -10,7 +10,7 @@ class MainLayoutComponent extends React.Component {
       <div>
         <Header title={this.props.pageTitle} />
         <Container fluid>{this.props.children}</Container>
-        <Container>
+        <Container fluid>
           <Row>
             <Col xs={8}>
               &copy;{' '}

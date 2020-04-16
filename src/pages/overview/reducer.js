@@ -85,16 +85,23 @@ export const overview = (state = initialState, action = {}) => {
         case DATE_FILTER.TOTAL:
           break
         case DATE_FILTER.LAST7DAYS:
-          if (state.data?.startDate) {
+          if (state.data?.endDate) {
             dateFilter.startDate = moment(state.data.endDate, DATE_FORMAT_APP)
               .subtract(7, 'days')
               .format(DATE_FORMAT_APP)
           }
           break
         case DATE_FILTER.LAST14DAYS:
-          if (state.data?.startDate) {
+          if (state.data?.endDate) {
             dateFilter.startDate = moment(state.data.endDate, DATE_FORMAT_APP)
               .subtract(14, 'days')
+              .format(DATE_FORMAT_APP)
+          }
+          break
+        case DATE_FILTER.LAST30DAYS:
+          if (state.data?.endDate) {
+            dateFilter.startDate = moment(state.data.endDate, DATE_FORMAT_APP)
+              .subtract(30, 'days')
               .format(DATE_FORMAT_APP)
           }
           break

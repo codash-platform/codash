@@ -54,6 +54,12 @@ class HeaderComponent extends React.Component {
                 />
                 <MenuButton
                   className="border-left"
+                  active={dateFilter.mode === DATE_FILTER.LAST30DAYS}
+                  action={() => action(ACTION_CHANGE_DATE_FILTER_MODE, {mode: DATE_FILTER.LAST30DAYS})}
+                  title="Last 30 Days"
+                />
+                <MenuButton
+                  className="border-left"
                   active={dateFilter.mode === DATE_FILTER.LAST14DAYS}
                   action={() => action(ACTION_CHANGE_DATE_FILTER_MODE, {mode: DATE_FILTER.LAST14DAYS})}
                   title="Last 14 Days"

@@ -1,41 +1,29 @@
 import moment from 'moment'
-import {TABLE_MODES} from './constants'
-
-const ECDC_DATE_FORMAT = 'DD/MM/YYYY'
-const APP_DATE_FORMAT = 'DD.MM.YYYY'
+import {DATE_FILTER, DATE_FORMAT_APP, DATE_FORMAT_ECDC} from './constants'
 
 export const parseRawData = rawData => {
-  let mostRecentDate = null
-  const perDayData = {}
+  const perDateData = {}
   const datesAvailable = new Set()
   const globalPerDay = []
 
-  if (!rawData[0].dateRep) {
+  if (!rawData[0]?.dateRep) {
     return null
   }
-
-  mostRecentDate = moment(rawData[0].dateRep, ECDC_DATE_FORMAT)
-  rawData.map(record => {
-    const testDate = moment(record.dateRep, ECDC_DATE_FORMAT)
-    if (testDate.isAfter(mostRecentDate, 'day')) {
-      mostRecentDate = testDate
-    }
-  })
 
   rawData.map(record => {
     const cases = parseInt(record.cases)
     const deaths = parseInt(record.deaths)
     const population = parseInt(record.popData2018) || getMissingPopulation(record)
     const name = record.countriesAndTerritories.split('_').join(' ')
-    const dateKey = record.dateRep.split('/').join('.')
+    const dateKey = moment(record.dateRep, DATE_FORMAT_ECDC).format(DATE_FORMAT_APP)
 
     datesAvailable.add(dateKey)
 
-    if (!perDayData[dateKey]) {
-      perDayData[dateKey] = []
+    if (!perDateData[dateKey]) {
+      perDateData[dateKey] = []
     }
 
-    perDayData[dateKey].push({
+    perDateData[dateKey].push({
       name: name,
       cases: cases,
       deaths: deaths,
@@ -53,28 +41,23 @@ export const parseRawData = rawData => {
     globalPerDay[dateKey].population += population
   })
 
-  for (let [key, value] of Object.entries(perDayData)) {
-    perDayData[key].push(globalPerDay[key])
-    perDayData[key] = calculateAdditionalData(perDayData[key])
+  for (let [key, value] of Object.entries(perDateData)) {
+    perDateData[key].push(globalPerDay[key])
+    perDateData[key] = calculateAdditionalData(perDateData[key])
   }
-
-  const totalData = parseSectionData(perDayData)
-  const last7Days = parseSectionData(perDayData, mostRecentDate.clone().subtract(7, 'days'))
-  const last14Days = parseSectionData(perDayData, mostRecentDate.clone().subtract(14, 'days'))
+  const sortedDates = getSortedDates(datesAvailable)
 
   return {
     rawData: rawData,
-    mostRecentDay: mostRecentDate && mostRecentDate.format(APP_DATE_FORMAT),
-    datesAvailable: getSortedDates(datesAvailable),
-    [TABLE_MODES.TOTAL]: totalData,
-    [TABLE_MODES.LAST7DAYS]: last7Days,
-    [TABLE_MODES.LAST14DAYS]: last14Days,
-    [TABLE_MODES.SINGLE_DAY]: perDayData,
+    startDate: sortedDates[0] ?? null,
+    endDate: sortedDates[sortedDates.length - 1] ?? null,
+    datesAvailable: sortedDates,
+    perDateData: perDateData,
   }
 }
 
 const getSortedDates = datesSet => {
-  return [...datesSet].sort((a, b) => moment(b, APP_DATE_FORMAT).toDate() - moment(a, APP_DATE_FORMAT).toDate())
+  return [...datesSet].sort((a, b) => moment(a, DATE_FORMAT_APP).toDate() - moment(b, DATE_FORMAT_APP).toDate())
 }
 
 const calculateAdditionalData = data => {
@@ -94,11 +77,11 @@ const parseSectionData = (perDayData, startDate, endDate) => {
   const perCountryData = {}
 
   for (let [dateKey, entriesForDate] of Object.entries(perDayData)) {
-    if (startDate && moment(dateKey, APP_DATE_FORMAT).isBefore(startDate, 'day')) {
+    if (startDate && moment(dateKey, DATE_FORMAT_APP).isBefore(startDate, 'day')) {
       continue
     }
 
-    if (endDate && moment(dateKey, APP_DATE_FORMAT).isAfter(endDate, 'day')) {
+    if (endDate && moment(dateKey, DATE_FORMAT_APP).isAfter(endDate, 'day')) {
       continue
     }
 
@@ -162,4 +145,21 @@ const getMissingPopulation = element => {
   }
 
   return population
+}
+
+export const getTableData = (data, dateFilter) => {
+  if (dateFilter.mode === DATE_FILTER.SINGLE_DAY) {
+    return data.perDateData[dateFilter.startDate] || null
+  }
+
+  let startDate = null
+  let endDate = null
+  if (dateFilter.startDate) {
+    startDate = moment(dateFilter.startDate, DATE_FORMAT_APP)
+  }
+  if (dateFilter.endDate) {
+    endDate = moment(dateFilter.endDate, DATE_FORMAT_APP)
+  }
+
+  return parseSectionData(data.perDateData, startDate, endDate)
 }

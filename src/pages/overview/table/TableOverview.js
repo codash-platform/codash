@@ -5,7 +5,8 @@ import {Alert, Col, Row} from 'react-bootstrap'
 import {withTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import {MainLayout} from '../../../components/MainLayout'
-import {ACTION_GET_DATA_START, ASYNC_STATUS, TABLE_MODES} from '../../../global/constants'
+import {ACTION_GET_DATA_START, ASYNC_STATUS} from '../../../global/constants'
+import {getTableData} from '../../../global/dataParsing'
 import {action} from '../../../global/util'
 import {MainTable} from './MainTable'
 
@@ -16,22 +17,10 @@ class TableOverviewComponent extends Component {
     }
   }
 
-  getTableData(data, tableMode, selectedDay, isDayMode) {
-    let tableData = (data && data[tableMode]) || null
-
-    if (isDayMode) {
-      tableData = data[TABLE_MODES.SINGLE_DAY][selectedDay] || null
-    }
-
-    return tableData || []
-  }
-
   render() {
     const {overview, tableOverview} = this.props
-    const {loadingStatus, error, data} = overview
-    const {tableMode, selectedDay, sizePerPage} = tableOverview
-    const isDayMode = tableMode === TABLE_MODES.SINGLE_DAY
-    const tableData = this.getTableData(data, tableMode, selectedDay, isDayMode)
+    const {loadingStatus, error, data, dateFilter} = overview
+    const {sizePerPage} = tableOverview
 
     return (
       <MainLayout pageTitle="">
@@ -46,9 +35,9 @@ class TableOverviewComponent extends Component {
             {loadingStatus === ASYNC_STATUS.SUCCESS && (
               <>
                 <Alert variant="info">
-                  Most recent date {data.mostRecentDay}. {isDayMode && selectedDay && `Loaded date ${selectedDay}`}
+                  Loaded data for the {data.startDate} - {data.endDate} date interval.
                 </Alert>
-                <MainTable data={tableData} sizePerPage={sizePerPage} />
+                <MainTable data={getTableData(data, dateFilter)} sizePerPage={sizePerPage} />
               </>
             )}
           </Col>

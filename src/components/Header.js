@@ -4,18 +4,18 @@ import {withTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
 import {
-  ACTION_CHANGE_DATA_SOURCE,
-  ACTION_CHANGE_SELECTED_DAY,
+  ACTION_CHANGE_DATE_FILTER_MODE,
+  ACTION_CHANGE_DATE_FILTER_INTERVAL,
   ACTION_GET_DATA_START,
   ACTION_HEADER_MESSAGE_CLEAR,
   ACTION_REPARSE_DATA,
-  TABLE_MODES,
+  DATE_FILTER,
 } from '../global/constants'
 import {action} from '../global/util'
 import {appName, isProduction} from '../global/variables'
 
 const MenuButton = props => {
-  let className = props.className || 'my-1 mx-1'
+  let className = props.className || 'mx-1'
   const variant = props.variant || 'light'
   if (props.active) {
     className += ' text-primary'
@@ -30,7 +30,8 @@ const MenuButton = props => {
 
 class HeaderComponent extends React.Component {
   render() {
-    const {message, overview, tableOverview} = this.props
+    const {message, overview} = this.props
+    const {dateFilter} = overview
 
     return (
       <div id="header">
@@ -44,45 +45,58 @@ class HeaderComponent extends React.Component {
               {!isProduction && (
                 <MenuButton variant="dark" action={() => action(ACTION_REPARSE_DATA)} title="Reparse" />
               )}
-              <ButtonGroup>
+              <ButtonGroup className="my-1">
                 <MenuButton
-                  className="my-1 ml-1"
-                  active={tableOverview.tableMode === TABLE_MODES.TOTAL}
-                  action={() => action(ACTION_CHANGE_DATA_SOURCE, {tableMode: TABLE_MODES.TOTAL})}
+                  className="ml-1"
+                  active={dateFilter.mode === DATE_FILTER.TOTAL}
+                  action={() => action(ACTION_CHANGE_DATE_FILTER_MODE, {mode: DATE_FILTER.TOTAL})}
                   title="Total"
                 />
                 <MenuButton
-                  className="my-1 border-left"
-                  active={tableOverview.tableMode === TABLE_MODES.LAST14DAYS}
-                  action={() => action(ACTION_CHANGE_DATA_SOURCE, {tableMode: TABLE_MODES.LAST14DAYS})}
+                  className="border-left"
+                  active={dateFilter.mode === DATE_FILTER.LAST14DAYS}
+                  action={() => action(ACTION_CHANGE_DATE_FILTER_MODE, {mode: DATE_FILTER.LAST14DAYS})}
                   title="Last 14 Days"
                 />
                 <MenuButton
-                  className="my-1 border-left"
-                  active={tableOverview.tableMode === TABLE_MODES.LAST7DAYS}
-                  action={() => action(ACTION_CHANGE_DATA_SOURCE, {tableMode: TABLE_MODES.LAST7DAYS})}
+                  className="border-left"
+                  active={dateFilter.mode === DATE_FILTER.LAST7DAYS}
+                  action={() => action(ACTION_CHANGE_DATE_FILTER_MODE, {mode: DATE_FILTER.LAST7DAYS})}
                   title="Last 7 Days"
                 />
                 <MenuButton
-                  className="my-1 mr-1 border-left"
-                  active={tableOverview.tableMode === TABLE_MODES.SINGLE_DAY}
+                  className="border-left"
+                  active={dateFilter.mode === DATE_FILTER.SINGLE_DAY}
                   action={() =>
-                    action(ACTION_CHANGE_DATA_SOURCE, {
-                      tableMode: TABLE_MODES.SINGLE_DAY,
-                      day: overview.data.mostRecentDay,
+                    action(ACTION_CHANGE_DATE_FILTER_MODE, {
+                      mode: DATE_FILTER.SINGLE_DAY,
+                      startDate: overview.data.endDate,
+                      endDate: overview.data.endDate,
                     })
                   }
                   title="Single Day"
                 />
+                <MenuButton
+                  className="border-left"
+                  active={dateFilter.mode === DATE_FILTER.CUSTOM_INTERVAL}
+                  action={() =>
+                    action(ACTION_CHANGE_DATE_FILTER_MODE, {
+                      mode: DATE_FILTER.CUSTOM_INTERVAL,
+                      startDate: overview.data.startDate,
+                      endDate: overview.data.endDate,
+                    })
+                  }
+                  title="Custom Interval"
+                />
               </ButtonGroup>
-              {tableOverview.tableMode === TABLE_MODES.SINGLE_DAY && (
+              {dateFilter.mode === DATE_FILTER.SINGLE_DAY && (
                 <Form.Control
-                  className="my-1 mx-1 d-inline-block"
+                  className="m-1 d-inline-block"
                   style={{width: '150px'}}
                   as="select"
                   size="sm"
-                  onChange={e => action(ACTION_CHANGE_SELECTED_DAY, {selectedDay: e.target.value})}
-                  value={tableOverview.selectedDay}
+                  onChange={e => action(ACTION_CHANGE_DATE_FILTER_INTERVAL, {startDate: e.target.value})}
+                  value={dateFilter.startDate}
                 >
                   {overview.data?.datesAvailable?.map(date => (
                     <option key={date} value={date}>
@@ -90,6 +104,38 @@ class HeaderComponent extends React.Component {
                     </option>
                   ))}
                 </Form.Control>
+              )}
+              {dateFilter.mode === DATE_FILTER.CUSTOM_INTERVAL && (
+                <>
+                  <Form.Control
+                    className="m-1 d-inline-block"
+                    style={{width: '150px'}}
+                    as="select"
+                    size="sm"
+                    onChange={e => action(ACTION_CHANGE_DATE_FILTER_INTERVAL, {startDate: e.target.value})}
+                    value={dateFilter.startDate}
+                  >
+                    {overview.data?.datesAvailable?.map(date => (
+                      <option key={date} value={date}>
+                        {date}
+                      </option>
+                    ))}
+                  </Form.Control>
+                  <Form.Control
+                    className="m-1 d-inline-block"
+                    style={{width: '150px'}}
+                    as="select"
+                    size="sm"
+                    onChange={e => action(ACTION_CHANGE_DATE_FILTER_INTERVAL, {endDate: e.target.value})}
+                    value={dateFilter.endDate}
+                  >
+                    {overview.data?.datesAvailable?.map(date => (
+                      <option key={date} value={date}>
+                        {date}
+                      </option>
+                    ))}
+                  </Form.Control>
+                </>
               )}
             </Col>
           </Row>

@@ -3,13 +3,14 @@ import {Container, Row, Col} from 'react-bootstrap'
 import {withTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import {Header} from './Header'
+import PropTypes from 'prop-types';
 
 class MainLayoutComponent extends React.Component {
-  render() {
+  render({children, pageTitle} = this.props) {
     return (
       <div>
-        <Header title={this.props.pageTitle} />
-        <Container fluid>{this.props.children}</Container>
+        <Header title={pageTitle} />
+        <Container fluid>{children}</Container>
         <Container fluid>
           <Row>
             <Col xs={8}>
@@ -34,6 +35,11 @@ class MainLayoutComponent extends React.Component {
       </div>
     )
   }
+}
+
+MainLayoutComponent.propTypes = {
+  children: PropTypes.element.isRequired,
+  pageTitle: PropTypes.string,
 }
 
 const stateToProps = state => ({})

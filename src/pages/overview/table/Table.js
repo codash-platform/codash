@@ -1,5 +1,5 @@
 import React from 'react'
-import {Col, Dropdown, DropdownButton, Row} from 'react-bootstrap'
+import {Col, Dropdown, DropdownButton, Form, Row} from 'react-bootstrap'
 import BootstrapTable from 'react-bootstrap-table-next'
 import paginationFactory, {
   PaginationListStandalone,
@@ -7,10 +7,10 @@ import paginationFactory, {
   PaginationTotalStandalone,
 } from 'react-bootstrap-table2-paginator'
 import ToolkitProvider, {Search} from 'react-bootstrap-table2-toolkit'
-import {ACTION_CHANGE_SIZE_PER_PAGE} from '../../../global/constants'
+import {ACTION_CHANGE_GEOID_SELECTION, ACTION_CHANGE_SIZE_PER_PAGE} from '../../../global/constants'
 import {action} from '../../../global/util'
 
-export const MainTable = ({data, sizePerPage}) => {
+export const Table = ({data, sizePerPage}) => {
   const {SearchBar} = Search
   const paginationOptions = {
     custom: true,
@@ -145,6 +145,25 @@ const normalCellFormatter = cell => {
 }
 
 const columns = [
+  {
+    dataField: 'selected',
+    text: 'Graph',
+    sort: true,
+    headerStyle: {width: '50px'},
+    style: {textAlign: 'center'},
+    headerFormatter: normalHeaderFormatter,
+    formatter: (cell, row) => (
+      <Form.Check
+        custom
+        type="checkbox"
+        id={`select-${row.geoId}`}
+        value={row.geoId}
+        label=""
+        onChange={e => action(ACTION_CHANGE_GEOID_SELECTION, {geoId: e.target.value, selected: e.target.checked})}
+        checked={cell}
+      />
+    ),
+  },
   {
     dataField: 'name',
     text: 'Country Name',

@@ -1,15 +1,18 @@
+import classNames from 'classnames'
 import React from 'react'
 import {Alert, Button, ButtonGroup, Col, Container, Form, Row} from 'react-bootstrap'
 import {withTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
 import {
-  ACTION_CHANGE_DATE_FILTER_MODE,
   ACTION_CHANGE_DATE_FILTER_INTERVAL,
+  ACTION_CHANGE_DATE_FILTER_MODE,
+  ACTION_CHANGE_VIEW_MODE,
   ACTION_GET_DATA_START,
   ACTION_HEADER_MESSAGE_CLEAR,
   ACTION_REPARSE_DATA,
   DATE_FILTER,
+  VIEW_MODE,
 } from '../global/constants'
 import {action} from '../global/util'
 import {appName, isProduction} from '../global/variables'
@@ -45,6 +48,21 @@ class HeaderComponent extends React.Component {
               {!isProduction && (
                 <MenuButton variant="dark" action={() => action(ACTION_REPARSE_DATA)} title="Reparse" />
               )}
+              <ButtonGroup className="my-1">
+                {Object.keys(VIEW_MODE).map((viewMode, index) => (
+                  <MenuButton
+                    className={classNames({
+                      'ml-1': index === 0,
+                      'mr-1': index === Object.keys(VIEW_MODE).length - 1,
+                      'border-left': index !== 0,
+                    })}
+                    key={viewMode}
+                    active={overview.viewMode === viewMode}
+                    action={() => action(ACTION_CHANGE_VIEW_MODE, {viewMode: viewMode})}
+                    title={viewMode.charAt(0) + viewMode.slice(1).toLowerCase()}
+                  />
+                ))}
+              </ButtonGroup>
               <ButtonGroup className="my-1">
                 <MenuButton
                   className="ml-1"

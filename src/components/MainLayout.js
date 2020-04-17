@@ -3,7 +3,7 @@ import {Container, Row, Col} from 'react-bootstrap'
 import {withTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import {Header} from './Header'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
 class MainLayoutComponent extends React.Component {
   render({children, pageTitle} = this.props) {

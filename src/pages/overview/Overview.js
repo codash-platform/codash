@@ -4,13 +4,14 @@ import React, {Component} from 'react'
 import {Alert, Col, Row} from 'react-bootstrap'
 import {withTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
-import {MainLayout} from '../../../components/MainLayout'
-import {ACTION_GET_DATA_START, ASYNC_STATUS} from '../../../global/constants'
-import {getTableData} from '../../../global/dataParsing'
-import {action} from '../../../global/util'
-import {MainTable} from './MainTable'
+import {MainLayout} from '../../components/MainLayout'
+import {ACTION_GET_DATA_START, ASYNC_STATUS, VIEW_MODE} from '../../global/constants'
+import {getGraphData, getTableData} from '../../global/dataParsing'
+import {action} from '../../global/util'
+import {Graphs} from './graph/Graphs'
+import {Table} from './table/Table'
 
-class TableOverviewComponent extends Component {
+class OverviewComponent extends Component {
   componentDidMount() {
     if (!this.props.overview.data) {
       action(ACTION_GET_DATA_START)
@@ -19,8 +20,10 @@ class TableOverviewComponent extends Component {
 
   render() {
     const {overview, tableOverview} = this.props
-    const {loadingStatus, error, data, dateFilter} = overview
+    const {data, dateFilter, selectedGeoIds, viewMode, loadingStatus, error} = overview
     const {sizePerPage} = tableOverview
+    const showGraph = [VIEW_MODE.COMBO, VIEW_MODE.GRAPH].includes(viewMode)
+    const showTable = [VIEW_MODE.COMBO, VIEW_MODE.TABLE].includes(viewMode)
 
     return (
       <MainLayout pageTitle="">
@@ -32,12 +35,10 @@ class TableOverviewComponent extends Component {
                 Loading... <FontAwesomeIcon icon={faSpinner} spin={true} />
               </Alert>
             )}
-            {loadingStatus === ASYNC_STATUS.SUCCESS && (
+            {!!data && (
               <>
-                <Alert variant="info">
-                  Loaded data for the {data.startDate} - {data.endDate} date interval.
-                </Alert>
-                <MainTable data={getTableData(data, dateFilter)} sizePerPage={sizePerPage} />
+                {showGraph && <Graphs data={getGraphData(data, dateFilter, selectedGeoIds)} />}
+                {showTable && <Table data={getTableData(data, dateFilter, selectedGeoIds)} sizePerPage={sizePerPage} />}
               </>
             )}
           </Col>
@@ -54,4 +55,4 @@ const stateToProps = state => ({
 
 const dispatchToProps = {}
 
-export const TableOverview = connect(stateToProps, dispatchToProps)(withTranslation()(TableOverviewComponent))
+export const Overview = connect(stateToProps, dispatchToProps)(withTranslation()(OverviewComponent))

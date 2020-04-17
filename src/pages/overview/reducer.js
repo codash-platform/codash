@@ -2,6 +2,8 @@ import moment from 'moment'
 import {
   ACTION_CHANGE_DATE_FILTER_INTERVAL,
   ACTION_CHANGE_DATE_FILTER_MODE,
+  ACTION_CHANGE_GEOID_SELECTION,
+  ACTION_CHANGE_VIEW_MODE,
   ACTION_GET_DATA_FAIL,
   ACTION_GET_DATA_START,
   ACTION_GET_DATA_SUCCESS,
@@ -11,6 +13,7 @@ import {
   ASYNC_STATUS,
   DATE_FILTER,
   DATE_FORMAT_APP,
+  VIEW_MODE,
 } from '../../global/constants'
 import {parseRawData} from '../../global/dataParsing'
 
@@ -20,12 +23,16 @@ const initialState = {
   headerMessage: null,
   data: null,
   endDate: null,
+  viewMode: VIEW_MODE.COMBO,
   dateFilter: {
     startDate: null,
     endDate: null,
     mode: DATE_FILTER.TOTAL,
   },
+  selectedGeoIds: {},
 }
+
+const preselectedGeoIds = ['WW', 'US', 'CN', 'DE', 'FR', 'ES', 'IT', 'CH']
 
 export const overview = (state = initialState, action = {}) => {
   switch (action.type) {
@@ -48,13 +55,23 @@ export const overview = (state = initialState, action = {}) => {
       }
 
     case ACTION_GET_DATA_SUCCESS:
+      const parsedData = parseRawData(action.result.records)
+      let selectedGeoIds = {}
+      if (parsedData.geoIds) {
+        parsedData.geoIds.map(geoId => {
+          selectedGeoIds[geoId] = preselectedGeoIds.includes(geoId)
+        })
+      }
+
       return {
         ...state,
         error: null,
         loadingStatus: ASYNC_STATUS.SUCCESS,
         data: {
-          ...parseRawData(action.result.records),
+          ...state.data,
+          ...parsedData,
         },
+        selectedGeoIds: selectedGeoIds,
       }
 
     case ACTION_GET_DATA_FAIL:
@@ -65,11 +82,20 @@ export const overview = (state = initialState, action = {}) => {
       }
 
     case ACTION_REPARSE_DATA:
+      const reparsedData = parseRawData(state.data.rawData)
+      let reselectedGeoIds = {}
+      if (reparsedData.geoIds) {
+        reparsedData.geoIds.map(geoId => {
+          reselectedGeoIds[geoId] = preselectedGeoIds.includes(geoId)
+        })
+      }
       return {
         ...state,
         data: {
-          ...parseRawData(state.data.rawData),
+          ...state.data,
+          ...reparsedData,
         },
+        selectedGeoIds: reselectedGeoIds,
       }
 
     case ACTION_CHANGE_DATE_FILTER_MODE:
@@ -128,6 +154,21 @@ export const overview = (state = initialState, action = {}) => {
       }
 
       return newState
+
+    case ACTION_CHANGE_GEOID_SELECTION:
+      const newSelectedGeoIds = {...state.selectedGeoIds}
+      newSelectedGeoIds[action.geoId] = action.selected
+
+      return {
+        ...state,
+        selectedGeoIds: newSelectedGeoIds,
+      }
+
+    case ACTION_CHANGE_VIEW_MODE:
+      return {
+        ...state,
+        viewMode: action.viewMode,
+      }
 
     default:
       return state

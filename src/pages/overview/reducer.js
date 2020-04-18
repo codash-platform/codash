@@ -55,7 +55,7 @@ export const overview = (state = initialState, action = {}) => {
         loadingStatus: ASYNC_STATUS.PENDING,
       }
 
-    case ACTION_GET_DATA_SUCCESS:
+    case ACTION_GET_DATA_SUCCESS: {
       const parsedData = parseRawData(action.result.records)
       let selectedGeoIds = {}
       if (parsedData.geoIds) {
@@ -72,8 +72,16 @@ export const overview = (state = initialState, action = {}) => {
           ...state.data,
           ...parsedData,
         },
+        dateFilter: {
+          startDate: moment(parsedData.endDate, DATE_FORMAT_APP)
+            .subtract(14, 'days')
+            .format(DATE_FORMAT_APP),
+          endDate: null,
+          mode: DATE_FILTER.LAST14DAYS,
+        },
         selectedGeoIds: selectedGeoIds,
       }
+    }
 
     case ACTION_GET_DATA_FAIL:
       return {
@@ -82,11 +90,11 @@ export const overview = (state = initialState, action = {}) => {
         loadingStatus: ASYNC_STATUS.FAIL,
       }
 
-    case ACTION_REPARSE_DATA:
-      const reparsedData = parseRawData(state.data.rawData)
+    case ACTION_REPARSE_DATA: {
+      const parsedData = parseRawData(state.data.rawData)
       let reselectedGeoIds = {}
-      if (reparsedData.geoIds) {
-        reparsedData.geoIds.map(geoId => {
+      if (parsedData.geoIds) {
+        parsedData.geoIds.map(geoId => {
           reselectedGeoIds[geoId] = preselectedGeoIds.includes(geoId)
         })
       }
@@ -94,10 +102,19 @@ export const overview = (state = initialState, action = {}) => {
         ...state,
         data: {
           ...state.data,
-          ...reparsedData,
+          ...parsedData,
+        },
+        dateFilter: {
+          ...state.dateFilter,
+          startDate: moment(parsedData.endDate, DATE_FORMAT_APP)
+            .subtract(14, 'days')
+            .format(DATE_FORMAT_APP),
+          endDate: null,
+          mode: DATE_FILTER.LAST14DAYS,
         },
         selectedGeoIds: reselectedGeoIds,
       }
+    }
 
     case ACTION_CHANGE_DATE_FILTER_MODE:
       const dateFilter = {

@@ -87,6 +87,7 @@ export const BarGraph = ({data, keys, propertyLabel}) => {
           type: 'time',
           format: '%d.%m.%Y',
           precision: 'day',
+          useUTC: false,
         }}
         xFormat="time:%d.%m.%Y"
         yScale={{
@@ -176,6 +177,7 @@ export const LineGraph = ({data, propertyLabel}) => {
           type: 'time',
           format: '%d.%m.%Y',
           precision: 'day',
+          useUTC: false,
         }}
         xFormat="time:%d.%m.%Y"
         yScale={{

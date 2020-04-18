@@ -66,3 +66,4 @@ export const REDUX_STORE_VERSION_PROPERTY = 'version'
 
 export const DATE_FORMAT_ECDC = 'DD/MM/YYYY'
 export const DATE_FORMAT_APP = 'DD.MM.YYYY'
+export const LOCALE_DEFAULT = 'de-ch'

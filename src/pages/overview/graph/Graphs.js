@@ -1,7 +1,7 @@
 import {ResponsiveBar} from '@nivo/bar'
 import {ResponsiveLine} from '@nivo/line'
 import React from 'react'
-import {METRICS} from '../../../global/constants'
+import {LOCALE_DEFAULT, METRICS} from '../../../global/constants'
 import {getGraphData} from '../../../global/dataParsing'
 
 export const graphProperties = {
@@ -110,7 +110,7 @@ export const BarGraph = ({data, keys, propertyLabel}) => {
           legendPosition: 'middle',
           tickSize: 5,
           tickPadding: 3,
-          format: value => value.toLocaleString('de-ch'),
+          format: value => value.toLocaleString(LOCALE_DEFAULT),
         }}
         axisBottom={{
           tickSize: 8,
@@ -145,8 +145,8 @@ export const BarGraph = ({data, keys, propertyLabel}) => {
                   .map(([name, value]) => (
                     <tr key={name}>
                       <td style={{padding: '3px 5px'}}>{name}</td>
-                      <td className="font-weight-bold" style={{padding: '3px 5px'}}>
-                        {value}
+                      <td className="font-weight-bold text-right" style={{padding: '3px 5px'}}>
+                        {value.toLocaleString(LOCALE_DEFAULT)}
                       </td>
                     </tr>
                   ))}
@@ -202,7 +202,7 @@ export const LineGraph = ({data, propertyLabel}) => {
           legendPosition: 'middle',
           tickSize: 5,
           tickPadding: 3,
-          format: value => value.toLocaleString('de-ch'),
+          format: value => value.toLocaleString(LOCALE_DEFAULT),
         }}
         axisBottom={{
           format: '%d.%m.%Y',
@@ -246,8 +246,8 @@ export const LineGraph = ({data, propertyLabel}) => {
                         />
                       </td>
                       <td style={{padding: '3px 5px'}}>{point.serieId}</td>
-                      <td className="font-weight-bold" style={{padding: '3px 5px'}}>
-                        {point.data.yFormatted}
+                      <td className="font-weight-bold text-right" style={{padding: '3px 5px'}}>
+                        {point.data.yFormatted.toLocaleString(LOCALE_DEFAULT)}
                       </td>
                     </tr>
                   ))}

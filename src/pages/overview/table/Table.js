@@ -7,7 +7,12 @@ import paginationFactory, {
   PaginationTotalStandalone,
 } from 'react-bootstrap-table2-paginator'
 import ToolkitProvider, {Search} from 'react-bootstrap-table2-toolkit'
-import {ACTION_CHANGE_GEOID_SELECTION, ACTION_CHANGE_SIZE_PER_PAGE, METRICS} from '../../../global/constants'
+import {
+  ACTION_CHANGE_GEOID_SELECTION,
+  ACTION_CHANGE_SIZE_PER_PAGE,
+  LOCALE_DEFAULT,
+  METRICS,
+} from '../../../global/constants'
 import {getTableData} from '../../../global/dataParsing'
 import {action} from '../../../global/util'
 
@@ -123,7 +128,7 @@ const perCapitaCellFormatter = cell => {
     return '--'
   }
 
-  return cell.toLocaleString('de-ch')
+  return cell.toLocaleString(LOCALE_DEFAULT)
 }
 
 const percentageHeaderFormatter = (column, colIndex, components) => {
@@ -156,7 +161,7 @@ const normalCellFormatter = cell => {
     return '--'
   }
 
-  return cell.toLocaleString('de-ch')
+  return cell.toLocaleString(LOCALE_DEFAULT)
 }
 
 const columns = [

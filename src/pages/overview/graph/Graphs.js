@@ -1,17 +1,66 @@
 import {ResponsiveBar} from '@nivo/bar'
 import {ResponsiveLine} from '@nivo/line'
 import React from 'react'
+import {getGraphData} from '../../../global/dataParsing'
 
-export const Graphs = ({data}) => {
-  return (
-    <>
-      <BarGraph data={data.barData?.data} keys={data.barData?.keys} />
-      <LineGraph data={data.lineData} />
-    </>
-  )
+const properties = [
+  {
+    name: 'cases',
+    label: 'Daily Cases',
+  },
+  {
+    name: 'deaths',
+    label: 'Daily Deaths',
+  },
+  {
+    name: 'infectionPerCapita',
+    label: 'Incidence Rate (per million)',
+  },
+  {
+    name: 'mortalityPerCapita',
+    label: 'Mortality Rate (per million)',
+  },
+  {
+    name: 'mortalityPercentage',
+    label: 'Case Fatality Ratio (%)',
+  },
+]
+
+export const Graphs = ({data, dateFilter, selectedGeoIds, lineGraphVisible, barGraphVisible}) => {
+  const graphs = []
+
+  properties.map(propertySet => {
+    const processedData = getGraphData(
+      data,
+      dateFilter,
+      selectedGeoIds,
+      propertySet.name,
+      lineGraphVisible,
+      barGraphVisible
+    )
+
+    if (lineGraphVisible) {
+      graphs.push(
+        <LineGraph key={`line-${propertySet.name}`} data={processedData.lineData} propertyLabel={propertySet.label} />
+      )
+    }
+
+    if (barGraphVisible) {
+      graphs.push(
+        <BarGraph
+          key={`bar-${propertySet.name}`}
+          data={processedData.barData?.data}
+          keys={processedData.barData?.keys}
+          propertyLabel={propertySet.label}
+        />
+      )
+    }
+  })
+
+  return graphs
 }
 
-export const BarGraph = ({data, keys}) => {
+export const BarGraph = ({data, keys, propertyLabel}) => {
   return (
     <div style={{height: '500px'}}>
       <ResponsiveBar
@@ -32,7 +81,7 @@ export const BarGraph = ({data, keys}) => {
           stacked: false,
         }}
         axisLeft={{
-          legend: 'Cases',
+          legend: propertyLabel,
           legendOffset: -60,
           legendPosition: 'middle',
           tickSize: 5,
@@ -104,7 +153,7 @@ export const BarGraph = ({data, keys}) => {
   )
 }
 
-export const LineGraph = ({data}) => {
+export const LineGraph = ({data, propertyLabel}) => {
   return (
     <div style={{height: '500px'}}>
       <ResponsiveLine
@@ -123,7 +172,7 @@ export const LineGraph = ({data}) => {
         axisTop={null}
         axisRight={null}
         axisLeft={{
-          legend: 'Cases',
+          legend: propertyLabel,
           legendOffset: -60,
           legendPosition: 'middle',
           tickSize: 5,
@@ -154,6 +203,7 @@ export const LineGraph = ({data}) => {
                 backgroundColor: 'rgba(255, 255, 255, 0.7)',
                 padding: '5px 9px',
                 borderRadius: '2px',
+                boxShadow: 'rgba(0, 0, 0, 0.25) 0px 1px 2px',
               }}
             >
               <div className="font-weight-bold text-center">{slice.points[0].data.xFormatted}</div>

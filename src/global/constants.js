@@ -20,6 +20,12 @@ export const VIEW_MODE = {
   GRAPH: 'GRAPH',
 }
 
+export const GRAPH_MODE = {
+  COMBO: 'COMBO',
+  LINE: 'LINE',
+  BAR: 'BAR',
+}
+
 // the expiry time of the local storage used for the redux store in minutes
 export const STORAGE_EXPIRY_TIMEOUT = 30
 export const STORAGE_EXPIRY_KEY = 'updatedAt'
@@ -38,6 +44,7 @@ export const ACTION_REPARSE_DATA = 'ACTION_REPARSE_DATA'
 export const ACTION_CHANGE_SIZE_PER_PAGE = 'ACTION_CHANGE_SIZE_PER_PAGE'
 export const ACTION_CHANGE_GEOID_SELECTION = 'ACTION_CHANGE_GEOID_SELECTION'
 export const ACTION_CHANGE_VIEW_MODE = 'ACTION_CHANGE_VIEW_MODE'
+export const ACTION_CHANGE_GRAPH_MODE = 'ACTION_CHANGE_GRAPH_MODE'
 
 export const ACTION_HEADER_MESSAGE_SET = 'ACTION_HEADER_MESSAGE_SET'
 export const ACTION_HEADER_MESSAGE_CLEAR = 'ACTION_HEADER_MESSAGE_CLEAR'

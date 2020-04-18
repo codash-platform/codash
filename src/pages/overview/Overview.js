@@ -5,8 +5,7 @@ import {Alert, Col, Row} from 'react-bootstrap'
 import {withTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import {MainLayout} from '../../components/MainLayout'
-import {ACTION_GET_DATA_START, ASYNC_STATUS, VIEW_MODE} from '../../global/constants'
-import {getGraphData, getTableData} from '../../global/dataParsing'
+import {ACTION_GET_DATA_START, ASYNC_STATUS} from '../../global/constants'
 import {action} from '../../global/util'
 import {Graphs} from './graph/Graphs'
 import {Table} from './table/Table'
@@ -19,11 +18,9 @@ class OverviewComponent extends Component {
   }
 
   render() {
-    const {overview, tableOverview} = this.props
-    const {data, dateFilter, selectedGeoIds, viewMode, loadingStatus, error} = overview
+    const {overview, tableOverview, graphOverview} = this.props
+    const {data, dateFilter, selectedGeoIds, tableVisible, graphsVisible, loadingStatus, error} = overview
     const {sizePerPage} = tableOverview
-    const showGraph = [VIEW_MODE.COMBO, VIEW_MODE.GRAPH].includes(viewMode)
-    const showTable = [VIEW_MODE.COMBO, VIEW_MODE.TABLE].includes(viewMode)
 
     return (
       <MainLayout pageTitle="">
@@ -37,8 +34,23 @@ class OverviewComponent extends Component {
             )}
             {!!data && (
               <>
-                {showGraph && <Graphs data={getGraphData(data, dateFilter, selectedGeoIds)} />}
-                {showTable && <Table data={getTableData(data, dateFilter, selectedGeoIds)} sizePerPage={sizePerPage} />}
+                {graphsVisible && (
+                  <Graphs
+                    data={data}
+                    dateFilter={dateFilter}
+                    selectedGeoIds={selectedGeoIds}
+                    lineGraphVisible={graphOverview.lineGraphVisible}
+                    barGraphVisible={graphOverview.barGraphVisible}
+                  />
+                )}
+                {tableVisible && (
+                  <Table
+                    data={data}
+                    dateFilter={dateFilter}
+                    selectedGeoIds={selectedGeoIds}
+                    sizePerPage={sizePerPage}
+                  />
+                )}
               </>
             )}
           </Col>
@@ -51,6 +63,7 @@ class OverviewComponent extends Component {
 const stateToProps = state => ({
   overview: state.overview,
   tableOverview: state.tableOverview,
+  graphOverview: state.graphOverview,
 })
 
 const dispatchToProps = {}

@@ -114,6 +114,10 @@ const parseSectionData = (perDayData = {}, startDate, endDate) => {
  * @returns {number}
  */
 const calculateRate = (cases, total, referenceRate) => {
+  if (total === 0) {
+    return 0
+  }
+
   return changePrecision(cases / (total / referenceRate), 2)
 }
 
@@ -183,9 +187,11 @@ const addSelectionColumn = (tableData, selectedGeoIds) => {
   })
 }
 
-export const getGraphData = (data, dateFilter, selectedGeoIds) => {
+export const getGraphData = (data, dateFilter, selectedGeoIds, propertyName, lineGraphVisible, barGraphVisible) => {
+  const result = {}
+
   if (!data?.perDateData) {
-    return []
+    return result
   }
 
   const startDate = moment(dateFilter.startDate, DATE_FORMAT_APP)
@@ -206,19 +212,24 @@ export const getGraphData = (data, dateFilter, selectedGeoIds) => {
     cleanedData[dateKey] = entriesForDate.filter(entry => !!selectedGeoIds[entry.geoId])
   }
 
-  return {
-    lineData: getLineGraphData(cleanedData, data.geoIdToNameMapping),
-    barData: getBarGraphData(cleanedData, data.geoIdToNameMapping, selectedGeoIds),
+  if (lineGraphVisible) {
+    result.lineData = getLineGraphData(cleanedData, data.geoIdToNameMapping, propertyName)
   }
+
+  if (barGraphVisible) {
+    result.barData = getBarGraphData(cleanedData, data.geoIdToNameMapping, selectedGeoIds, propertyName)
+  }
+
+  return result
 }
 
-const getBarGraphData = (cleanedData, geoIdToNameMapping, selectedGeoIds) => {
+const getBarGraphData = (cleanedData, geoIdToNameMapping, selectedGeoIds, propertyName) => {
   const parsedData = []
 
   for (let [dateKey, entriesForDate] of Object.entries(cleanedData)) {
     const newEntry = {date: dateKey}
     entriesForDate.map(entry => {
-      newEntry[geoIdToNameMapping[entry.geoId]] = entry.cases
+      newEntry[geoIdToNameMapping[entry.geoId]] = entry[propertyName]
     })
     parsedData.push(newEntry)
   }
@@ -233,7 +244,7 @@ const getBarGraphData = (cleanedData, geoIdToNameMapping, selectedGeoIds) => {
   }
 }
 
-const getLineGraphData = (cleanedData, geoIdToNameMapping) => {
+const getLineGraphData = (cleanedData, geoIdToNameMapping, propertyName) => {
   const result = []
   let parsedData = {}
 
@@ -245,7 +256,7 @@ const getLineGraphData = (cleanedData, geoIdToNameMapping) => {
 
       parsedData[entry.geoId].push({
         x: dateKey,
-        y: entry.cases,
+        y: entry[propertyName],
       })
     })
   }

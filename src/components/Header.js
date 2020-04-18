@@ -7,11 +7,13 @@ import {withRouter} from 'react-router'
 import {
   ACTION_CHANGE_DATE_FILTER_INTERVAL,
   ACTION_CHANGE_DATE_FILTER_MODE,
+  ACTION_CHANGE_GRAPH_MODE,
   ACTION_CHANGE_VIEW_MODE,
   ACTION_GET_DATA_START,
   ACTION_HEADER_MESSAGE_CLEAR,
   ACTION_REPARSE_DATA,
   DATE_FILTER,
+  GRAPH_MODE,
   VIEW_MODE,
 } from '../global/constants'
 import {action} from '../global/util'
@@ -33,8 +35,8 @@ const MenuButton = props => {
 
 class HeaderComponent extends React.Component {
   render() {
-    const {message, overview} = this.props
-    const {dateFilter} = overview
+    const {message, overview, graphOverview} = this.props
+    const {dateFilter, graphsVisible} = overview
 
     return (
       <div id="header">
@@ -63,6 +65,24 @@ class HeaderComponent extends React.Component {
                   />
                 ))}
               </ButtonGroup>
+              {graphsVisible && (
+                <ButtonGroup className="my-1">
+                  {Object.keys(GRAPH_MODE).map((graphMode, index) => (
+                    <MenuButton
+                      className={classNames({
+                        'ml-1': index === 0,
+                        'mr-1': index === Object.keys(VIEW_MODE).length - 1,
+                        'border-left': index !== 0,
+                      })}
+                      key={graphMode}
+                      active={graphOverview.graphMode === graphMode}
+                      action={() => action(ACTION_CHANGE_GRAPH_MODE, {graphMode: graphMode})}
+                      title={graphMode.charAt(0) + graphMode.slice(1).toLowerCase()}
+                    />
+                  ))}
+                </ButtonGroup>
+              )}
+
               <ButtonGroup className="my-1">
                 <MenuButton
                   className="ml-1"
@@ -189,6 +209,7 @@ class HeaderComponent extends React.Component {
 const stateToProps = state => ({
   overview: state.overview,
   tableOverview: state.tableOverview,
+  graphOverview: state.graphOverview,
 })
 
 const dispatchToProps = {}

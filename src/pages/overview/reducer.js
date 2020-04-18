@@ -22,8 +22,9 @@ const initialState = {
   loadingStatus: ASYNC_STATUS.IDLE,
   headerMessage: null,
   data: null,
-  endDate: null,
   viewMode: VIEW_MODE.COMBO,
+  tableVisible: true,
+  graphsVisible: true,
   dateFilter: {
     startDate: null,
     endDate: null,
@@ -165,9 +166,25 @@ export const overview = (state = initialState, action = {}) => {
       }
 
     case ACTION_CHANGE_VIEW_MODE:
+      let tableVisible = true
+      let graphsVisible = true
+      switch (action.viewMode) {
+        default:
+        case VIEW_MODE.COMBO:
+          break
+        case VIEW_MODE.GRAPH:
+          tableVisible = false
+          break
+        case VIEW_MODE.TABLE:
+          graphsVisible = false
+          break
+      }
+
       return {
         ...state,
         viewMode: action.viewMode,
+        tableVisible: tableVisible,
+        graphsVisible: graphsVisible,
       }
 
     default:

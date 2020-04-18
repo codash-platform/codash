@@ -8,15 +8,17 @@ import paginationFactory, {
 } from 'react-bootstrap-table2-paginator'
 import ToolkitProvider, {Search} from 'react-bootstrap-table2-toolkit'
 import {ACTION_CHANGE_GEOID_SELECTION, ACTION_CHANGE_SIZE_PER_PAGE} from '../../../global/constants'
+import {getTableData} from '../../../global/dataParsing'
 import {action} from '../../../global/util'
 
-export const Table = ({data, sizePerPage}) => {
+export const Table = ({data, dateFilter, selectedGeoIds, sizePerPage}) => {
   const {SearchBar} = Search
+  const processedData = getTableData(data, dateFilter, selectedGeoIds)
   const paginationOptions = {
     custom: true,
     page: 1,
     sizePerPage: sizePerPage,
-    totalSize: data.length,
+    totalSize: processedData.length,
     sizePerPageList: [
       {
         text: '10',
@@ -36,7 +38,7 @@ export const Table = ({data, sizePerPage}) => {
       },
       {
         text: 'All',
-        value: data.length,
+        value: processedData.length,
       },
     ],
   }
@@ -46,7 +48,7 @@ export const Table = ({data, sizePerPage}) => {
   return (
     <PaginationProvider pagination={paginationFactory(paginationOptions)}>
       {({paginationProps, paginationTableProps}) => (
-        <ToolkitProvider keyField="geoId" data={data} columns={columns} bootstrap4 search>
+        <ToolkitProvider keyField="geoId" data={processedData} columns={columns} bootstrap4 search>
           {({searchProps, baseProps}) => (
             <div id="main-table-container">
               <SearchBar {...searchProps} />

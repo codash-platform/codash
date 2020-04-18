@@ -1,5 +1,5 @@
 import moment from 'moment'
-import {DATE_FILTER, DATE_FORMAT_APP, DATE_FORMAT_ECDC} from './constants'
+import {DATE_FILTER, DATE_FORMAT_APP, DATE_FORMAT_ECDC, METRICS} from './constants'
 
 export const parseRawData = rawData => {
   const perDateData = {}
@@ -29,8 +29,8 @@ export const parseRawData = rawData => {
 
     perDateData[dateKey].push({
       name: name,
-      cases: cases,
-      deaths: deaths,
+      [METRICS.CASES]: cases,
+      [METRICS.DEATHS]: deaths,
       geoId: record.geoId,
       population: population,
     })
@@ -39,8 +39,8 @@ export const parseRawData = rawData => {
       globalPerDay[dateKey] = createInitialEntryPerCountry('Combined Data', 'WW', 0)
     }
 
-    globalPerDay[dateKey].cases += cases
-    globalPerDay[dateKey].deaths += deaths
+    globalPerDay[dateKey][METRICS.CASES] += cases
+    globalPerDay[dateKey][METRICS.DEATHS] += deaths
     // todo fix calculation bug
     globalPerDay[dateKey].population += population
   })
@@ -70,9 +70,9 @@ const calculateAdditionalData = data => {
   return data.map(element => {
     // if (element.geoId === 'JPG11668') debugger
 
-    element.infectionPerCapita = calculateRate(element.cases, element.population, 1000000)
-    element.mortalityPerCapita = calculateRate(element.deaths, element.population, 1000000)
-    element.mortalityPercentage = calculateRate(element.deaths, element.cases, 100)
+    element[METRICS.INFECTION_PER_CAPITA] = calculateRate(element.cases, element.population, 1000000)
+    element[METRICS.MORTALITY_PER_CAPITA] = calculateRate(element.deaths, element.population, 1000000)
+    element[METRICS.MORTALITY_PERCENTAGE] = calculateRate(element.deaths, element.cases, 100)
 
     return element
   })
@@ -131,8 +131,8 @@ const changePrecision = (number, precision) => {
 
 const createInitialEntryPerCountry = (name, geoId, population) => {
   return {
-    cases: 0,
-    deaths: 0,
+    [METRICS.CASES]: 0,
+    [METRICS.DEATHS]: 0,
     name: name,
     geoId: geoId,
     population: population,

@@ -1,61 +1,74 @@
 import {ResponsiveBar} from '@nivo/bar'
 import {ResponsiveLine} from '@nivo/line'
 import React from 'react'
+import {METRICS} from '../../../global/constants'
 import {getGraphData} from '../../../global/dataParsing'
 
-const properties = [
-  {
+export const graphProperties = {
+  [METRICS.CASES]: {
     name: 'cases',
     label: 'Daily Cases',
   },
-  {
+  [METRICS.DEATHS]: {
     name: 'deaths',
     label: 'Daily Deaths',
   },
-  {
+  [METRICS.INFECTION_PER_CAPITA]: {
     name: 'infectionPerCapita',
     label: 'Incidence Rate (per million)',
   },
-  {
+  [METRICS.MORTALITY_PER_CAPITA]: {
     name: 'mortalityPerCapita',
     label: 'Mortality Rate (per million)',
   },
-  {
+  [METRICS.MORTALITY_PERCENTAGE]: {
     name: 'mortalityPercentage',
     label: 'Case Fatality Ratio (%)',
   },
+}
+
+export const graphMetricsOrder = [
+  METRICS.CASES,
+  METRICS.DEATHS,
+  METRICS.INFECTION_PER_CAPITA,
+  METRICS.MORTALITY_PER_CAPITA,
+  METRICS.MORTALITY_PERCENTAGE,
 ]
 
-export const Graphs = ({data, dateFilter, selectedGeoIds, lineGraphVisible, barGraphVisible}) => {
+export const Graphs = ({data, dateFilter, selectedGeoIds, lineGraphVisible, barGraphVisible, metricsVisible}) => {
   const graphs = []
 
-  properties.map(propertySet => {
-    const processedData = getGraphData(
-      data,
-      dateFilter,
-      selectedGeoIds,
-      propertySet.name,
-      lineGraphVisible,
-      barGraphVisible
-    )
-
-    if (lineGraphVisible) {
-      graphs.push(
-        <LineGraph key={`line-${propertySet.name}`} data={processedData.lineData} propertyLabel={propertySet.label} />
+  graphMetricsOrder
+    .filter(metric => metricsVisible.includes(metric))
+    .map(metricName => {
+      const propertyName = graphProperties[metricName].name
+      const propertyLabel = graphProperties[metricName].label
+      const processedData = getGraphData(
+        data,
+        dateFilter,
+        selectedGeoIds,
+        propertyName,
+        lineGraphVisible,
+        barGraphVisible
       )
-    }
 
-    if (barGraphVisible) {
-      graphs.push(
-        <BarGraph
-          key={`bar-${propertySet.name}`}
-          data={processedData.barData?.data}
-          keys={processedData.barData?.keys}
-          propertyLabel={propertySet.label}
-        />
-      )
-    }
-  })
+      if (lineGraphVisible) {
+        graphs.push(
+          <LineGraph key={`line-${propertyName}`} data={processedData.lineData} propertyLabel={propertyLabel} />
+        )
+      }
+
+      if (barGraphVisible) {
+        graphs.push(
+          <BarGraph
+            key={`bar-${propertyName}`}
+            data={processedData.barData?.data}
+            keys={processedData.barData?.keys}
+            propertyLabel={propertyLabel}
+          />
+        )
+      }
+    })
 
   return graphs
 }

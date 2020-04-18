@@ -41,6 +41,7 @@ class OverviewComponent extends Component {
                     selectedGeoIds={selectedGeoIds}
                     lineGraphVisible={graphOverview.lineGraphVisible}
                     barGraphVisible={graphOverview.barGraphVisible}
+                    metricsVisible={graphOverview.metricsVisible}
                   />
                 )}
                 {tableVisible && (

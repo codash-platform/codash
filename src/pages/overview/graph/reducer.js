@@ -1,9 +1,15 @@
-import {ACTION_CHANGE_GRAPH_MODE, GRAPH_MODE} from '../../../global/constants'
+import {
+  ACTION_CHANGE_GRAPH_MODE,
+  ACTION_CHANGE_METRIC_GRAPH_VISIBILITY,
+  GRAPH_MODE,
+  METRICS,
+} from '../../../global/constants'
 
 const initialState = {
   graphMode: GRAPH_MODE.LINE,
   lineGraphVisible: true,
   barGraphVisible: false,
+  metricsVisible: Object.values(METRICS),
 }
 
 export const graphOverview = (state = initialState, action = {}) => {
@@ -29,6 +35,20 @@ export const graphOverview = (state = initialState, action = {}) => {
         graphMode: action.graphMode,
         lineGraphVisible: lineGraphVisible,
         barGraphVisible: barGraphVisible,
+      }
+
+    case ACTION_CHANGE_METRIC_GRAPH_VISIBILITY:
+      const newMetricsVisible = new Set([...state.metricsVisible])
+
+      if (newMetricsVisible.has(action.metric)) {
+        newMetricsVisible.delete(action.metric)
+      } else {
+        newMetricsVisible.add(action.metric)
+      }
+
+      return {
+        ...state,
+        metricsVisible: [...newMetricsVisible],
       }
 
     default:

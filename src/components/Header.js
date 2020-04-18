@@ -8,6 +8,7 @@ import {
   ACTION_CHANGE_DATE_FILTER_INTERVAL,
   ACTION_CHANGE_DATE_FILTER_MODE,
   ACTION_CHANGE_GRAPH_MODE,
+  ACTION_CHANGE_METRIC_GRAPH_VISIBILITY,
   ACTION_CHANGE_VIEW_MODE,
   ACTION_GET_DATA_START,
   ACTION_HEADER_MESSAGE_CLEAR,
@@ -18,6 +19,7 @@ import {
 } from '../global/constants'
 import {action} from '../global/util'
 import {appName, isProduction} from '../global/variables'
+import {graphMetricsOrder, graphProperties} from '../pages/overview/graph/Graphs'
 
 const MenuButton = props => {
   let className = props.className || 'mx-1'
@@ -42,7 +44,7 @@ class HeaderComponent extends React.Component {
       <div id="header">
         <Container fluid>
           <Row>
-            <Col lg={3} xs={4}>
+            <Col xs={2}>
               <h2 className="m-0 text-light">{appName}</h2>
             </Col>
             <Col>
@@ -66,21 +68,39 @@ class HeaderComponent extends React.Component {
                 ))}
               </ButtonGroup>
               {graphsVisible && (
-                <ButtonGroup className="my-1">
-                  {Object.keys(GRAPH_MODE).map((graphMode, index) => (
-                    <MenuButton
-                      className={classNames({
-                        'ml-1': index === 0,
-                        'mr-1': index === Object.keys(VIEW_MODE).length - 1,
-                        'border-left': index !== 0,
-                      })}
-                      key={graphMode}
-                      active={graphOverview.graphMode === graphMode}
-                      action={() => action(ACTION_CHANGE_GRAPH_MODE, {graphMode: graphMode})}
-                      title={graphMode.charAt(0) + graphMode.slice(1).toLowerCase()}
-                    />
-                  ))}
-                </ButtonGroup>
+                <>
+                  <ButtonGroup className="my-1">
+                    {Object.keys(GRAPH_MODE).map((graphMode, index) => (
+                      <MenuButton
+                        className={classNames({
+                          'ml-1': index === 0,
+                          'mr-1': index === Object.keys(GRAPH_MODE).length - 1,
+                          'border-left': index !== 0,
+                        })}
+                        key={graphMode}
+                        active={graphOverview.graphMode === graphMode}
+                        action={() => action(ACTION_CHANGE_GRAPH_MODE, {graphMode: graphMode})}
+                        title={graphMode.charAt(0) + graphMode.slice(1).toLowerCase()}
+                      />
+                    ))}
+                  </ButtonGroup>
+
+                  <ButtonGroup className="my-1">
+                    {graphMetricsOrder.map((metric, index) => (
+                      <MenuButton
+                        className={classNames({
+                          'ml-1': index === 0,
+                          'mr-1': index === graphMetricsOrder.length - 1,
+                          'border-left': index !== 0,
+                        })}
+                        key={metric}
+                        active={graphOverview.metricsVisible.includes(metric)}
+                        action={() => action(ACTION_CHANGE_METRIC_GRAPH_VISIBILITY, {metric: metric})}
+                        title={graphProperties[metric].label}
+                      />
+                    ))}
+                  </ButtonGroup>
+                </>
               )}
 
               <ButtonGroup className="my-1">

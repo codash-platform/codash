@@ -36,6 +36,7 @@ const initialState = {
 const preselectedGeoIds = ['WW', 'US', 'CN', 'DE', 'FR', 'ES', 'IT', 'CH']
 
 export const overview = (state = initialState, action = {}) => {
+  // noinspection FallThroughInSwitchStatementJS
   switch (action.type) {
     case ACTION_HEADER_MESSAGE_SET:
       return {
@@ -55,8 +56,26 @@ export const overview = (state = initialState, action = {}) => {
         loadingStatus: ASYNC_STATUS.PENDING,
       }
 
-    case ACTION_GET_DATA_SUCCESS: {
+    case ACTION_REPARSE_DATA:
+      if (!state.data?.rawData) {
+        return {
+          ...state,
+          error: 'no data loaded',
+        }
+      }
+      action.result = {
+        records: state.data.rawData,
+      }
+      // intentional fallthrough
+    case ACTION_GET_DATA_SUCCESS:
       const parsedData = parseRawData(action.result.records)
+      if (!parsedData) {
+        return {
+          ...state,
+          error: 'invalid api data',
+        }
+      }
+
       let selectedGeoIds = {}
       if (parsedData.geoIds) {
         parsedData.geoIds.map(geoId => {
@@ -76,12 +95,11 @@ export const overview = (state = initialState, action = {}) => {
           startDate: moment(parsedData.endDate, DATE_FORMAT_APP)
             .subtract(14, 'days')
             .format(DATE_FORMAT_APP),
-          endDate: null,
+          endDate: parsedData.endDate,
           mode: DATE_FILTER.LAST14DAYS,
         },
         selectedGeoIds: selectedGeoIds,
       }
-    }
 
     case ACTION_GET_DATA_FAIL:
       return {
@@ -89,32 +107,6 @@ export const overview = (state = initialState, action = {}) => {
         error: action.error,
         loadingStatus: ASYNC_STATUS.FAIL,
       }
-
-    case ACTION_REPARSE_DATA: {
-      const parsedData = parseRawData(state.data.rawData)
-      let reselectedGeoIds = {}
-      if (parsedData.geoIds) {
-        parsedData.geoIds.map(geoId => {
-          reselectedGeoIds[geoId] = preselectedGeoIds.includes(geoId)
-        })
-      }
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          ...parsedData,
-        },
-        dateFilter: {
-          ...state.dateFilter,
-          startDate: moment(parsedData.endDate, DATE_FORMAT_APP)
-            .subtract(14, 'days')
-            .format(DATE_FORMAT_APP),
-          endDate: null,
-          mode: DATE_FILTER.LAST14DAYS,
-        },
-        selectedGeoIds: reselectedGeoIds,
-      }
-    }
 
     case ACTION_CHANGE_DATE_FILTER_MODE:
       const dateFilter = {

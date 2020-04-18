@@ -5,6 +5,7 @@ import {withTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
 import {
+  ACTION_CHANGE_ALL_METRIC_GRAPH_VISIBILITY,
   ACTION_CHANGE_DATE_FILTER_INTERVAL,
   ACTION_CHANGE_DATE_FILTER_MODE,
   ACTION_CHANGE_GRAPH_MODE,
@@ -86,12 +87,17 @@ class HeaderComponent extends React.Component {
                   </ButtonGroup>
 
                   <ButtonGroup className="my-1">
+                    <MenuButton
+                      className="ml-1"
+                      active={graphOverview.metricsVisible.length === graphMetricsOrder.length}
+                      action={() => action(ACTION_CHANGE_ALL_METRIC_GRAPH_VISIBILITY)}
+                      title="All"
+                    />
                     {graphMetricsOrder.map((metric, index) => (
                       <MenuButton
                         className={classNames({
-                          'ml-1': index === 0,
                           'mr-1': index === graphMetricsOrder.length - 1,
-                          'border-left': index !== 0,
+                          'border-left': true,
                         })}
                         key={metric}
                         active={graphOverview.metricsVisible.includes(metric)}

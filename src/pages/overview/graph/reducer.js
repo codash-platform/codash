@@ -1,9 +1,11 @@
 import {
+  ACTION_CHANGE_ALL_METRIC_GRAPH_VISIBILITY,
   ACTION_CHANGE_GRAPH_MODE,
   ACTION_CHANGE_METRIC_GRAPH_VISIBILITY,
   GRAPH_MODE,
   METRICS,
 } from '../../../global/constants'
+import {graphMetricsOrder} from './Graphs'
 
 const initialState = {
   graphMode: GRAPH_MODE.LINE,
@@ -37,7 +39,7 @@ export const graphOverview = (state = initialState, action = {}) => {
         barGraphVisible: barGraphVisible,
       }
 
-    case ACTION_CHANGE_METRIC_GRAPH_VISIBILITY:
+    case ACTION_CHANGE_METRIC_GRAPH_VISIBILITY: {
       const newMetricsVisible = new Set([...state.metricsVisible])
 
       if (newMetricsVisible.has(action.metric)) {
@@ -50,6 +52,20 @@ export const graphOverview = (state = initialState, action = {}) => {
         ...state,
         metricsVisible: [...newMetricsVisible],
       }
+    }
+
+    case ACTION_CHANGE_ALL_METRIC_GRAPH_VISIBILITY: {
+      let newMetricsVisible = []
+
+      if (state.metricsVisible.length === 0) {
+        newMetricsVisible = graphMetricsOrder
+      }
+
+      return {
+        ...state,
+        metricsVisible: newMetricsVisible,
+      }
+    }
 
     default:
       return state

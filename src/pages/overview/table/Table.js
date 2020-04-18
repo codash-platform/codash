@@ -7,7 +7,7 @@ import paginationFactory, {
   PaginationTotalStandalone,
 } from 'react-bootstrap-table2-paginator'
 import ToolkitProvider, {Search} from 'react-bootstrap-table2-toolkit'
-import {ACTION_CHANGE_GEOID_SELECTION, ACTION_CHANGE_SIZE_PER_PAGE} from '../../../global/constants'
+import {ACTION_CHANGE_GEOID_SELECTION, ACTION_CHANGE_SIZE_PER_PAGE, METRICS} from '../../../global/constants'
 import {getTableData} from '../../../global/dataParsing'
 import {action} from '../../../global/util'
 
@@ -105,6 +105,19 @@ const perCapitaHeaderFormatter = (column, colIndex, components) => {
   )
 }
 
+const cumulatedHeaderFormatter = (column, colIndex, components) => {
+  return (
+    <>
+      <div>{column.text}</div>
+      <div>
+        (on last day)
+        {components.sortElement}
+        {components.filterElement}
+      </div>
+    </>
+  )
+}
+
 const perCapitaCellFormatter = cell => {
   if (!cell || isNaN(cell) || !isFinite(cell)) {
     return '--'
@@ -151,7 +164,7 @@ const columns = [
     dataField: 'selected',
     text: 'Graph',
     sort: true,
-    headerStyle: {width: '50px'},
+    headerStyle: {width: '60px'},
     style: {textAlign: 'center'},
     headerFormatter: normalHeaderFormatter,
     formatter: (cell, row) => (
@@ -173,35 +186,49 @@ const columns = [
     sort: true,
   },
   {
-    dataField: 'cases',
+    dataField: METRICS.CASES,
     text: 'Cases',
     sort: true,
     headerFormatter: normalHeaderFormatter,
     formatter: normalCellFormatter,
   },
   {
-    dataField: 'deaths',
+    dataField: METRICS.CASES_ACCUMULATED,
+    text: 'Total cases',
+    sort: true,
+    headerFormatter: cumulatedHeaderFormatter,
+    formatter: normalCellFormatter,
+  },
+  {
+    dataField: METRICS.DEATHS,
     text: 'Deaths',
     sort: true,
     headerFormatter: normalHeaderFormatter,
     formatter: normalCellFormatter,
   },
   {
-    dataField: 'infectionPerCapita',
+    dataField: METRICS.DEATHS_ACCUMULATED,
+    text: 'Total deaths',
+    sort: true,
+    headerFormatter: cumulatedHeaderFormatter,
+    formatter: normalCellFormatter,
+  },
+  {
+    dataField: METRICS.INFECTION_PER_CAPITA,
     text: 'Incidence Rate',
     sort: true,
     headerFormatter: perCapitaHeaderFormatter,
     formatter: perCapitaCellFormatter,
   },
   {
-    dataField: 'mortalityPerCapita',
+    dataField: METRICS.MORTALITY_PER_CAPITA,
     text: 'Mortality Rate',
     sort: true,
     headerFormatter: perCapitaHeaderFormatter,
     formatter: perCapitaCellFormatter,
   },
   {
-    dataField: 'mortalityPercentage',
+    dataField: METRICS.MORTALITY_PERCENTAGE,
     text: 'Case Fatality Ratio',
     sort: true,
     headerFormatter: percentageHeaderFormatter,

@@ -28,7 +28,9 @@ export const GRAPH_MODE = {
 
 export const METRICS = {
   CASES: 'cases',
+  CASES_ACCUMULATED: 'casesAccumulated',
   DEATHS: 'deaths',
+  DEATHS_ACCUMULATED: 'deathsAccumulated',
   INFECTION_PER_CAPITA: 'infectionPerCapita',
   MORTALITY_PER_CAPITA: 'mortalityPerCapita',
   MORTALITY_PERCENTAGE: 'mortalityPercentage',

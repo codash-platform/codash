@@ -6,30 +6,40 @@ import {getGraphData} from '../../../global/dataParsing'
 
 export const graphProperties = {
   [METRICS.CASES]: {
-    name: 'cases',
+    name: METRICS.CASES,
     label: 'Daily Cases',
   },
+  [METRICS.CASES_ACCUMULATED]: {
+    name: METRICS.CASES_ACCUMULATED,
+    label: 'Accumulated Cases',
+  },
   [METRICS.DEATHS]: {
-    name: 'deaths',
+    name: METRICS.DEATHS,
     label: 'Daily Deaths',
   },
+  [METRICS.DEATHS_ACCUMULATED]: {
+    name: METRICS.DEATHS_ACCUMULATED,
+    label: 'Accumulated Deaths',
+  },
   [METRICS.INFECTION_PER_CAPITA]: {
-    name: 'infectionPerCapita',
+    name: METRICS.INFECTION_PER_CAPITA,
     label: 'Incidence Rate (per million)',
   },
   [METRICS.MORTALITY_PER_CAPITA]: {
-    name: 'mortalityPerCapita',
+    name: METRICS.MORTALITY_PER_CAPITA,
     label: 'Mortality Rate (per million)',
   },
   [METRICS.MORTALITY_PERCENTAGE]: {
-    name: 'mortalityPercentage',
+    name: METRICS.MORTALITY_PERCENTAGE,
     label: 'Case Fatality Ratio (%)',
   },
 }
 
 export const graphMetricsOrder = [
   METRICS.CASES,
+  METRICS.CASES_ACCUMULATED,
   METRICS.DEATHS,
+  METRICS.DEATHS_ACCUMULATED,
   METRICS.INFECTION_PER_CAPITA,
   METRICS.MORTALITY_PER_CAPITA,
   METRICS.MORTALITY_PERCENTAGE,

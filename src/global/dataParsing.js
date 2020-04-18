@@ -2,7 +2,7 @@ import moment from 'moment'
 import {DATE_FILTER, DATE_FORMAT_APP, DATE_FORMAT_ECDC, METRICS} from './constants'
 
 export const parseRawData = rawData => {
-  const perDateData = {}
+  let perDateData = {}
   const globalPerDay = []
   const datesAvailable = new Set()
   const geoIds = new Set()
@@ -45,11 +45,12 @@ export const parseRawData = rawData => {
     globalPerDay[dateKey].population += population
   })
 
-  for (let [key, value] of Object.entries(perDateData)) {
-    perDateData[key].push(globalPerDay[key])
-    perDateData[key] = calculateAdditionalData(perDateData[key])
+  for (let dateKey of Object.keys(perDateData)) {
+    perDateData[dateKey].push(globalPerDay[dateKey])
+    perDateData[dateKey] = calculateRatesData(perDateData[dateKey])
   }
   const sortedDates = getSortedDates(datesAvailable)
+  perDateData = calculateAccumulatedData(perDateData, sortedDates)
 
   return {
     rawData: rawData,
@@ -66,7 +67,7 @@ const getSortedDates = datesSet => {
   return [...datesSet].sort((a, b) => moment(a, DATE_FORMAT_APP).toDate() - moment(b, DATE_FORMAT_APP).toDate())
 }
 
-const calculateAdditionalData = data => {
+const calculateRatesData = data => {
   return data.map(element => {
     // if (element.geoId === 'JPG11668') debugger
 
@@ -78,11 +79,34 @@ const calculateAdditionalData = data => {
   })
 }
 
-const parseSectionData = (perDayData = {}, startDate, endDate) => {
-  let resultData = []
-  const perCountryData = {}
+const calculateAccumulatedData = (perDateData, sortedDates) => {
+  let perGeoIdAccumulatedData = {}
 
-  for (let [dateKey, entriesForDate] of Object.entries(perDayData)) {
+  for (const dateKey of sortedDates) {
+    perDateData[dateKey].forEach(entry => {
+      if (!perGeoIdAccumulatedData[entry.geoId]) {
+        perGeoIdAccumulatedData[entry.geoId] = {
+          [METRICS.CASES_ACCUMULATED]: 0,
+          [METRICS.DEATHS_ACCUMULATED]: 0,
+        }
+      }
+
+      perGeoIdAccumulatedData[entry.geoId][METRICS.CASES_ACCUMULATED] += entry.cases
+      perGeoIdAccumulatedData[entry.geoId][METRICS.DEATHS_ACCUMULATED] += entry.deaths
+
+      entry[METRICS.CASES_ACCUMULATED] = perGeoIdAccumulatedData[entry.geoId][METRICS.CASES_ACCUMULATED]
+      entry[METRICS.DEATHS_ACCUMULATED] = perGeoIdAccumulatedData[entry.geoId][METRICS.DEATHS_ACCUMULATED]
+    })
+  }
+
+  return perDateData
+}
+
+const parseSectionData = (perDateData = {}, startDate, endDate) => {
+  let resultData = []
+  const perGeoIdData = {}
+
+  for (let [dateKey, entriesForDate] of Object.entries(perDateData)) {
     if (startDate && moment(dateKey, DATE_FORMAT_APP).isBefore(startDate, 'day')) {
       continue
     }
@@ -92,16 +116,22 @@ const parseSectionData = (perDayData = {}, startDate, endDate) => {
     }
 
     for (let entry of entriesForDate) {
-      if (!perCountryData[entry.geoId]) {
-        perCountryData[entry.geoId] = createInitialEntryPerCountry(entry.name, entry.geoId, entry.population)
+      if (!perGeoIdData[entry.geoId]) {
+        perGeoIdData[entry.geoId] = createInitialEntryPerCountry(entry.name, entry.geoId, entry.population)
       }
-      perCountryData[entry.geoId].cases += entry.cases
-      perCountryData[entry.geoId].deaths += entry.deaths
+      perGeoIdData[entry.geoId].cases += entry.cases
+      perGeoIdData[entry.geoId].deaths += entry.deaths
     }
   }
 
-  resultData = Object.values(perCountryData)
-  resultData = calculateAdditionalData(resultData)
+  const endDateKey = endDate.format(DATE_FORMAT_APP)
+  perDateData?.[endDateKey]?.map(entry => {
+    perGeoIdData[entry.geoId][METRICS.CASES_ACCUMULATED] = entry[METRICS.CASES_ACCUMULATED]
+    perGeoIdData[entry.geoId][METRICS.DEATHS_ACCUMULATED] = entry[METRICS.DEATHS_ACCUMULATED]
+  })
+
+  resultData = Object.values(perGeoIdData)
+  resultData = calculateRatesData(resultData)
 
   return resultData
 }

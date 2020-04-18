@@ -66,7 +66,7 @@ export const overview = (state = initialState, action = {}) => {
       action.result = {
         records: state.data.rawData,
       }
-      // intentional fallthrough
+    // intentional fallthrough
     case ACTION_GET_DATA_SUCCESS:
       const parsedData = parseRawData(action.result.records)
       if (!parsedData) {

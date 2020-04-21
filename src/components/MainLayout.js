@@ -15,7 +15,7 @@ class MainLayoutComponent extends React.Component {
           <Row>
             <Col xs={8}>
               &copy;{' '}
-              <a className="font-weight-bold" href="https://github.com/popa-marius/jackd">
+              <a className="font-weight-bold" href="https://github.com/jackd-platform/jackd">
                 JACKD
               </a>{' '}
               - Just Another COVID-19 Kick-ass Dashboard

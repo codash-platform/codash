@@ -1,8 +1,9 @@
 {
     "intervals:TOTAL": "",
     "intervals:LAST_DAY": "",
-    "intervals:.LAST_7_DAYS": "",
+    "intervals:LAST_7_DAYS": "",
     "intervals:LAST_14_DAYS": "",
     "intervals:LAST_30_DAYS": "",
-    "intervals:button_label": ""
+    "intervals:button_label": "",
+    "global:language_iso_code": "fr"
 }

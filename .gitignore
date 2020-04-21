@@ -2,8 +2,7 @@ build
 dist
 node_modules
 .idea
+scripts
 **/*.log
 .DS_Store
 .env
-deploy.sh
-src/i18n/*.json

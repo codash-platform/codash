@@ -1,1 +1,8 @@
-{}
+{
+    "date_filter.TOTAL": "",
+    "date_filter.LAST_DAY": "",
+    "date_filter.LAST_7_DAYS": "",
+    "date_filter.LAST_14_DAYS": "",
+    "date_filter.LAST_30_DAYS": "",
+    "intervals:button_label": ""
+}

@@ -1,8 +1,9 @@
 {
     "intervals:TOTAL": "Total",
     "intervals:LAST_DAY": "Last Day",
-    "intervals:.LAST_7_DAYS": "Last 7 Days",
+    "intervals:LAST_7_DAYS": "Last 7 Days",
     "intervals:LAST_14_DAYS": "Last 14 Days",
     "intervals:LAST_30_DAYS": "Last 30 Days",
-    "intervals:button_label": "Quick Intervals"
+    "intervals:button_label": "Quick Intervals",
+    "global:language_iso_code": "en"
 }

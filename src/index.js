@@ -6,7 +6,7 @@ import {Provider} from 'react-redux'
 import {BrowserRouter} from 'react-router-dom'
 import {APP_ROUTES} from './global/routes'
 import store from './global/store'
-import i18n from './i18n/i18n'
+import i18n from './global/i18n'
 
 const CombinedApp = () => (
   <Provider store={store}>

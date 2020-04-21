@@ -1,8 +1,9 @@
 {
     "intervals:TOTAL": "Total",
     "intervals:LAST_DAY": "Ultima zi",
-    "intervals:.LAST_7_DAYS": "Ultimele 7 zile",
+    "intervals:LAST_7_DAYS": "Ultimele 7 zile",
     "intervals:LAST_14_DAYS": "Ultimele 14 zile",
     "intervals:LAST_30_DAYS": "Ultimele 30 de zile",
-    "intervals:button_label": "Intervale Rapide"
+    "intervals:button_label": "Intervale Rapide",
+    "global:language_iso_code": "ro"
 }

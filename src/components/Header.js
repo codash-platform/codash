@@ -1,12 +1,11 @@
 import classNames from 'classnames'
 import React from 'react'
-import {Alert, Button, ButtonGroup, Col, Container, Form, Row} from 'react-bootstrap'
+import {Alert, Button, ButtonGroup, Col, Container, Dropdown, Row} from 'react-bootstrap'
 import {withTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
 import {
   ACTION_CHANGE_ALL_METRIC_GRAPH_VISIBILITY,
-  ACTION_CHANGE_DATE_FILTER_INTERVAL,
   ACTION_CHANGE_DATE_FILTER_MODE,
   ACTION_CHANGE_GRAPH_MODE,
   ACTION_CHANGE_METRIC_GRAPH_VISIBILITY,
@@ -21,6 +20,7 @@ import {
 import {action} from '../global/util'
 import {appName, isProduction} from '../global/variables'
 import {graphMetricsOrder, graphProperties} from '../pages/overview/graph/Graphs'
+import {DateFilter} from './DateFilter'
 
 const MenuButton = props => {
   let className = props.className || 'mx-1'
@@ -39,7 +39,7 @@ const MenuButton = props => {
 class HeaderComponent extends React.Component {
   render() {
     const {message, overview, graphOverview} = this.props
-    const {dateFilter, graphsVisible} = overview
+    const {graphsVisible} = overview
 
     return (
       <div id="header">
@@ -68,6 +68,30 @@ class HeaderComponent extends React.Component {
                   />
                 ))}
               </ButtonGroup>
+
+              <Dropdown
+                className="d-inline-block mx-1"
+                onSelect={eventKey => action(ACTION_CHANGE_DATE_FILTER_MODE, {mode: eventKey})}
+              >
+                <Dropdown.Toggle id="date-intervals" size="sm" variant="light">
+                  Quick Intervals
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  {Object.values(DATE_FILTER).map(dateInterval => {
+                    return (
+                      <Dropdown.Item className="text-capitalize text-dark" key={dateInterval} eventKey={dateInterval}>
+                        {dateInterval
+                          .split('_')
+                          .join(' ')
+                          .toLowerCase()}
+                      </Dropdown.Item>
+                    )
+                  })}
+                </Dropdown.Menu>
+              </Dropdown>
+              <DateFilter className="ml-2" />
+
               {graphsVisible && (
                 <>
                   <ButtonGroup className="my-1">
@@ -106,105 +130,6 @@ class HeaderComponent extends React.Component {
                       />
                     ))}
                   </ButtonGroup>
-                </>
-              )}
-
-              <ButtonGroup className="my-1">
-                <MenuButton
-                  className="ml-1"
-                  active={dateFilter.mode === DATE_FILTER.TOTAL}
-                  action={() => action(ACTION_CHANGE_DATE_FILTER_MODE, {mode: DATE_FILTER.TOTAL})}
-                  title="Total"
-                />
-                <MenuButton
-                  className="border-left"
-                  active={dateFilter.mode === DATE_FILTER.LAST30DAYS}
-                  action={() => action(ACTION_CHANGE_DATE_FILTER_MODE, {mode: DATE_FILTER.LAST30DAYS})}
-                  title="Last 30 Days"
-                />
-                <MenuButton
-                  className="border-left"
-                  active={dateFilter.mode === DATE_FILTER.LAST14DAYS}
-                  action={() => action(ACTION_CHANGE_DATE_FILTER_MODE, {mode: DATE_FILTER.LAST14DAYS})}
-                  title="Last 14 Days"
-                />
-                <MenuButton
-                  className="border-left"
-                  active={dateFilter.mode === DATE_FILTER.LAST7DAYS}
-                  action={() => action(ACTION_CHANGE_DATE_FILTER_MODE, {mode: DATE_FILTER.LAST7DAYS})}
-                  title="Last 7 Days"
-                />
-                <MenuButton
-                  className="border-left"
-                  active={dateFilter.mode === DATE_FILTER.SINGLE_DAY}
-                  action={() =>
-                    action(ACTION_CHANGE_DATE_FILTER_MODE, {
-                      mode: DATE_FILTER.SINGLE_DAY,
-                      startDate: overview.data.endDate,
-                      endDate: overview.data.endDate,
-                    })
-                  }
-                  title="Single Day"
-                />
-                <MenuButton
-                  className="border-left"
-                  active={dateFilter.mode === DATE_FILTER.CUSTOM_INTERVAL}
-                  action={() =>
-                    action(ACTION_CHANGE_DATE_FILTER_MODE, {
-                      mode: DATE_FILTER.CUSTOM_INTERVAL,
-                      startDate: overview.data.startDate,
-                      endDate: overview.data.endDate,
-                    })
-                  }
-                  title="Custom Interval"
-                />
-              </ButtonGroup>
-              {dateFilter.mode === DATE_FILTER.SINGLE_DAY && (
-                <Form.Control
-                  className="m-1 d-inline-block"
-                  style={{width: '150px'}}
-                  as="select"
-                  size="sm"
-                  onChange={e => action(ACTION_CHANGE_DATE_FILTER_INTERVAL, {startDate: e.target.value})}
-                  value={dateFilter.startDate}
-                >
-                  {overview.data?.datesAvailable?.map(date => (
-                    <option key={date} value={date}>
-                      {date}
-                    </option>
-                  ))}
-                </Form.Control>
-              )}
-              {dateFilter.mode === DATE_FILTER.CUSTOM_INTERVAL && (
-                <>
-                  <Form.Control
-                    className="m-1 d-inline-block"
-                    style={{width: '150px'}}
-                    as="select"
-                    size="sm"
-                    onChange={e => action(ACTION_CHANGE_DATE_FILTER_INTERVAL, {startDate: e.target.value})}
-                    value={dateFilter.startDate}
-                  >
-                    {overview.data?.datesAvailable?.map(date => (
-                      <option key={date} value={date}>
-                        {date}
-                      </option>
-                    ))}
-                  </Form.Control>
-                  <Form.Control
-                    className="m-1 d-inline-block"
-                    style={{width: '150px'}}
-                    as="select"
-                    size="sm"
-                    onChange={e => action(ACTION_CHANGE_DATE_FILTER_INTERVAL, {endDate: e.target.value})}
-                    value={dateFilter.endDate}
-                  >
-                    {overview.data?.datesAvailable?.map(date => (
-                      <option key={date} value={date}>
-                        {date}
-                      </option>
-                    ))}
-                  </Form.Control>
                 </>
               )}
             </Col>

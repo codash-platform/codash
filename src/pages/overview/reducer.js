@@ -96,7 +96,7 @@ export const overview = (state = initialState, action = {}) => {
             .subtract(14, 'days')
             .format(DATE_FORMAT_APP),
           endDate: parsedData.endDate,
-          mode: DATE_FILTER.LAST14DAYS,
+          mode: DATE_FILTER.LAST_14_DAYS,
         },
         selectedGeoIds: selectedGeoIds,
       }
@@ -120,31 +120,31 @@ export const overview = (state = initialState, action = {}) => {
         default:
         case DATE_FILTER.TOTAL:
           break
-        case DATE_FILTER.LAST7DAYS:
+        case DATE_FILTER.LAST_DAY:
+          if (state.data?.endDate) {
+            dateFilter.startDate = state.data?.endDate
+          }
+          break
+        case DATE_FILTER.LAST_7_DAYS:
           if (state.data?.endDate) {
             dateFilter.startDate = moment(state.data.endDate, DATE_FORMAT_APP)
               .subtract(7, 'days')
               .format(DATE_FORMAT_APP)
           }
           break
-        case DATE_FILTER.LAST14DAYS:
+        case DATE_FILTER.LAST_14_DAYS:
           if (state.data?.endDate) {
             dateFilter.startDate = moment(state.data.endDate, DATE_FORMAT_APP)
               .subtract(14, 'days')
               .format(DATE_FORMAT_APP)
           }
           break
-        case DATE_FILTER.LAST30DAYS:
+        case DATE_FILTER.LAST_30_DAYS:
           if (state.data?.endDate) {
             dateFilter.startDate = moment(state.data.endDate, DATE_FORMAT_APP)
               .subtract(30, 'days')
               .format(DATE_FORMAT_APP)
           }
-          break
-        case DATE_FILTER.SINGLE_DAY:
-        case DATE_FILTER.CUSTOM_INTERVAL:
-          dateFilter.startDate = action.startDate
-          dateFilter.endDate = action.endDate
           break
       }
 
@@ -160,7 +160,7 @@ export const overview = (state = initialState, action = {}) => {
         newState.dateFilter.startDate = action.startDate
       }
       if (action.endDate) {
-        newState.dateFilter.startDate = action.endDate
+        newState.dateFilter.endDate = action.endDate
       }
 
       return newState

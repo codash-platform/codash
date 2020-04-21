@@ -14,6 +14,7 @@ const sourcePath = path.join(rootPath, './src')
 const distPath = path.join(rootPath, './dist')
 const staticPath = path.join(rootPath, './static')
 const stylePath = path.join(rootPath, './style')
+const libPath = path.join(rootPath, './node_modules')
 
 // load vars for current config file
 require('dotenv-safe').config({
@@ -46,7 +47,12 @@ const baseConfig = {
     },
   },
   entry: {
-    js: [path.join(sourcePath, 'index.js'), path.join(stylePath, 'app.scss')],
+    js: [
+      path.join(libPath, 'react-dates/initialize.js'),
+      path.join(libPath, 'react-dates/lib/css/_datepicker.css'),
+      path.join(sourcePath, 'index.js'),
+      path.join(stylePath, 'app.scss'),
+    ],
   },
   module: {
     rules: [

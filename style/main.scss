@@ -28,3 +28,22 @@ a:active {
     justify-content: center;
   }
 }
+
+/* react-dates styling */
+.DateRangePickerInput {
+  border-radius: 0.2rem;
+  border-width: 1px;
+  border-color: #FFFFFF;
+
+  .DateRangePickerInput_calendarIcon {
+    padding: 0 0 4px;
+  }
+
+  .DateInput_input {
+    color: vars.$color-dark;
+  }
+
+  .DateInput_input__small {
+    padding: 5px 7px 4px;
+  }
+}

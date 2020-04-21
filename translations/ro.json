@@ -1,1 +1,8 @@
-{}
+{
+    "date_filter.TOTAL": "Total",
+    "date_filter.LAST_DAY": "Ultima zi",
+    "date_filter.LAST_7_DAYS": "Ultimele 7 zile",
+    "date_filter.LAST_14_DAYS": "Ultimele 14 zile",
+    "date_filter.LAST_30_DAYS": "Ultimele 30 de zile",
+    "intervals:button_label": "Intervale Rapide"
+}

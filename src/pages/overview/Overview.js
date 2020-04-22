@@ -18,9 +18,8 @@ class OverviewComponent extends Component {
   }
 
   render() {
-    const {overview, tableOverview, graphOverview} = this.props
-    const {data, dateFilter, selectedGeoIds, tableVisible, graphsVisible, loadingStatus, error} = overview
-    const {sizePerPage} = tableOverview
+    const {overview, t} = this.props
+    const {loadingStatus, error} = overview
 
     return (
       <MainLayout pageTitle="">
@@ -29,31 +28,12 @@ class OverviewComponent extends Component {
             {loadingStatus === ASYNC_STATUS.FAIL && <Alert variant="danger">{error}</Alert>}
             {loadingStatus === ASYNC_STATUS.PENDING && (
               <Alert variant="info">
-                Loading... <FontAwesomeIcon icon={faSpinner} spin={true} />
+                {t('global:loading')}
+                <FontAwesomeIcon icon={faSpinner} spin={true} />
               </Alert>
             )}
-            {!!data && (
-              <>
-                {graphsVisible && (
-                  <Graphs
-                    data={data}
-                    dateFilter={dateFilter}
-                    selectedGeoIds={selectedGeoIds}
-                    lineGraphVisible={graphOverview.lineGraphVisible}
-                    barGraphVisible={graphOverview.barGraphVisible}
-                    metricsVisible={graphOverview.metricsVisible}
-                  />
-                )}
-                {tableVisible && (
-                  <Table
-                    data={data}
-                    dateFilter={dateFilter}
-                    selectedGeoIds={selectedGeoIds}
-                    sizePerPage={sizePerPage}
-                  />
-                )}
-              </>
-            )}
+            <Graphs />
+            <Table />
           </Col>
         </Row>
       </MainLayout>
@@ -63,8 +43,6 @@ class OverviewComponent extends Component {
 
 const stateToProps = state => ({
   overview: state.overview,
-  tableOverview: state.tableOverview,
-  graphOverview: state.graphOverview,
 })
 
 const dispatchToProps = {}

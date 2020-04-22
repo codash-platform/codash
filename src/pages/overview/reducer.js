@@ -181,7 +181,7 @@ export const overview = (state = initialState, action = {}) => {
         default:
         case VIEW_MODE.COMBO:
           break
-        case VIEW_MODE.GRAPH:
+        case VIEW_MODE.GRAPHS:
           tableVisible = false
           break
         case VIEW_MODE.TABLE:

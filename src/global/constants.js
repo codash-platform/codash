@@ -16,7 +16,7 @@ export const DATE_FILTER = {
 export const VIEW_MODE = {
   COMBO: 'COMBO',
   TABLE: 'TABLE',
-  GRAPH: 'GRAPH',
+  GRAPHS: 'GRAPHS',
 }
 
 export const GRAPH_MODE = {

@@ -1,12 +1,13 @@
+import PropTypes from 'prop-types'
 import React from 'react'
-import {Container, Row, Col} from 'react-bootstrap'
+import {Col, Container, Row} from 'react-bootstrap'
 import {withTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
+import {appName} from '../global/variables'
 import {Header} from './Header'
-import PropTypes from 'prop-types'
 
 class MainLayoutComponent extends React.Component {
-  render({children, pageTitle} = this.props) {
+  render({children, pageTitle, t} = this.props) {
     return (
       <div>
         <Header title={pageTitle} />
@@ -16,18 +17,18 @@ class MainLayoutComponent extends React.Component {
             <Col xs={8}>
               &copy;{' '}
               <a className="font-weight-bold" href="https://github.com/jackd-platform/jackd">
-                JACKD
-              </a>{' '}
-              - Just Another COVID-19 Kick-ass Dashboard
+                {appName}
+              </a>
+              {t('footer:signature')}
             </Col>
             <Col xs={4} className="text-right">
-              Data source:{' '}
+              {t('footer:data_source')}
               <a
                 target="_blank"
                 className="font-weight-bold"
                 href="https://www.ecdc.europa.eu/en/publications-data/download-todays-data-geographic-distribution-covid-19-cases-worldwide"
               >
-                ECDC
+                {t('footer:data_source_ecdc')}
               </a>
             </Col>
           </Row>

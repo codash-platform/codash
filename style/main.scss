@@ -23,6 +23,10 @@ a:active {
   color: vars.$color-dark;
 }
 
+.flag {
+  width: 26px;
+}
+
 .dropdown-menu {
   &.auto-width {
     min-width: auto;

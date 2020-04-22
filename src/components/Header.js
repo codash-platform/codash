@@ -17,9 +17,10 @@ import {
   GRAPH_MODE,
   VIEW_MODE,
 } from '../global/constants'
+import {languageOrder} from '../global/i18n'
 import {action} from '../global/util'
 import {appName, isProduction} from '../global/variables'
-import {graphMetricsOrder, graphProperties} from '../pages/overview/graph/Graphs'
+import {graphMetricsOrder} from '../pages/overview/graph/Graphs'
 import {DateFilter} from './DateFilter'
 
 const MenuButton = props => {
@@ -38,20 +39,55 @@ const MenuButton = props => {
 
 class HeaderComponent extends React.Component {
   render() {
-    const {message, overview, graphOverview} = this.props
+    const {message, overview, graphOverview, t, i18n} = this.props
     const {graphsVisible} = overview
+    const currentLanguage = i18n.language.substring(0, 2)
+    const sortedLanguages = languageOrder.filter(language => i18n.languages.includes(language))
 
     return (
       <div id="header">
         <Container fluid>
           <Row>
-            <Col xs={2}>
-              <h2 className="m-0 text-light">{appName}</h2>
+            <Col lg={3} xs={2}>
+              <Row>
+                <Col lg={7} xs={12}>
+                  <h2 className="m-0 text-light">{appName}</h2>
+                </Col>
+                <Col lg={5} xs={12}>
+                  <Dropdown onSelect={language => i18n.changeLanguage(language)}>
+                    <Dropdown.Toggle className="my-1" id="language-dropdown" size="sm" variant="light">
+                      <img src={`/images/i18n/${currentLanguage}.svg`} alt={currentLanguage} className="flag" />
+                      &nbsp;
+                      <span>{t('global:language_iso_code', {lng: currentLanguage}).toUpperCase()}</span>
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu className="auto-width">
+                      {sortedLanguages.map(language => {
+                        const isLanguageActive = language === currentLanguage
+                        return (
+                          <Dropdown.Item
+                            key={language}
+                            eventKey={language}
+                            className={classNames({
+                              'text-dark': !isLanguageActive,
+                              'bg-primary text-light': isLanguageActive,
+                            })}
+                          >
+                            <img src={`/images/i18n/${language}.svg`} alt={language} className="flag" />
+                            &nbsp;
+                            <span>{t('global:language_iso_code', {lng: language}).toUpperCase()}</span>
+                          </Dropdown.Item>
+                        )
+                      })}
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </Col>
+              </Row>
             </Col>
-            <Col>
-              <MenuButton variant="dark" action={() => action(ACTION_GET_DATA_START)} title="Reload Data" />
+            <Col lg={9} xs={10}>
+              <MenuButton variant="dark" action={() => action(ACTION_GET_DATA_START)} title={t('header:reload_data')} />
               {!isProduction && (
-                <MenuButton variant="dark" action={() => action(ACTION_REPARSE_DATA)} title="Reparse" />
+                <MenuButton variant="dark" action={() => action(ACTION_REPARSE_DATA)} title={t('header:reparse')} />
               )}
               <ButtonGroup className="my-1">
                 {Object.keys(VIEW_MODE).map((viewMode, index) => (
@@ -64,7 +100,7 @@ class HeaderComponent extends React.Component {
                     key={viewMode}
                     active={overview.viewMode === viewMode}
                     action={() => action(ACTION_CHANGE_VIEW_MODE, {viewMode: viewMode})}
-                    title={viewMode.charAt(0) + viewMode.slice(1).toLowerCase()}
+                    title={t(`header:view_mode_${viewMode}`)}
                   />
                 ))}
               </ButtonGroup>
@@ -74,23 +110,21 @@ class HeaderComponent extends React.Component {
                 onSelect={eventKey => action(ACTION_CHANGE_DATE_FILTER_MODE, {mode: eventKey})}
               >
                 <Dropdown.Toggle id="date-intervals" size="sm" variant="light">
-                  Quick Intervals
+                  {t('intervals:button_label')}
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu className="auto-width">
                   {Object.values(DATE_FILTER).map(dateInterval => {
                     return (
                       <Dropdown.Item className="text-capitalize text-dark" key={dateInterval} eventKey={dateInterval}>
-                        {dateInterval
-                          .split('_')
-                          .join(' ')
-                          .toLowerCase()}
+                        {t(`intervals:${dateInterval}`)}
                       </Dropdown.Item>
                     )
                   })}
                 </Dropdown.Menu>
               </Dropdown>
-              <DateFilter className="ml-2" />
+
+              <DateFilter className="mx-1" />
 
               {graphsVisible && (
                 <>
@@ -105,7 +139,7 @@ class HeaderComponent extends React.Component {
                         key={graphMode}
                         active={graphOverview.graphMode === graphMode}
                         action={() => action(ACTION_CHANGE_GRAPH_MODE, {graphMode: graphMode})}
-                        title={graphMode.charAt(0) + graphMode.slice(1).toLowerCase()}
+                        title={t(`header:graph_mode_${graphMode}`)}
                       />
                     ))}
                   </ButtonGroup>
@@ -115,7 +149,7 @@ class HeaderComponent extends React.Component {
                       className="ml-1"
                       active={graphOverview.metricsVisible.length === graphMetricsOrder.length}
                       action={() => action(ACTION_CHANGE_ALL_METRIC_GRAPH_VISIBILITY)}
-                      title="All"
+                      title={t('header:metrics_all')}
                     />
                     {graphMetricsOrder.map((metric, index) => (
                       <MenuButton
@@ -126,7 +160,7 @@ class HeaderComponent extends React.Component {
                         key={metric}
                         active={graphOverview.metricsVisible.includes(metric)}
                         action={() => action(ACTION_CHANGE_METRIC_GRAPH_VISIBILITY, {metric: metric})}
-                        title={graphProperties[metric].label}
+                        title={t(`header:metrics_${metric}`)}
                       />
                     ))}
                   </ButtonGroup>

@@ -1,6 +1,8 @@
 import {ResponsiveBar} from '@nivo/bar'
 import {ResponsiveLine} from '@nivo/line'
-import React from 'react'
+import React, {Component} from 'react'
+import {withTranslation} from 'react-i18next'
+import {connect} from 'react-redux'
 import {LOCALE_DEFAULT, METRICS} from '../../../global/constants'
 import {getGraphData} from '../../../global/dataParsing'
 
@@ -45,42 +47,50 @@ export const graphMetricsOrder = [
   METRICS.MORTALITY_PERCENTAGE,
 ]
 
-export const Graphs = ({data, dateFilter, selectedGeoIds, lineGraphVisible, barGraphVisible, metricsVisible}) => {
-  const graphs = []
+class GraphsComponent extends Component {
+  render() {
+    const {overview, graphOverview, t} = this.props
+    const {data, dateFilter, selectedGeoIds, graphsVisible} = overview
+    const {lineGraphVisible, barGraphVisible, metricsVisible} = graphOverview
+    const graphs = []
 
-  graphMetricsOrder
-    .filter(metric => metricsVisible.includes(metric))
-    .map(metricName => {
-      const propertyName = graphProperties[metricName].name
-      const propertyLabel = graphProperties[metricName].label
-      const processedData = getGraphData(
-        data,
-        dateFilter,
-        selectedGeoIds,
-        propertyName,
-        lineGraphVisible,
-        barGraphVisible
-      )
+    if (!graphsVisible || !data) {
+      return graphs
+    }
 
-      if (lineGraphVisible) {
-        graphs.push(
-          <LineGraph key={`line-${propertyName}`} data={processedData.lineData} propertyLabel={propertyLabel} />
+    graphMetricsOrder
+      .filter(metric => metricsVisible.includes(metric))
+      .map(metricName => {
+        const metricLabel = t(`graph:metrics_${metricName}`)
+        const processedData = getGraphData(
+          data,
+          dateFilter,
+          selectedGeoIds,
+          metricName,
+          lineGraphVisible,
+          barGraphVisible
         )
-      }
 
-      if (barGraphVisible) {
-        graphs.push(
-          <BarGraph
-            key={`bar-${propertyName}`}
-            data={processedData.barData?.data}
-            keys={processedData.barData?.keys}
-            propertyLabel={propertyLabel}
-          />
-        )
-      }
-    })
+        if (lineGraphVisible) {
+          graphs.push(
+            <LineGraph key={`line-${metricName}`} data={processedData.lineData} propertyLabel={metricLabel} />
+          )
+        }
 
-  return graphs
+        if (barGraphVisible) {
+          graphs.push(
+            <BarGraph
+              key={`bar-${metricName}`}
+              data={processedData.barData?.data}
+              keys={processedData.barData?.keys}
+              propertyLabel={metricLabel}
+            />
+          )
+        }
+      })
+
+    return graphs
+  }
 }
 
 export const BarGraph = ({data, keys, propertyLabel}) => {
@@ -277,3 +287,12 @@ export const LineGraph = ({data, propertyLabel}) => {
     </div>
   )
 }
+
+const stateToProps = state => ({
+  overview: state.overview,
+  graphOverview: state.graphOverview,
+})
+
+const dispatchToProps = {}
+
+export const Graphs = connect(stateToProps, dispatchToProps)(withTranslation()(GraphsComponent))

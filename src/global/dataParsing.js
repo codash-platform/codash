@@ -126,6 +126,9 @@ const parseSectionData = (perDateData = {}, startDate, endDate) => {
 
   const endDateKey = endDate.format(DATE_FORMAT_APP)
   perDateData?.[endDateKey]?.map(entry => {
+    if (!perGeoIdData[entry.geoId]) {
+      perGeoIdData[entry.geoId] = createInitialEntryPerCountry(entry.name, entry.geoId, entry.population)
+    }
     perGeoIdData[entry.geoId][METRICS.CASES_ACCUMULATED] = entry[METRICS.CASES_ACCUMULATED]
     perGeoIdData[entry.geoId][METRICS.DEATHS_ACCUMULATED] = entry[METRICS.DEATHS_ACCUMULATED]
   })

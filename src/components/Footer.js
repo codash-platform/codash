@@ -25,7 +25,7 @@ class FooterComponent extends React.Component {
               {buildTime && (
                 <Col xs={12}>
                   {t('footer:build_time', {
-                    time: moment(process.env.BUILD_TIME).format(DATE_TIME_FORMAT_APP),
+                    time: moment(buildTime).utc().format(DATE_TIME_FORMAT_APP),
                   })}
                 </Col>
               )}

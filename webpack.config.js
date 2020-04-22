@@ -92,7 +92,10 @@ const baseConfig = {
     filename: 'bundle.[hash].js',
   },
   plugins: [
-    new DotenvWebpack({systemvars: true}),
+    new webpack.DefinePlugin({
+      'process.env.BUILD_TIME': JSON.stringify(new Date()),
+    }),
+    new DotenvWebpack(),
     new HtmlWebpackPlugin({
       template: path.join(staticPath, 'index.ejs'),
       inject: 'body',

@@ -53,5 +53,6 @@
     "global:loading": "",
     "footer:signature": "",
     "footer:data_source": "",
-    "footer:data_source_ecdc": ""
+    "footer:data_source_ecdc": "",
+    "footer:build_time": ""
 }

@@ -1,38 +1,18 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import {Col, Container, Row} from 'react-bootstrap'
+import {Container} from 'react-bootstrap'
 import {withTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
-import {appName} from '../global/variables'
+import {Footer} from './Footer'
 import {Header} from './Header'
 
 class MainLayoutComponent extends React.Component {
-  render({children, t} = this.props) {
+  render({children} = this.props) {
     return (
       <div>
-        <Header/>
+        <Header />
         <Container fluid>{children}</Container>
-        <Container fluid>
-          <Row>
-            <Col xs={8}>
-              &copy;{' '}
-              <a className="font-weight-bold" href="https://github.com/jackd-platform/jackd">
-                {appName}
-              </a>
-              {t('footer:signature')}
-            </Col>
-            <Col xs={4} className="text-right">
-              {t('footer:data_source')}
-              <a
-                target="_blank"
-                className="font-weight-bold"
-                href="https://www.ecdc.europa.eu/en/publications-data/download-todays-data-geographic-distribution-covid-19-cases-worldwide"
-              >
-                {t('footer:data_source_ecdc')}
-              </a>
-            </Col>
-          </Row>
-        </Container>
+        <Footer />
       </div>
     )
   }

@@ -1,7 +1,6 @@
 import i18next from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
-// manually import all languages so webpack does not discard them in the production build
-// import 'moment/locale/de'
+import moment from 'moment'
 import {initReactI18next} from 'react-i18next'
 
 // language order for the dropdown from the header
@@ -21,6 +20,8 @@ languageOrder.map(lang => {
 i18next
   .use(LanguageDetector)
   .use(initReactI18next) // passes i18n down to react-i18next
+  .on('initialized', () => moment.locale(i18next.language.substring(0, 2)))
+  .on('languageChanged', language => moment.locale(language.substring(0, 2)))
   .init({
     interpolation: {
       // React already does escaping

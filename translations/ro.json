@@ -53,5 +53,6 @@
     "global:loading": "Se încarcă...",
     "footer:signature": " - Just Another COVID-19 Kick-ass Dashboard",
     "footer:data_source": "Sursa datelor: ",
-    "footer:data_source_ecdc": "ECDC"
+    "footer:data_source_ecdc": "ECDC",
+    "footer:build_time": "Timpul ultimei actualizări a codului: {{time}} (UTC)"
 }

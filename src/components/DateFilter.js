@@ -65,6 +65,7 @@ class DateFilterComponent extends React.Component {
 
             return false
           }}
+          minimumNights={0}
           firstDayOfWeek={1}
           displayFormat={DATE_FORMAT_APP}
           showDefaultInputIcon={true}

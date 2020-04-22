@@ -50,9 +50,11 @@
     "table:pagination_next_page": "Pagina Următoare",
     "table:pagination_first_page": "Prima Pagină",
     "table:pagination_last_page": "Ultima Pagină",
-    "global:loading": "Se încarcă...",
+    "global:notification_loading": "Se încarcă...",
     "footer:signature": " - Just Another COVID-19 Kick-ass Dashboard",
     "footer:data_source": "Sursa datelor: ",
     "footer:data_source_ecdc": "ECDC",
-    "footer:build_time": "Timpul ultimei actualizări a codului: {{time}} (UTC)"
+    "footer:build_time": "Timpul ultimei actualizări a codului: {{time}} (UTC)",
+    "global:error_no_data_loaded": "Nu sunt încărcate date.",
+    "global:error_invalid_api_data": "Date invalide primite de la API-ul cu sursei de date."
 }

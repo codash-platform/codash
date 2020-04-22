@@ -50,9 +50,11 @@
     "table:pagination_next_page": "Next Page",
     "table:pagination_first_page": "First Page",
     "table:pagination_last_page": "Last Page",
-    "global:loading": "Loading...",
+    "global:notification_loading": "Loading...",
     "footer:signature": " - Just Another COVID-19 Kick-ass Dashboard",
     "footer:data_source": "Data source: ",
     "footer:data_source_ecdc": "ECDC",
-    "footer:build_time": "Last code deploy time: {{time}} (UTC)"
+    "footer:build_time": "Last code deploy time: {{time}} (UTC)",
+    "global:error_no_data_loaded": "No data loaded.",
+    "global:error_invalid_api_data": "Invalid data received from the data source's API."
 }

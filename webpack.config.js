@@ -92,7 +92,7 @@ const baseConfig = {
     filename: 'bundle.[hash].js',
   },
   plugins: [
-    new DotenvWebpack(),
+    new DotenvWebpack({systemvars: true}),
     new HtmlWebpackPlugin({
       template: path.join(staticPath, 'index.ejs'),
       inject: 'body',

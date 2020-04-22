@@ -23,7 +23,11 @@ class FooterComponent extends React.Component {
                 {t('footer:signature')}
               </Col>
               {buildTime && (
-                <Col xs={12}>{t('footer:build_time', {time: moment(process.env.BUILD_TIME).format(DATE_TIME_FORMAT_APP)})}</Col>
+                <Col xs={12}>
+                  {t('footer:build_time', {
+                    time: moment(process.env.BUILD_TIME).format(DATE_TIME_FORMAT_APP),
+                  })}
+                </Col>
               )}
             </Row>
           </Col>

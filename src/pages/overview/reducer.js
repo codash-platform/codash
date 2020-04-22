@@ -4,12 +4,12 @@ import {
   ACTION_CHANGE_DATE_FILTER_MODE,
   ACTION_CHANGE_GEOID_SELECTION,
   ACTION_CHANGE_VIEW_MODE,
+  ACTION_CLEAR_NOTIFICATION,
   ACTION_GET_DATA_FAIL,
   ACTION_GET_DATA_START,
   ACTION_GET_DATA_SUCCESS,
-  ACTION_HEADER_MESSAGE_CLEAR,
-  ACTION_HEADER_MESSAGE_SET,
   ACTION_REPARSE_DATA,
+  ACTION_SET_NOTIFICATION,
   ASYNC_STATUS,
   DATE_FILTER,
   DATE_FORMAT_APP,
@@ -18,9 +18,8 @@ import {
 import {parseRawData} from '../../global/dataParsing'
 
 const initialState = {
-  error: null,
+  notification: {},
   loadingStatus: ASYNC_STATUS.IDLE,
-  headerMessage: null,
   data: null,
   viewMode: VIEW_MODE.COMBO,
   tableVisible: true,
@@ -38,16 +37,21 @@ const preselectedGeoIds = ['WW', 'US', 'CN', 'DE', 'FR', 'ES', 'IT', 'CH']
 export const overview = (state = initialState, action = {}) => {
   // noinspection FallThroughInSwitchStatementJS
   switch (action.type) {
-    case ACTION_HEADER_MESSAGE_SET:
+    case ACTION_SET_NOTIFICATION:
       return {
         ...state,
-        headerMessage: action.message,
+        notification: {
+          ...state.notification,
+          message: action.message,
+          variant: action.variant || 'info',
+          showSpinner: action.showSpinner || false,
+        },
       }
 
-    case ACTION_HEADER_MESSAGE_CLEAR:
+    case ACTION_CLEAR_NOTIFICATION:
       return {
         ...state,
-        headerMessage: null,
+        notification: initialState.notification,
       }
 
     case ACTION_GET_DATA_START:
@@ -60,7 +64,12 @@ export const overview = (state = initialState, action = {}) => {
       if (!state.data?.rawData) {
         return {
           ...state,
-          error: 'no data loaded',
+          notification: {
+            ...state.notification,
+            message: 'global:error_no_data_loaded',
+            variant: 'danger',
+            showSpinner: false,
+          },
         }
       }
       action.result = {
@@ -72,7 +81,12 @@ export const overview = (state = initialState, action = {}) => {
       if (!parsedData) {
         return {
           ...state,
-          error: 'invalid api data',
+          notification: {
+            ...state.notification,
+            message: 'global:error_invalid_api_data',
+            variant: 'danger',
+            showSpinner: false,
+          },
         }
       }
 
@@ -85,7 +99,6 @@ export const overview = (state = initialState, action = {}) => {
 
       return {
         ...state,
-        error: null,
         loadingStatus: ASYNC_STATUS.SUCCESS,
         data: {
           ...state.data,
@@ -104,8 +117,13 @@ export const overview = (state = initialState, action = {}) => {
     case ACTION_GET_DATA_FAIL:
       return {
         ...state,
-        error: action.error,
         loadingStatus: ASYNC_STATUS.FAIL,
+        notification: {
+          ...state.notification,
+          message: action.error,
+          variant: 'danger',
+          showSpinner: false,
+        },
       }
 
     case ACTION_CHANGE_DATE_FILTER_MODE:

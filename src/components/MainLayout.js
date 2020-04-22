@@ -5,12 +5,14 @@ import {withTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import {Footer} from './Footer'
 import {Header} from './Header'
+import {NotificationBox} from './NotificationBox'
 
 class MainLayoutComponent extends React.Component {
   render({children} = this.props) {
     return (
       <div>
         <Header />
+        <NotificationBox />
         <Container fluid>{children}</Container>
         <Footer />
       </div>

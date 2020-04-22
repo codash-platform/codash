@@ -11,7 +11,6 @@ import {
   ACTION_CHANGE_METRIC_GRAPH_VISIBILITY,
   ACTION_CHANGE_VIEW_MODE,
   ACTION_GET_DATA_START,
-  ACTION_HEADER_MESSAGE_CLEAR,
   ACTION_REPARSE_DATA,
   DATE_FILTER,
   GRAPH_MODE,
@@ -39,7 +38,7 @@ const MenuButton = props => {
 
 class HeaderComponent extends React.Component {
   render() {
-    const {message, overview, graphOverview, t, i18n} = this.props
+    const {overview, graphOverview, t, i18n} = this.props
     const {graphsVisible} = overview
     const currentLanguage = i18n.language.substring(0, 2)
     const sortedLanguages = languageOrder.filter(language => i18n.languages.includes(language))
@@ -169,23 +168,6 @@ class HeaderComponent extends React.Component {
             </Col>
           </Row>
         </Container>
-
-        {message && (
-          <Container>
-            <Row>
-              <Col xs={12}>
-                <Alert
-                  dismissible
-                  variant={'info'}
-                  className={'py-2 mt-3 fade in'}
-                  onClose={() => action(ACTION_HEADER_MESSAGE_CLEAR)}
-                >
-                  {message}
-                </Alert>
-              </Col>
-            </Row>
-          </Container>
-        )}
       </div>
     )
   }

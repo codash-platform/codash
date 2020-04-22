@@ -7,10 +7,10 @@ import {appName} from '../global/variables'
 import {Header} from './Header'
 
 class MainLayoutComponent extends React.Component {
-  render({children, pageTitle, t} = this.props) {
+  render({children, t} = this.props) {
     return (
       <div>
-        <Header title={pageTitle} />
+        <Header/>
         <Container fluid>{children}</Container>
         <Container fluid>
           <Row>
@@ -40,7 +40,6 @@ class MainLayoutComponent extends React.Component {
 
 MainLayoutComponent.propTypes = {
   children: PropTypes.element.isRequired,
-  pageTitle: PropTypes.string,
 }
 
 const stateToProps = state => ({})

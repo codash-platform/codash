@@ -22,7 +22,7 @@ class OverviewComponent extends Component {
     const {loadingStatus, error} = overview
 
     return (
-      <MainLayout pageTitle="">
+      <MainLayout>
         <Row>
           <Col className="mt-3">
             {loadingStatus === ASYNC_STATUS.FAIL && <Alert variant="danger">{error}</Alert>}

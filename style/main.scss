@@ -23,6 +23,15 @@ a:active {
   color: vars.$color-dark;
 }
 
+.dropdown-menu {
+  &.auto-width {
+    min-width: auto;
+    > .dropdown-item {
+      padding: 0.25rem 1rem;
+    }
+  }
+}
+
 #main-table-container {
   .pagination {
     justify-content: center;

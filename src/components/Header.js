@@ -77,7 +77,7 @@ class HeaderComponent extends React.Component {
                   Quick Intervals
                 </Dropdown.Toggle>
 
-                <Dropdown.Menu>
+                <Dropdown.Menu className="auto-width">
                   {Object.values(DATE_FILTER).map(dateInterval => {
                     return (
                       <Dropdown.Item className="text-capitalize text-dark" key={dateInterval} eventKey={dateInterval}>

@@ -50,9 +50,11 @@
     "table:pagination_next_page": "",
     "table:pagination_first_page": "",
     "table:pagination_last_page": "",
-    "global:loading": "",
+    "global:notification_loading": "",
     "footer:signature": "",
     "footer:data_source": "",
     "footer:data_source_ecdc": "",
-    "footer:build_time": ""
+    "footer:build_time": "",
+    "global:error_no_data_loaded": "",
+    "global:error_invalid_api_data": ""
 }

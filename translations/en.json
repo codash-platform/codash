@@ -56,5 +56,10 @@
     "footer:data_source_ecdc": "ECDC",
     "footer:build_time": "Last code deploy time: {{time}} (UTC)",
     "global:error_no_data_loaded": "No data loaded.",
-    "global:error_invalid_api_data": "Invalid data received from the data source's API."
+    "global:error_invalid_api_data": "Invalid data received from the data source's API.",
+    "header:view_mode_label": "View Mode",
+    "header:graph_mode_label": "Graph Type",
+    "header:graph_metrics_label": "Graph Metrics",
+    "header:graph_metrics_selected": "{{selected}} selected",
+    "header:metrics_none": "None"
 }

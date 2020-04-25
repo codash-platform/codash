@@ -72,5 +72,6 @@
     "table:column_mortalityPerCapitaAccumulated": "Deaths",
     "table:column_mortalityPercentageAccumulated": "Deaths/Cases",
     "table:unit_per_capita_accumulated": "(per million on last selected day)",
-    "table:unit_percentage_accumulated": "(% on last selected day)"
+    "table:unit_percentage_accumulated": "(% on last selected day)",
+    "table:unit_period": "(for selected period)"
 }

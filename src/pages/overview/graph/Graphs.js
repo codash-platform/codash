@@ -6,37 +6,6 @@ import {connect} from 'react-redux'
 import {LOCALE_DEFAULT, METRICS} from '../../../global/constants'
 import {getGraphData} from '../../../global/dataParsing'
 
-export const graphProperties = {
-  [METRICS.CASES]: {
-    name: METRICS.CASES,
-    label: 'Daily Cases',
-  },
-  [METRICS.CASES_ACCUMULATED]: {
-    name: METRICS.CASES_ACCUMULATED,
-    label: 'Accumulated Cases',
-  },
-  [METRICS.DEATHS]: {
-    name: METRICS.DEATHS,
-    label: 'Daily Deaths',
-  },
-  [METRICS.DEATHS_ACCUMULATED]: {
-    name: METRICS.DEATHS_ACCUMULATED,
-    label: 'Accumulated Deaths',
-  },
-  [METRICS.INFECTION_PER_CAPITA]: {
-    name: METRICS.INFECTION_PER_CAPITA,
-    label: 'Incidence Rate (per million)',
-  },
-  [METRICS.MORTALITY_PER_CAPITA]: {
-    name: METRICS.MORTALITY_PER_CAPITA,
-    label: 'Mortality Rate (per million)',
-  },
-  [METRICS.MORTALITY_PERCENTAGE]: {
-    name: METRICS.MORTALITY_PERCENTAGE,
-    label: 'Case Fatality Ratio (%)',
-  },
-}
-
 export const graphMetricsOrder = [
   METRICS.CASES,
   METRICS.CASES_ACCUMULATED,

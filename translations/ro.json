@@ -72,5 +72,6 @@
     "table:column_mortalityPerCapitaAccumulated": "Decese acumulate",
     "table:column_mortalityPercentageAccumulated": "Decese din cazuri acumulate",
     "table:unit_per_capita_accumulated": "(per milion în ultima zi selectată)",
-    "table:unit_percentage_accumulated": "(% în ultima zi selectată)"
+    "table:unit_percentage_accumulated": "(% în ultima zi selectată)",
+    "table:unit_period": "(pentru perioada selectată)"
 }

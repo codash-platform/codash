@@ -1,5 +1,4 @@
 import {
-  ACTION_CHANGE_ALL_METRIC_GRAPH_VISIBILITY,
   ACTION_CHANGE_GRAPH_MODE,
   ACTION_CHANGE_METRIC_GRAPH_VISIBILITY,
   GRAPH_MODE,
@@ -40,30 +39,29 @@ export const graphOverview = (state = initialState, action = {}) => {
       }
 
     case ACTION_CHANGE_METRIC_GRAPH_VISIBILITY: {
-      const newMetricsVisible = new Set([...state.metricsVisible])
+      let newMetricsVisible
 
-      if (newMetricsVisible.has(action.metric)) {
-        newMetricsVisible.delete(action.metric)
-      } else {
-        newMetricsVisible.add(action.metric)
+      switch (action.metric) {
+        default:
+          newMetricsVisible = new Set([...state.metricsVisible])
+
+          if (newMetricsVisible.has(action.metric)) {
+            newMetricsVisible.delete(action.metric)
+          } else {
+            newMetricsVisible.add(action.metric)
+          }
+          break
+        case 'all':
+          newMetricsVisible = graphMetricsOrder
+          break
+        case 'none':
+          newMetricsVisible = []
+          break
       }
 
       return {
         ...state,
         metricsVisible: [...newMetricsVisible],
-      }
-    }
-
-    case ACTION_CHANGE_ALL_METRIC_GRAPH_VISIBILITY: {
-      let newMetricsVisible = []
-
-      if (state.metricsVisible.length === 0) {
-        newMetricsVisible = graphMetricsOrder
-      }
-
-      return {
-        ...state,
-        metricsVisible: newMetricsVisible,
       }
     }
 

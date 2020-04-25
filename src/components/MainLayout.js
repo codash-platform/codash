@@ -13,7 +13,9 @@ class MainLayoutComponent extends React.Component {
       <div>
         <Header />
         <NotificationBox />
-        <Container fluid>{children}</Container>
+        <Container className="mt-1" fluid>
+          {children}
+        </Container>
         <Footer />
       </div>
     )

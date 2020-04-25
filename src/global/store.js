@@ -18,8 +18,22 @@ const localStorageMiddleware = ({getState}) => {
   return next => action => {
     const result = next(action)
     const nowTime = new Date().getTime()
+    const state = getState()
+    const newState = {}
 
-    localStorage.setItem(REDUX_STORE_STORAGE_NAME, JSON.stringify(getState()))
+    // skip data objects since they take too much space/processing
+    for (let [key, value] of Object.entries(state)) {
+      const newReducer = {}
+      for (let [subKey, subValue] of Object.entries(value)) {
+        if (subKey === 'data' && key === 'overview') {
+          continue
+        }
+        newReducer[subKey] = subValue
+      }
+      newState[key] = newReducer
+    }
+
+    localStorage.setItem(REDUX_STORE_STORAGE_NAME, JSON.stringify(newState))
     localStorage.setItem(STORAGE_EXPIRY_KEY, nowTime.toString())
     localStorage.setItem(REDUX_STORE_VERSION_PROPERTY, REDUX_STORE_VERSION)
 

@@ -1,13 +1,12 @@
 @use 'vars';
-@use 'breakpoints';
 
 body {
-  background-color: vars.$color-light;
+  background-color: vars.$gray-100;
+  color: vars.$dark;
   font-family: vars.$font-regular;
   min-width: 768px;
   overflow-y: scroll;
   font-size: 16px;
-  color: vars.$color-dark;
 }
 
 a,
@@ -15,12 +14,12 @@ a:link,
 a:visited,
 a:hover,
 a:active {
-  color: vars.$color-primary;
+  color: vars.$primary;
 }
 
 #header {
-  background-color: vars.$color-primary;
-  color: vars.$color-dark;
+  position: fixed;
+  z-index: 10;
 }
 
 .flag {
@@ -30,6 +29,7 @@ a:active {
 .dropdown-menu {
   &.auto-width {
     min-width: auto;
+
     > .dropdown-item {
       padding: 0.25rem 1rem;
     }
@@ -53,7 +53,7 @@ a:active {
   }
 
   .DateInput_input {
-    color: vars.$color-dark;
+    color: vars.$dark;
     font-weight: 400;
   }
 

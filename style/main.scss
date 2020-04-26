@@ -40,6 +40,9 @@ a:active {
   .pagination {
     justify-content: center;
   }
+  th {
+    outline: none;
+  }
 }
 
 /* react-dates styling */

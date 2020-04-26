@@ -39,7 +39,7 @@
     "table:column_casesAccumulated": "Cazuri acumulate",
     "table:column_deaths": "Decese noi",
     "table:column_deathsAccumulated": "Decese acumulate",
-    "table:column_infectionPerCapita": "Rata de noi infecții",
+    "table:column_infectionPerCapita": "Cazuri noi",
     "table:column_mortalityPerCapita": "Mortalitate",
     "table:column_mortalityPercentage": "Mortalitate",
     "table:column_population": "Populație",
@@ -68,10 +68,10 @@
     "graph:metrics_infectionPerCapitaAccumulated": "Cazuri acumulate (per capita)",
     "graph:metrics_mortalityPerCapitaAccumulated": "Decese acumulate (per capita)",
     "graph:metrics_mortalityPercentageAccumulated": "Fatalitate cazuri acumulată (%)",
-    "table:column_infectionPerCapitaAccumulated": "Cazuri acumulate ",
-    "table:column_mortalityPerCapitaAccumulated": "Decese acumulate",
+    "table:column_infectionPerCapitaAccumulated": "Cazuri",
+    "table:column_mortalityPerCapitaAccumulated": "Decese",
     "table:column_mortalityPercentageAccumulated": "Fatalitate cazuri",
-    "table:unit_per_capita_accumulated": "(per milion în ultima zi selectată)",
-    "table:unit_percentage_accumulated": "(% în ultima zi selectată)",
+    "table:unit_per_capita_accumulated": "(per milion acumulat până în ultima zi selectată)",
+    "table:unit_percentage_accumulated": "(% acumulat până în ultima zi selectată)",
     "table:unit_period": "(pentru perioada selectată)"
 }

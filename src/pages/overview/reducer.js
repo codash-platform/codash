@@ -56,7 +56,7 @@ export const overview = (state = initialState, action = {}) => {
 
     case ACTION_GET_DATA_START:
       return {
-        ...initialState,
+        ...state,
         loadingStatus: ASYNC_STATUS.PENDING,
       }
 

@@ -31,8 +31,11 @@ export const METRICS = {
   DEATHS: 'deaths',
   DEATHS_ACCUMULATED: 'deathsAccumulated',
   INFECTION_PER_CAPITA: 'infectionPerCapita',
+  INFECTION_PER_CAPITA_ACCUMULATED: 'infectionPerCapitaAccumulated',
   MORTALITY_PER_CAPITA: 'mortalityPerCapita',
+  MORTALITY_PER_CAPITA_ACCUMULATED: 'mortalityPerCapitaAccumulated',
   MORTALITY_PERCENTAGE: 'mortalityPercentage',
+  MORTALITY_PERCENTAGE_ACCUMULATED: 'mortalityPercentageAccumulated',
 }
 
 // the expiry time of the local storage used for the redux store in minutes

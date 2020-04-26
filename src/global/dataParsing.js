@@ -96,6 +96,22 @@ const calculateAccumulatedData = (perDateData, sortedDates) => {
 
       entry[METRICS.CASES_ACCUMULATED] = perGeoIdAccumulatedData[entry.geoId][METRICS.CASES_ACCUMULATED]
       entry[METRICS.DEATHS_ACCUMULATED] = perGeoIdAccumulatedData[entry.geoId][METRICS.DEATHS_ACCUMULATED]
+
+      entry[METRICS.INFECTION_PER_CAPITA_ACCUMULATED] = calculateRate(
+        perGeoIdAccumulatedData[entry.geoId][METRICS.CASES_ACCUMULATED],
+        entry.population,
+        1000000
+      )
+      entry[METRICS.MORTALITY_PER_CAPITA_ACCUMULATED] = calculateRate(
+        perGeoIdAccumulatedData[entry.geoId][METRICS.DEATHS_ACCUMULATED],
+        entry.population,
+        1000000
+      )
+      entry[METRICS.MORTALITY_PERCENTAGE_ACCUMULATED] = calculateRate(
+        perGeoIdAccumulatedData[entry.geoId][METRICS.DEATHS_ACCUMULATED],
+        perGeoIdAccumulatedData[entry.geoId][METRICS.CASES_ACCUMULATED],
+        100
+      )
     })
   }
 
@@ -131,6 +147,9 @@ const parseSectionData = (perDateData = {}, startDate, endDate) => {
     }
     perGeoIdData[entry.geoId][METRICS.CASES_ACCUMULATED] = entry[METRICS.CASES_ACCUMULATED]
     perGeoIdData[entry.geoId][METRICS.DEATHS_ACCUMULATED] = entry[METRICS.DEATHS_ACCUMULATED]
+    perGeoIdData[entry.geoId][METRICS.INFECTION_PER_CAPITA_ACCUMULATED] = entry[METRICS.INFECTION_PER_CAPITA_ACCUMULATED]
+    perGeoIdData[entry.geoId][METRICS.MORTALITY_PER_CAPITA_ACCUMULATED] = entry[METRICS.MORTALITY_PER_CAPITA_ACCUMULATED]
+    perGeoIdData[entry.geoId][METRICS.MORTALITY_PERCENTAGE_ACCUMULATED] = entry[METRICS.MORTALITY_PERCENTAGE_ACCUMULATED]
   })
 
   resultData = Object.values(perGeoIdData)

@@ -274,8 +274,8 @@ export const LineGraph = ({data, propertyLabel}) => {
                 fontSize: '16px',
               },
             },
-          }}
-        }
+          },
+        }}
       />
     </div>
   )

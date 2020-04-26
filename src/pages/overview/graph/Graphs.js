@@ -83,10 +83,13 @@ export const BarGraph = ({data, keys, propertyLabel}) => {
           type: 'linear',
           stacked: false,
         }}
-        axisLeft={{
+        axisTop={{
           legend: propertyLabel,
-          legendOffset: -60,
+          legendOffset: -10,
           legendPosition: 'middle',
+          tickValues: [],
+        }}
+        axisLeft={{
           tickSize: 5,
           tickPadding: 3,
           format: value => value.toLocaleString(LOCALE_DEFAULT),
@@ -107,6 +110,13 @@ export const BarGraph = ({data, keys, propertyLabel}) => {
         }}
         enableLabel={false}
         theme={{
+          axis: {
+            legend: {
+              text: {
+                fontSize: '16px',
+              },
+            },
+          },
           tooltip: {
             container: {
               backgroundColor: 'rgba(255, 255, 255, 0.7)',
@@ -173,12 +183,14 @@ export const LineGraph = ({data, propertyLabel}) => {
           type: 'linear',
           stacked: false,
         }}
-        axisTop={null}
+        axisTop={{
+          legend: propertyLabel,
+          legendOffset: -10,
+          legendPosition: 'middle',
+          tickValues: [],
+        }}
         axisRight={null}
         axisLeft={{
-          legend: propertyLabel,
-          legendOffset: -60,
-          legendPosition: 'middle',
           tickSize: 5,
           tickPadding: 3,
           format: value => value.toLocaleString(LOCALE_DEFAULT),
@@ -252,6 +264,15 @@ export const LineGraph = ({data, propertyLabel}) => {
             symbolBorderColor: 'rgba(0, 0, 0, .5)',
           },
         ]}
+        theme={{
+          axis: {
+            legend: {
+              text: {
+                fontSize: '16px',
+              },
+            },
+          }}
+        }
       />
     </div>
   )

@@ -37,6 +37,7 @@ export const parseRawData = rawData => {
 
     if (!globalPerDay[dateKey]) {
       globalPerDay[dateKey] = createInitialEntryPerCountry('Combined Data', 'WW', 0)
+      geoIdToNameMapping.WW = 'Combined Data'
     }
 
     globalPerDay[dateKey][METRICS.CASES] += cases

@@ -74,5 +74,5 @@
     "table:unit_per_capita_accumulated": "(per milion acumulat până în ultima zi selectată)",
     "table:unit_percentage_accumulated": "(% acumulat până în ultima zi selectată)",
     "table:unit_period": "(pentru perioada selectată)",
-    "intervals:60": "Ultimele 7 zile"
+    "intervals:60": "Ultimele 60 de zile"
 }

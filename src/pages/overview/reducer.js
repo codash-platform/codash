@@ -135,32 +135,13 @@ export const overview = (state = initialState, action = {}) => {
       }
 
       switch (action.mode) {
-        default:
         case DATE_FILTER.TOTAL:
           break
-        case DATE_FILTER.LAST_DAY:
-          if (state.data?.endDate) {
-            dateFilter.startDate = state.data?.endDate
-          }
-          break
-        case DATE_FILTER.LAST_7_DAYS:
-          if (state.data?.endDate) {
+        default:
+          const daysCount = parseInt(action.mode)
+          if (state.data?.endDate && Object.values(DATE_FILTER).includes(daysCount)) {
             dateFilter.startDate = moment(state.data.endDate, DATE_FORMAT_APP)
-              .subtract(7, 'days')
-              .format(DATE_FORMAT_APP)
-          }
-          break
-        case DATE_FILTER.LAST_14_DAYS:
-          if (state.data?.endDate) {
-            dateFilter.startDate = moment(state.data.endDate, DATE_FORMAT_APP)
-              .subtract(14, 'days')
-              .format(DATE_FORMAT_APP)
-          }
-          break
-        case DATE_FILTER.LAST_30_DAYS:
-          if (state.data?.endDate) {
-            dateFilter.startDate = moment(state.data.endDate, DATE_FORMAT_APP)
-              .subtract(30, 'days')
+              .subtract(daysCount - 1, 'days')
               .format(DATE_FORMAT_APP)
           }
           break

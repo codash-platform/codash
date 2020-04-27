@@ -7,10 +7,11 @@ export const ASYNC_STATUS = {
 
 export const DATE_FILTER = {
   TOTAL: 'TOTAL',
-  LAST_DAY: 'LAST_DAY',
-  LAST_7_DAYS: 'LAST_7_DAYS',
-  LAST_14_DAYS: 'LAST_14_DAYS',
-  LAST_30_DAYS: 'LAST_30_DAYS',
+  LAST_DAY: 1,
+  LAST_7_DAYS: 7,
+  LAST_14_DAYS: 14,
+  LAST_30_DAYS: 30,
+  LAST_60_DAYS: 60,
 }
 
 export const VIEW_MODE = {

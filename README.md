@@ -1,8 +1,8 @@
-# JACKD - Just Another COVID-19 Kick-ass Dashboard
+# CoDash - COVID-19 Dashboard
 
 This frontend app focuses on providing (yet one more) dashboard to visualize the COVID-19 data.
 
-Live demo: https://jackd.popa-marius.com
+Live demo: https://coronavirusguides.com
 
 ### Getting started
 

@@ -1,7 +1,7 @@
 {
-  "name": "jackd",
+  "name": "codash",
   "version": "1.0.0",
-  "description": "Just Another COVID-19 Kick-ass Dashboard",
+  "description": "COVID-19 Dashboard",
   "author": {
     "email": "contact@popa-marius.com",
     "name": "Marius Popa"
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jackd-platform/jackd.git"
+    "url": "https://github.com/codash-platform/codash.git"
   },
   "devDependencies": {
     "babel-eslint": "~10.1.0",

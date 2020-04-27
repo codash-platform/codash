@@ -17,7 +17,7 @@ class FooterComponent extends React.Component {
             <Row>
               <Col xs={12}>
                 &copy;{' '}
-                <a className="font-weight-bold" href="https://github.com/jackd-platform/jackd">
+                <a className="font-weight-bold" href="https://github.com/codash-platform/codash">
                   {appName}
                 </a>
                 {t('footer:signature')}

@@ -27,14 +27,14 @@ export const GRAPH_MODE = {
 }
 
 export const METRICS = {
-  CASES: 'cases',
+  CASES_NEW: 'cases',
   CASES_ACCUMULATED: 'casesAccumulated',
-  DEATHS: 'deaths',
+  CASES_PER_CAPITA: 'infectionPerCapita',
+  CASES_PER_CAPITA_ACCUMULATED: 'infectionPerCapitaAccumulated',
+  DEATHS_NEW: 'deaths',
   DEATHS_ACCUMULATED: 'deathsAccumulated',
-  INFECTION_PER_CAPITA: 'infectionPerCapita',
-  INFECTION_PER_CAPITA_ACCUMULATED: 'infectionPerCapitaAccumulated',
-  MORTALITY_PER_CAPITA: 'mortalityPerCapita',
-  MORTALITY_PER_CAPITA_ACCUMULATED: 'mortalityPerCapitaAccumulated',
+  DEATHS_PER_CAPITA: 'mortalityPerCapita',
+  DEATHS_PER_CAPITA_ACCUMULATED: 'mortalityPerCapitaAccumulated',
   MORTALITY_PERCENTAGE: 'mortalityPercentage',
   MORTALITY_PERCENTAGE_ACCUMULATED: 'mortalityPercentageAccumulated',
 }

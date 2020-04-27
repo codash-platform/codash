@@ -29,8 +29,8 @@ export const parseRawData = rawData => {
 
     perDateData[dateKey].push({
       name: name,
-      [METRICS.CASES]: cases,
-      [METRICS.DEATHS]: deaths,
+      [METRICS.CASES_NEW]: cases,
+      [METRICS.DEATHS_NEW]: deaths,
       geoId: record.geoId,
       population: population,
     })
@@ -40,8 +40,8 @@ export const parseRawData = rawData => {
       geoIdToNameMapping.WW = 'Combined Data'
     }
 
-    globalPerDay[dateKey][METRICS.CASES] += cases
-    globalPerDay[dateKey][METRICS.DEATHS] += deaths
+    globalPerDay[dateKey][METRICS.CASES_NEW] += cases
+    globalPerDay[dateKey][METRICS.DEATHS_NEW] += deaths
     // todo fix calculation bug
     globalPerDay[dateKey].population += population
   })
@@ -72,8 +72,8 @@ const calculateRatesData = data => {
   return data.map(element => {
     // if (element.geoId === 'JPG11668') debugger
 
-    element[METRICS.INFECTION_PER_CAPITA] = calculateRate(element.cases, element.population, 1000000)
-    element[METRICS.MORTALITY_PER_CAPITA] = calculateRate(element.deaths, element.population, 1000000)
+    element[METRICS.CASES_PER_CAPITA] = calculateRate(element.cases, element.population, 1000000)
+    element[METRICS.DEATHS_PER_CAPITA] = calculateRate(element.deaths, element.population, 1000000)
     element[METRICS.MORTALITY_PERCENTAGE] = calculateRate(element.deaths, element.cases, 100)
 
     return element
@@ -98,12 +98,12 @@ const calculateAccumulatedData = (perDateData, sortedDates) => {
       entry[METRICS.CASES_ACCUMULATED] = perGeoIdAccumulatedData[entry.geoId][METRICS.CASES_ACCUMULATED]
       entry[METRICS.DEATHS_ACCUMULATED] = perGeoIdAccumulatedData[entry.geoId][METRICS.DEATHS_ACCUMULATED]
 
-      entry[METRICS.INFECTION_PER_CAPITA_ACCUMULATED] = calculateRate(
+      entry[METRICS.CASES_PER_CAPITA_ACCUMULATED] = calculateRate(
         perGeoIdAccumulatedData[entry.geoId][METRICS.CASES_ACCUMULATED],
         entry.population,
         1000000
       )
-      entry[METRICS.MORTALITY_PER_CAPITA_ACCUMULATED] = calculateRate(
+      entry[METRICS.DEATHS_PER_CAPITA_ACCUMULATED] = calculateRate(
         perGeoIdAccumulatedData[entry.geoId][METRICS.DEATHS_ACCUMULATED],
         entry.population,
         1000000
@@ -148,10 +148,10 @@ const parseSectionData = (perDateData = {}, startDate, endDate) => {
     }
     perGeoIdData[entry.geoId][METRICS.CASES_ACCUMULATED] = entry[METRICS.CASES_ACCUMULATED]
     perGeoIdData[entry.geoId][METRICS.DEATHS_ACCUMULATED] = entry[METRICS.DEATHS_ACCUMULATED]
-    perGeoIdData[entry.geoId][METRICS.INFECTION_PER_CAPITA_ACCUMULATED] =
-      entry[METRICS.INFECTION_PER_CAPITA_ACCUMULATED]
-    perGeoIdData[entry.geoId][METRICS.MORTALITY_PER_CAPITA_ACCUMULATED] =
-      entry[METRICS.MORTALITY_PER_CAPITA_ACCUMULATED]
+    perGeoIdData[entry.geoId][METRICS.CASES_PER_CAPITA_ACCUMULATED] =
+      entry[METRICS.CASES_PER_CAPITA_ACCUMULATED]
+    perGeoIdData[entry.geoId][METRICS.DEATHS_PER_CAPITA_ACCUMULATED] =
+      entry[METRICS.DEATHS_PER_CAPITA_ACCUMULATED]
     perGeoIdData[entry.geoId][METRICS.MORTALITY_PERCENTAGE_ACCUMULATED] =
       entry[METRICS.MORTALITY_PERCENTAGE_ACCUMULATED]
   })
@@ -187,8 +187,8 @@ const changePrecision = (number, precision) => {
 
 const createInitialEntryPerCountry = (name, geoId, population) => {
   return {
-    [METRICS.CASES]: 0,
-    [METRICS.DEATHS]: 0,
+    [METRICS.CASES_NEW]: 0,
+    [METRICS.DEATHS_NEW]: 0,
     name: name,
     geoId: geoId,
     population: population,

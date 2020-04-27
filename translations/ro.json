@@ -51,7 +51,7 @@
     "table:pagination_first_page": "Prima Pagină",
     "table:pagination_last_page": "Ultima Pagină",
     "global:notification_loading": "Se încarcă...",
-    "footer:signature": " - Just Another COVID-19 Kick-ass Dashboard",
+    "footer:signature": " - COVID-19 Dashboard",
     "footer:data_source": "Sursa datelor: ",
     "footer:data_source_ecdc": "ECDC",
     "footer:build_time": "Timpul ultimei actualizări a codului: {{time}} (UTC)",

@@ -51,7 +51,7 @@
     "table:pagination_first_page": "First Page",
     "table:pagination_last_page": "Last Page",
     "global:notification_loading": "Loading...",
-    "footer:signature": " - Just Another COVID-19 Kick-ass Dashboard",
+    "footer:signature": " - COVID-19 Dashboard",
     "footer:data_source": "Data source: ",
     "footer:data_source_ecdc": "ECDC",
     "footer:build_time": "Last code deploy time: {{time}} (UTC)",

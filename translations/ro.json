@@ -1,9 +1,9 @@
 {
     "intervals:TOTAL": "Total",
-    "intervals:LAST_DAY": "Ultima zi",
-    "intervals:LAST_7_DAYS": "Ultimele 7 zile",
-    "intervals:LAST_14_DAYS": "Ultimele 14 zile",
-    "intervals:LAST_30_DAYS": "Ultimele 30 de zile",
+    "intervals:1": "Ultima zi",
+    "intervals:7": "Ultimele 7 zile",
+    "intervals:14": "Ultimele 14 zile",
+    "intervals:30": "Ultimele 30 de zile",
     "intervals:button_label": "Intervale Rapide",
     "global:language_iso_code": "ro",
     "header:reload_data": "Reîncarcă Datele",
@@ -73,5 +73,6 @@
     "table:column_mortalityPercentageAccumulated": "Fatalitate cazuri",
     "table:unit_per_capita_accumulated": "(per milion acumulat până în ultima zi selectată)",
     "table:unit_percentage_accumulated": "(% acumulat până în ultima zi selectată)",
-    "table:unit_period": "(pentru perioada selectată)"
+    "table:unit_period": "(pentru perioada selectată)",
+    "intervals:60": "Ultimele 7 zile"
 }

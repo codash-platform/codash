@@ -1,9 +1,9 @@
 {
     "intervals:TOTAL": "Total",
-    "intervals:LAST_DAY": "Last Day",
-    "intervals:LAST_7_DAYS": "Last 7 Days",
-    "intervals:LAST_14_DAYS": "Last 14 Days",
-    "intervals:LAST_30_DAYS": "Last 30 Days",
+    "intervals:1": "Last Day",
+    "intervals:7": "Last 7 Days",
+    "intervals:14": "Last 14 Days",
+    "intervals:30": "Last 30 Days",
     "intervals:button_label": "Quick Intervals",
     "global:language_iso_code": "en",
     "header:reload_data": "Reload Data",
@@ -73,5 +73,6 @@
     "table:column_mortalityPercentageAccumulated": "Case Fatality",
     "table:unit_per_capita_accumulated": "(per million accumulated until last selected day)",
     "table:unit_percentage_accumulated": "(% accumulated until last selected day)",
-    "table:unit_period": "(for selected period)"
+    "table:unit_period": "(for selected period)",
+    "intervals:60": "Last 60 Days"
 }

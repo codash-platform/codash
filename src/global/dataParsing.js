@@ -42,7 +42,6 @@ export const parseRawData = rawData => {
 
     globalPerDay[dateKey][METRICS.CASES_NEW] += cases
     globalPerDay[dateKey][METRICS.DEATHS_NEW] += deaths
-    // todo fix calculation bug
     globalPerDay[dateKey].population += population
   })
 

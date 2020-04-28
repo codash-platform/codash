@@ -159,7 +159,6 @@ class TableComponent extends Component {
       return null
     }
 
-    // todo make sure total date data is supplied to table tops
     const processedData = getTableData(data, dateFilter, selectedGeoIds)
     const geoIdData = processedData.filter(entry => entry.geoId !== 'WW')
 

@@ -7,7 +7,7 @@ import {initReactI18next} from 'react-i18next'
 export const languageOrder = [
   'en',
   // 'de',
-  // 'fr',
+  'fr',
   'ro',
 ]
 const langResources = {}

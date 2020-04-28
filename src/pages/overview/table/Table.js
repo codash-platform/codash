@@ -54,7 +54,7 @@ class TableComponent extends Component {
       dataField: 'selected',
       textPlaceholder: 'table:column_selected',
       sort: true,
-      headerStyle: {width: '60px'},
+      headerStyle: {width: '90px'},
       style: {textAlign: 'center'},
       formatter: (cell, row) => (
         <Form.Check

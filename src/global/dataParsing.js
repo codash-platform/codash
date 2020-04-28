@@ -201,13 +201,16 @@ const hardcodedPopulationData = {
   BQ: 25711,
   CZ: 10665677,
   ER: 3452786,
+  EH: 567402,
   FK: 3234,
 }
 
 const getMissingPopulation = element => {
   let population = null
-  if (!!hardcodedPopulationData[element.geoId]) {
+  if (hardcodedPopulationData[element.geoId]) {
     population = hardcodedPopulationData[element.geoId]
+  } else {
+    console.warn('Missing population count for:', element.geoId, element.countriesAndTerritories)
   }
 
   return population

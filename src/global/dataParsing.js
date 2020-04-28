@@ -120,7 +120,6 @@ const calculateAccumulatedData = (perDateData, sortedDates) => {
 }
 
 const parseSectionData = (perDateData = {}, startDate, endDate) => {
-  let resultData = []
   const perGeoIdData = {}
 
   for (let [dateKey, entriesForDate] of Object.entries(perDateData)) {
@@ -156,7 +155,7 @@ const parseSectionData = (perDateData = {}, startDate, endDate) => {
       entry[METRICS.MORTALITY_PERCENTAGE_ACCUMULATED]
   })
 
-  resultData = Object.values(perGeoIdData)
+  let resultData = Object.values(perGeoIdData)
   resultData = calculateRatesData(resultData)
 
   return resultData

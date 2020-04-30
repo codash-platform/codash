@@ -74,5 +74,8 @@
     "table:unit_per_capita_accumulated": "(per million on last selected day)",
     "table:unit_percentage_accumulated": "(% on last selected day)",
     "table:unit_period": "(for selected period)",
-    "intervals:60": "Last 60 Days"
+    "intervals:60": "Last 60 Days",
+    "header:graph_scale_label": "Graph Scale",
+    "header:graph_scale_LOGARITHMIC": "Logarithmic",
+    "header:graph_scale_LINEAR": "Linear"
 }

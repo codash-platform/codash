@@ -74,5 +74,8 @@
     "table:unit_per_capita_accumulated": "(per milion în ultima zi selectată)",
     "table:unit_percentage_accumulated": "(% în ultima zi selectată)",
     "table:unit_period": "(pentru perioada selectată)",
-    "intervals:60": "Ultimele 60 de zile"
+    "intervals:60": "Ultimele 60 de zile",
+    "header:graph_scale_label": "Scară Grafice",
+    "header:graph_scale_LOGARITHMIC": "Logaritmică",
+    "header:graph_scale_LINEAR": "Liniară"
 }

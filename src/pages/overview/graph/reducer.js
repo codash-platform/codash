@@ -1,13 +1,16 @@
 import {
   ACTION_CHANGE_GRAPH_MODE,
+  ACTION_CHANGE_GRAPH_SCALE,
   ACTION_CHANGE_METRIC_GRAPH_VISIBILITY,
   GRAPH_MODE,
+  GRAPH_SCALE,
   METRICS,
 } from '../../../global/constants'
 import {graphMetricsOrder} from './Graphs'
 
 const initialState = {
   graphMode: GRAPH_MODE.LINE,
+  graphScale: GRAPH_SCALE.LINEAR,
   lineGraphVisible: true,
   barGraphVisible: false,
   metricsVisible: Object.values(METRICS),
@@ -36,6 +39,12 @@ export const graphOverview = (state = initialState, action = {}) => {
         graphMode: action.graphMode,
         lineGraphVisible: lineGraphVisible,
         barGraphVisible: barGraphVisible,
+      }
+
+    case ACTION_CHANGE_GRAPH_SCALE:
+      return {
+        ...state,
+        graphScale: action.graphScale,
       }
 
     case ACTION_CHANGE_METRIC_GRAPH_VISIBILITY: {

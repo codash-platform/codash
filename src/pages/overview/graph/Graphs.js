@@ -3,7 +3,7 @@ import {ResponsiveLine} from '@nivo/line'
 import React, {Component} from 'react'
 import {withTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
-import {LOCALE_DEFAULT, METRICS} from '../../../global/constants'
+import {GRAPH_SCALE, LOCALE_DEFAULT, METRICS} from '../../../global/constants'
 import {getGraphData} from '../../../global/dataParsing'
 
 export const graphMetricsOrder = [
@@ -23,7 +23,7 @@ class GraphsComponent extends Component {
   render() {
     const {overview, graphOverview, t} = this.props
     const {data, dateFilter, selectedGeoIds, graphsVisible} = overview
-    const {lineGraphVisible, barGraphVisible, metricsVisible} = graphOverview
+    const {lineGraphVisible, barGraphVisible, metricsVisible, graphScale} = graphOverview
     const graphs = []
 
     if (!graphsVisible || !data) {
@@ -40,12 +40,19 @@ class GraphsComponent extends Component {
           selectedGeoIds,
           metricName,
           lineGraphVisible,
-          barGraphVisible
+          barGraphVisible,
+          graphScale
         )
 
         if (lineGraphVisible) {
           graphs.push(
-            <LineGraph key={`line-${metricName}`} data={processedData.lineData} propertyLabel={metricLabel} />
+            <LineGraph
+              key={`line-${metricName}`}
+              data={processedData.lineData}
+              propertyLabel={metricLabel}
+              scale={graphScale}
+              logarithmParams={processedData.logarithmParams}
+            />
           )
         }
 
@@ -169,7 +176,35 @@ export const BarGraph = ({data, keys, propertyLabel}) => {
   )
 }
 
-export const LineGraph = ({data, propertyLabel}) => {
+export const LineGraph = ({data, propertyLabel, scale, logarithmParams}) => {
+  let yScaleConfig = {
+    type: 'linear',
+    stacked: false,
+  }
+  let leftAxisFormatter = value => value.toLocaleString(LOCALE_DEFAULT)
+
+  if (scale === GRAPH_SCALE.LOGARITHMIC) {
+    const LogYScale = {
+      type: 'log',
+      base: 10,
+      min: logarithmParams.min || 'auto',
+      max: logarithmParams.max || 'auto',
+    }
+    yScaleConfig = {
+      ...yScaleConfig,
+      ...LogYScale,
+    }
+
+    // show the axis ticks for every power of 10
+    leftAxisFormatter = value => {
+      if (Math.log10(value) % 1 !== 0) {
+        return ''
+      }
+
+      return value.toLocaleString(LOCALE_DEFAULT)
+    }
+  }
+
   return (
     <div style={{height: '500px'}}>
       <ResponsiveLine
@@ -182,10 +217,7 @@ export const LineGraph = ({data, propertyLabel}) => {
           useUTC: false,
         }}
         xFormat="time:%d.%m.%Y"
-        yScale={{
-          type: 'linear',
-          stacked: false,
-        }}
+        yScale={yScaleConfig}
         axisTop={{
           legend: propertyLabel,
           legendOffset: -10,
@@ -196,7 +228,7 @@ export const LineGraph = ({data, propertyLabel}) => {
         axisLeft={{
           tickSize: 5,
           tickPadding: 3,
-          format: value => value.toLocaleString(LOCALE_DEFAULT),
+          format: leftAxisFormatter,
         }}
         axisBottom={{
           format: '%d.%m.%Y',

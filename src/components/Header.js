@@ -9,12 +9,14 @@ import {withRouter} from 'react-router'
 import {
   ACTION_CHANGE_DATE_FILTER_MODE,
   ACTION_CHANGE_GRAPH_MODE,
+  ACTION_CHANGE_GRAPH_SCALE,
   ACTION_CHANGE_METRIC_GRAPH_VISIBILITY,
   ACTION_CHANGE_VIEW_MODE,
   ACTION_GET_DATA_START,
   ACTION_REPARSE_DATA,
   DATE_FILTER,
   GRAPH_MODE,
+  GRAPH_SCALE,
   VIEW_MODE,
 } from '../global/constants'
 import {languageOrder} from '../global/i18n'
@@ -201,6 +203,40 @@ class HeaderComponent extends React.Component {
                         {isActive && <FontAwesomeIcon className="mr-2" icon={faCheck} />}
                         {!isActive && <span className="mr-4" />}
                         {t(`header:metrics_${metric}`)}
+                      </Dropdown.Item>
+                    )
+                  })}
+                </Dropdown.Menu>
+              </Dropdown>
+
+              <Dropdown
+                className="m-1"
+                as={ButtonGroup}
+                onSelect={eventKey => action(ACTION_CHANGE_GRAPH_SCALE, {graphScale: eventKey})}
+              >
+                <InputGroup size="sm" variant="info">
+                  <InputGroup.Prepend>
+                    <InputGroup.Text disabled>{t('header:graph_scale_label')}</InputGroup.Text>
+                  </InputGroup.Prepend>
+                </InputGroup>
+
+                <Dropdown.Toggle id="graph-scale" size="sm" variant="light">
+                  {t(`header:graph_scale_${graphOverview.graphScale}`)}
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu className="auto-width">
+                  {Object.values(GRAPH_SCALE).map(graphScale => {
+                    const isActive = graphOverview.graphScale === graphScale
+                    return (
+                      <Dropdown.Item
+                        className={classNames({
+                          'text-dark': !isActive,
+                          'bg-primary text-light': isActive,
+                        })}
+                        key={graphScale}
+                        eventKey={graphScale}
+                      >
+                        {t(`header:graph_scale_${graphScale}`)}
                       </Dropdown.Item>
                     )
                   })}

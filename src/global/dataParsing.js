@@ -1,5 +1,5 @@
 import moment from 'moment'
-import {DATE_FILTER, DATE_FORMAT_APP, DATE_FORMAT_ECDC, METRICS} from './constants'
+import {DATE_FILTER, DATE_FORMAT_APP, DATE_FORMAT_ECDC, GRAPH_SCALE, METRICS} from './constants'
 
 export const parseRawData = rawData => {
   let perDateData = {}
@@ -146,10 +146,8 @@ const parseSectionData = (perDateData = {}, startDate, endDate) => {
     }
     perGeoIdData[entry.geoId][METRICS.CASES_ACCUMULATED] = entry[METRICS.CASES_ACCUMULATED]
     perGeoIdData[entry.geoId][METRICS.DEATHS_ACCUMULATED] = entry[METRICS.DEATHS_ACCUMULATED]
-    perGeoIdData[entry.geoId][METRICS.CASES_PER_CAPITA_ACCUMULATED] =
-      entry[METRICS.CASES_PER_CAPITA_ACCUMULATED]
-    perGeoIdData[entry.geoId][METRICS.DEATHS_PER_CAPITA_ACCUMULATED] =
-      entry[METRICS.DEATHS_PER_CAPITA_ACCUMULATED]
+    perGeoIdData[entry.geoId][METRICS.CASES_PER_CAPITA_ACCUMULATED] = entry[METRICS.CASES_PER_CAPITA_ACCUMULATED]
+    perGeoIdData[entry.geoId][METRICS.DEATHS_PER_CAPITA_ACCUMULATED] = entry[METRICS.DEATHS_PER_CAPITA_ACCUMULATED]
     perGeoIdData[entry.geoId][METRICS.MORTALITY_PERCENTAGE_ACCUMULATED] =
       entry[METRICS.MORTALITY_PERCENTAGE_ACCUMULATED]
   })
@@ -244,7 +242,15 @@ const addSelectionColumn = (tableData, selectedGeoIds) => {
   })
 }
 
-export const getGraphData = (data, dateFilter, selectedGeoIds, propertyName, lineGraphVisible, barGraphVisible) => {
+export const getGraphData = (
+  data,
+  dateFilter,
+  selectedGeoIds,
+  propertyName,
+  lineGraphVisible,
+  barGraphVisible,
+  graphScale
+) => {
   const result = {}
 
   if (!data?.perDateData) {
@@ -270,7 +276,9 @@ export const getGraphData = (data, dateFilter, selectedGeoIds, propertyName, lin
   }
 
   if (lineGraphVisible) {
-    result.lineData = getLineGraphData(cleanedData, data.geoIdToNameMapping, propertyName)
+    const {lineData, logarithmParams} = getLineGraphData(cleanedData, data.geoIdToNameMapping, propertyName, graphScale)
+    result.lineData = lineData
+    result.logarithmParams = logarithmParams
   }
 
   if (barGraphVisible) {
@@ -301,19 +309,38 @@ const getBarGraphData = (cleanedData, geoIdToNameMapping, selectedGeoIds, proper
   }
 }
 
-const getLineGraphData = (cleanedData, geoIdToNameMapping, propertyName) => {
+const getLineGraphData = (cleanedData, geoIdToNameMapping, propertyName, graphScale) => {
   const result = []
   let parsedData = {}
+  const logarithmParams = {
+    min: null,
+    max: null,
+  }
 
   for (let [dateKey, entriesForDate] of Object.entries(cleanedData)) {
     entriesForDate.map(entry => {
       if (!parsedData[entry.geoId]) {
         parsedData[entry.geoId] = []
       }
+      let dateValue = entry[propertyName]
+
+      if (graphScale === GRAPH_SCALE.LOGARITHMIC) {
+        if (dateValue <= 0) {
+          return
+        }
+
+        if (logarithmParams.min === null || dateValue < logarithmParams.min) {
+          logarithmParams.min = dateValue
+        }
+
+        if (logarithmParams.max === null || dateValue > logarithmParams.max) {
+          logarithmParams.max = dateValue
+        }
+      }
 
       parsedData[entry.geoId].push({
         x: dateKey,
-        y: entry[propertyName],
+        y: dateValue,
       })
     })
   }
@@ -325,7 +352,10 @@ const getLineGraphData = (cleanedData, geoIdToNameMapping, propertyName) => {
     })
   }
 
-  return result
+  return {
+    lineData: result,
+    logarithmParams: logarithmParams,
+  }
 }
 
 const sortArrayByDateProperty = (array, datePropertyKey) => {

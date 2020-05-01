@@ -1,4 +1,13 @@
-import {faCheck} from '@fortawesome/free-solid-svg-icons'
+import {
+  faCheck,
+  faRedo,
+  faCalculator,
+  faLayerGroup,
+  faChartBar,
+  faTasks,
+  faRulerCombined,
+} from '@fortawesome/free-solid-svg-icons'
+import {faClock} from '@fortawesome/free-regular-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import classNames from 'classnames'
 import React from 'react'
@@ -33,6 +42,7 @@ const MenuButton = props => {
 
   return (
     <Button size="sm" className={className} disabled={disabled} variant={variant} onClick={props.action}>
+      {props.icon && <FontAwesomeIcon className="mr-2" size={'sm'} icon={props.icon} />}
       {props.title}
     </Button>
   )
@@ -83,9 +93,15 @@ class HeaderComponent extends React.Component {
             disabled={overview.loadingStatus === ASYNC_STATUS.PENDING}
             action={() => action(ACTION_GET_DATA_START)}
             title={t('header:reload_data')}
+            icon={faRedo}
           />
           {!isProduction && (
-            <MenuButton variant="dark" action={() => action(ACTION_REPARSE_DATA)} title={t('header:reparse')} />
+            <MenuButton
+              variant="dark"
+              icon={faCalculator}
+              action={() => action(ACTION_REPARSE_DATA)}
+              title={t('header:reparse')}
+            />
           )}
 
           <Dropdown
@@ -95,7 +111,10 @@ class HeaderComponent extends React.Component {
           >
             <InputGroup size="sm" variant="info">
               <InputGroup.Prepend>
-                <InputGroup.Text disabled>{t('header:view_mode_label')}</InputGroup.Text>
+                <InputGroup.Text disabled>
+                  <FontAwesomeIcon className="mr-2" size={'sm'} icon={faLayerGroup} />
+                  {t('header:view_mode_label')}
+                </InputGroup.Text>
               </InputGroup.Prepend>
             </InputGroup>
 
@@ -127,6 +146,7 @@ class HeaderComponent extends React.Component {
             onSelect={eventKey => action(ACTION_CHANGE_DATE_FILTER_MODE, {mode: eventKey})}
           >
             <Dropdown.Toggle id="date-intervals" size="sm" variant="light">
+              <FontAwesomeIcon className="mr-2" icon={faClock} />
               {t('intervals:button_label')}
             </Dropdown.Toggle>
 
@@ -152,7 +172,10 @@ class HeaderComponent extends React.Component {
               >
                 <InputGroup size="sm" variant="info">
                   <InputGroup.Prepend>
-                    <InputGroup.Text disabled>{t('header:graph_mode_label')}</InputGroup.Text>
+                    <InputGroup.Text disabled>
+                      <FontAwesomeIcon className="mr-2" icon={faChartBar} />
+                      {t('header:graph_mode_label')}
+                    </InputGroup.Text>
                   </InputGroup.Prepend>
                 </InputGroup>
 
@@ -186,7 +209,10 @@ class HeaderComponent extends React.Component {
               >
                 <InputGroup size="sm" variant="info">
                   <InputGroup.Prepend>
-                    <InputGroup.Text disabled>{t('header:graph_metrics_label')}</InputGroup.Text>
+                    <InputGroup.Text disabled>
+                      <FontAwesomeIcon className="mr-2" icon={faTasks} />
+                      {t('header:graph_metrics_label')}
+                    </InputGroup.Text>
                   </InputGroup.Prepend>
                 </InputGroup>
 
@@ -224,7 +250,10 @@ class HeaderComponent extends React.Component {
                 >
                   <InputGroup size="sm" variant="info">
                     <InputGroup.Prepend>
-                      <InputGroup.Text disabled>{t('header:graph_scale_label')}</InputGroup.Text>
+                      <InputGroup.Text disabled>
+                        <FontAwesomeIcon className="mr-2" size={'xs'} icon={faRulerCombined} />
+                        {t('header:graph_scale_label')}
+                      </InputGroup.Text>
                     </InputGroup.Prepend>
                   </InputGroup>
 

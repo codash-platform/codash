@@ -292,16 +292,20 @@ const getBarGraphData = (cleanedData, geoIdToNameMapping, selectedGeoIds, proper
   const parsedData = []
 
   for (let [dateKey, entriesForDate] of Object.entries(cleanedData)) {
-    const newEntry = {date: dateKey}
+    const newEntry = {date: dateKey, nameToGeoId: {}}
     entriesForDate.map(entry => {
       newEntry[geoIdToNameMapping[entry.geoId]] = entry[propertyName]
+      newEntry.nameToGeoId[geoIdToNameMapping[entry.geoId]] = entry.geoId
     })
     parsedData.push(newEntry)
   }
 
-  const keys = Object.entries(selectedGeoIds)
+  const geoIdList = Object.entries(selectedGeoIds)
     .filter(([key, value]) => value)
-    .map(([key, value]) => geoIdToNameMapping[key])
+    .map(([key, value]) => key)
+    .sort()
+
+  const keys = geoIdList.map(geoId => geoIdToNameMapping[geoId])
 
   return {
     keys: keys,
@@ -345,12 +349,17 @@ const getLineGraphData = (cleanedData, geoIdToNameMapping, propertyName, graphSc
     })
   }
 
-  for (let [geoId, countryData] of Object.entries(parsedData)) {
-    result.push({
-      id: geoIdToNameMapping[geoId] || geoId,
-      data: sortArrayByDateProperty(countryData, 'x'),
+  Object.keys(parsedData)
+    .sort()
+    // reverse alphabetic order because nivo graphs revert the order for the legend/tooltip
+    .reverse()
+    .map(geoId => {
+      result.push({
+        id: geoIdToNameMapping[geoId] || geoId,
+        geoId: geoId,
+        data: sortArrayByDateProperty(parsedData[geoId], 'x'),
+      })
     })
-  }
 
   return {
     lineData: result,

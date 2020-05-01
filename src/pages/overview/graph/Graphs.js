@@ -19,7 +19,72 @@ export const graphMetricsOrder = [
   METRICS.MORTALITY_PERCENTAGE_ACCUMULATED,
 ]
 
+const colors = [
+  '#1f78b4',
+  '#cab2d6',
+  '#ff7f00',
+  '#33a02c',
+  '#fdbf6f',
+  '#e31a1c',
+  '#a6cee3',
+  '#6a3d9a',
+  '#fb9a99',
+  '#b2df8a',
+  '#b15928',
+  '#ffff99',
+]
+
 class GraphsComponent extends Component {
+  getColorForDataSet = databject => {
+    const {selectedGeoIds, data} = this.props.overview
+
+    if (!selectedGeoIds || !data?.geoIdToNameMapping) {
+      return colors[0]
+    }
+
+    const geoIdList = Object.entries(selectedGeoIds)
+      .filter(([key, value]) => value)
+      .map(([key, value]) => key)
+      .sort()
+
+    let dataGeoId = databject.geoId
+    if (!dataGeoId) {
+      if (databject.data?.nameToGeoId?.[databject.id]) {
+        dataGeoId = databject.data.nameToGeoId[databject.id]
+      } else {
+        return colors[0]
+      }
+    }
+
+    let geoIdIndex = geoIdList.indexOf(dataGeoId)
+    if (geoIdIndex < 0) {
+      geoIdIndex = 0
+    }
+    const colorIndex = geoIdIndex % colors.length
+
+    return colors[colorIndex]
+  }
+
+  getColorForTooltip = dataGeoId => {
+    const {selectedGeoIds, data} = this.props.overview
+    if (!selectedGeoIds || !data?.geoIdToNameMapping) {
+      return colors[0]
+    }
+
+    const geoIdList = Object.entries(selectedGeoIds)
+      .filter(([key, value]) => value)
+      .map(([key, value]) => key)
+      .sort()
+
+    let geoIdIndex = geoIdList.indexOf(dataGeoId)
+    if (geoIdIndex < 0) {
+      geoIdIndex = 0
+    }
+    const colorIndex = geoIdIndex % colors.length
+
+    return colors[colorIndex]
+  }
+
   render() {
     const {overview, graphOverview, t} = this.props
     const {data, dateFilter, selectedGeoIds, graphsVisible} = overview
@@ -52,6 +117,7 @@ class GraphsComponent extends Component {
               propertyLabel={metricLabel}
               scale={graphScale}
               logarithmParams={processedData.logarithmParams}
+              getColorForDataSet={this.getColorForDataSet}
             />
           )
         }
@@ -63,6 +129,8 @@ class GraphsComponent extends Component {
               data={processedData.barData?.data}
               keys={processedData.barData?.keys}
               propertyLabel={metricLabel}
+              getColorForDataSet={this.getColorForDataSet}
+              getColorForTooltip={this.getColorForTooltip}
             />
           )
         }
@@ -72,7 +140,7 @@ class GraphsComponent extends Component {
   }
 }
 
-export const BarGraph = ({data, keys, propertyLabel}) => {
+export const BarGraph = ({data, keys, propertyLabel, getColorForDataSet, getColorForTooltip}) => {
   return (
     <div style={{height: '500px'}}>
       <ResponsiveBar
@@ -111,7 +179,7 @@ export const BarGraph = ({data, keys, propertyLabel}) => {
         }}
         enableGridY={true}
         enableGridX={false}
-        colors={{scheme: 'category10'}}
+        colors={getColorForDataSet}
         borderRadius={1}
         borderWidth={1}
         borderColor={{
@@ -140,9 +208,18 @@ export const BarGraph = ({data, keys, propertyLabel}) => {
             <table style={{width: '100%', borderCollapse: 'collapse'}}>
               <tbody>
                 {Object.entries(data.data)
-                  .filter(([name, value]) => name !== 'date')
+                  .filter(([name, value]) => !['date', 'nameToGeoId'].includes(name))
                   .map(([name, value]) => (
                     <tr key={name}>
+                      <td style={{padding: '3px 5px'}}>
+                        <div
+                          style={{
+                            width: '12px',
+                            height: '12px',
+                            backgroundColor: getColorForTooltip(data.data.nameToGeoId[name]),
+                          }}
+                        />
+                      </td>
                       <td style={{padding: '3px 5px'}}>{name}</td>
                       <td className="font-weight-bold text-right" style={{padding: '3px 5px'}}>
                         {value.toLocaleString(LOCALE_DEFAULT)}
@@ -176,7 +253,7 @@ export const BarGraph = ({data, keys, propertyLabel}) => {
   )
 }
 
-export const LineGraph = ({data, propertyLabel, scale, logarithmParams}) => {
+export const LineGraph = ({data, propertyLabel, scale, logarithmParams, getColorForDataSet}) => {
   let yScaleConfig = {
     type: 'linear',
     stacked: false,
@@ -238,7 +315,7 @@ export const LineGraph = ({data, propertyLabel, scale, logarithmParams}) => {
           tickRotation: 30,
         }}
         curve={'monotoneX'}
-        colors={{scheme: 'category10'}}
+        colors={getColorForDataSet}
         lineWidth={2}
         pointSize={4}
         pointColor={'white'}

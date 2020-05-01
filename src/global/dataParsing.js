@@ -212,14 +212,7 @@ const getMissingPopulation = element => {
   return population
 }
 
-export const getTableData = (data, dateFilter, selectedGeoIds) => {
-  if (dateFilter.mode === DATE_FILTER.SINGLE_DAY) {
-    if (!data.perDateData[dateFilter.startDate]) {
-      return []
-    }
-    return addSelectionColumn(data.perDateData[dateFilter.startDate], selectedGeoIds)
-  }
-
+export const getTableData = (data, dateFilter, selectedGeoIds, maxSelectionReached) => {
   let startDate = null
   let endDate = null
   if (dateFilter.startDate) {
@@ -231,12 +224,13 @@ export const getTableData = (data, dateFilter, selectedGeoIds) => {
 
   const sectionData = parseSectionData(data?.perDateData, startDate, endDate)
 
-  return addSelectionColumn(sectionData, selectedGeoIds)
+  return addSelectionColumn(sectionData, selectedGeoIds, maxSelectionReached)
 }
 
-const addSelectionColumn = (tableData, selectedGeoIds) => {
+const addSelectionColumn = (tableData, selectedGeoIds, maxSelectionReached) => {
   return tableData.map(entry => {
     entry.selected = selectedGeoIds[entry.geoId] || false
+    entry.maxSelectionReached = maxSelectionReached
 
     return entry
   })

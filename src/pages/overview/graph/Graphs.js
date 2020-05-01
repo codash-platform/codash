@@ -19,7 +19,7 @@ export const graphMetricsOrder = [
   METRICS.MORTALITY_PERCENTAGE_ACCUMULATED,
 ]
 
-const colors = [
+export const colors = [
   '#1f78b4',
   '#cab2d6',
   '#ff7f00',

@@ -18,6 +18,7 @@ import {
 } from '../../../global/constants'
 import {getTableData} from '../../../global/dataParsing'
 import {action} from '../../../global/util'
+import {colors} from '../graph/Graphs'
 
 class TableComponent extends Component {
   perCapitaCellFormatter = cell => {
@@ -63,6 +64,7 @@ class TableComponent extends Component {
           id={`select-${row.geoId}`}
           value={row.geoId}
           label=""
+          disabled={!cell && row.maxSelectionReached}
           onChange={e => action(ACTION_CHANGE_GEOID_SELECTION, {geoId: e.target.value, selected: e.target.checked})}
           checked={cell}
         />
@@ -158,8 +160,8 @@ class TableComponent extends Component {
     if (!tableVisible || !data) {
       return null
     }
-
-    const processedData = getTableData(data, dateFilter, selectedGeoIds)
+    const maxSelectionReached = Object.values(selectedGeoIds).filter(value => value).length >= colors.length
+    const processedData = getTableData(data, dateFilter, selectedGeoIds, maxSelectionReached)
     const geoIdData = processedData.filter(entry => entry.geoId !== 'WW')
 
     return (

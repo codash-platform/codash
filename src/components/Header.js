@@ -14,6 +14,7 @@ import {
   ACTION_CHANGE_VIEW_MODE,
   ACTION_GET_DATA_START,
   ACTION_REPARSE_DATA,
+  ASYNC_STATUS,
   DATE_FILTER,
   GRAPH_MODE,
   GRAPH_SCALE,
@@ -28,9 +29,10 @@ import {DateFilter} from './DateFilter'
 const MenuButton = props => {
   const className = props.className || 'mx-1'
   const variant = props.variant || 'light'
+  const disabled = props.disabled || false
 
   return (
-    <Button size="sm" className={className} variant={variant} onClick={props.action}>
+    <Button size="sm" className={className} disabled={disabled} variant={variant} onClick={props.action}>
       {props.title}
     </Button>
   )
@@ -76,7 +78,12 @@ class HeaderComponent extends React.Component {
               })}
             </Dropdown.Menu>
           </Dropdown>
-          <MenuButton variant="dark" action={() => action(ACTION_GET_DATA_START)} title={t('header:reload_data')} />
+          <MenuButton
+            variant="dark"
+            disabled={overview.loadingStatus === ASYNC_STATUS.PENDING}
+            action={() => action(ACTION_GET_DATA_START)}
+            title={t('header:reload_data')}
+          />
           {!isProduction && (
             <MenuButton variant="dark" action={() => action(ACTION_REPARSE_DATA)} title={t('header:reparse')} />
           )}

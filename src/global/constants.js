@@ -59,7 +59,7 @@ export const TABLE_TYPE = {
 }
 
 // the expiry time of the local storage used for the redux store in minutes
-export const STORAGE_EXPIRY_TIMEOUT = 30
+export const STORAGE_EXPIRY_TIMEOUT = 60
 export const STORAGE_EXPIRY_KEY = 'updatedAt'
 // used to save the current store in localStorage for faster reload
 export const REDUX_STORE_STORAGE_NAME = 'dataStore'

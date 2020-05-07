@@ -2,7 +2,7 @@
 
 This frontend app focuses on providing (yet one more) dashboard to visualize the COVID-19 data.
 
-Live demo: https://coronavirusguides.com
+Live demo: https://codash.io
 
 ### Getting started
 

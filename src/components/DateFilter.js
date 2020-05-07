@@ -35,6 +35,7 @@ class DateFilterComponent extends React.Component {
     return (
       <div className={'d-inline-block ' + className}>
         <DateRangePicker
+          initialVisibleMonth={() => moment().subtract(1, 'month')}
           disabled={!overview.data?.datesAvailable}
           startDate={startDateObj}
           startDateId={(startDate || 'no start date') + id}

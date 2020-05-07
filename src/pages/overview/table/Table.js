@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Col, Dropdown, DropdownButton, Form, Row} from 'react-bootstrap'
+import {Card, Col, Dropdown, DropdownButton, Form, Row} from 'react-bootstrap'
 import BootstrapTable from 'react-bootstrap-table-next'
 import paginationFactory, {
   PaginationListStandalone,
@@ -256,68 +256,72 @@ const CustomTable = ({
   })
 
   return (
-    <PaginationProvider pagination={paginationFactory(paginationOptions)}>
-      {({paginationProps, paginationTableProps}) => (
-        <ToolkitProvider keyField="geoId" data={data} columns={columns} bootstrap4 search>
-          {({searchProps, baseProps}) => (
-            <div className="table-container">
-              <SearchBar {...searchProps} placeholder={t('table:search_placeholder')} tableId={tableType} />
-              <BootstrapTable
-                noDataIndication={t('table:indication_no_data')}
-                hover
-                condensed
-                striped
-                defaultSorted={defaultSorted && [{dataField: defaultSorted, order: 'desc'}]}
-                {...paginationTableProps}
-                {...baseProps}
-              />
-              <Row>
-                <Col xs={3}>
-                  <DropdownButton
-                    className="react-bs-table-sizePerPage-dropdown"
-                    id={`pageDropDown${tableType}`}
-                    drop={'up'}
-                    onSelect={value =>
-                      action(ACTION_CHANGE_SIZE_PER_PAGE, {sizePerPage: parseInt(value), tableType: tableType})
-                    }
-                    variant="secondary"
-                    title={sizePerPageButtonText}
-                  >
-                    {paginationProps.sizePerPageList.map(size => (
-                      <Dropdown.Item key={size.value} eventKey={size.value}>
-                        {size.text}
-                      </Dropdown.Item>
-                    ))}
-                  </DropdownButton>
-                </Col>
-                <Col xs={smallPagination ? 9 : 6}>
-                  <PaginationListStandalone
-                    {...paginationProps}
-                    prePageTitle={t('table:pagination_previous_page')}
-                    nextPageTitle={t('table:pagination_next_page')}
-                    firstPageTitle={t('table:pagination_first_page')}
-                    lastPageTitle={t('table:pagination_last_page')}
-                    alwaysShowAllBtns={!smallPagination}
+    <Card className="mb-3">
+      <Card.Body>
+        <PaginationProvider pagination={paginationFactory(paginationOptions)}>
+          {({paginationProps, paginationTableProps}) => (
+            <ToolkitProvider keyField="geoId" data={data} columns={columns} bootstrap4 search>
+              {({searchProps, baseProps}) => (
+                <div className="table-container">
+                  <SearchBar {...searchProps} placeholder={t('table:search_placeholder')} tableId={tableType} />
+                  <BootstrapTable
+                    noDataIndication={t('table:indication_no_data')}
+                    hover
+                    condensed
+                    striped
+                    defaultSorted={defaultSorted && [{dataField: defaultSorted, order: 'desc'}]}
+                    {...paginationTableProps}
+                    {...baseProps}
                   />
-                </Col>
-                {!smallPagination && (
-                  <Col xs={3} className="text-right">
-                    <PaginationTotalStandalone
-                      {...paginationProps}
-                      paginationTotalRenderer={(from, to, dataSize) => (
-                        <span className="react-bootstrap-table-pagination-total">
-                          {t('table:pagination_total', {from: from, to: to, dataSize: dataSize})}
-                        </span>
-                      )}
-                    />
-                  </Col>
-                )}
-              </Row>
-            </div>
+                  <Row>
+                    <Col xs={3}>
+                      <DropdownButton
+                        className="react-bs-table-sizePerPage-dropdown"
+                        id={`pageDropDown${tableType}`}
+                        drop={'up'}
+                        onSelect={value =>
+                          action(ACTION_CHANGE_SIZE_PER_PAGE, {sizePerPage: parseInt(value), tableType: tableType})
+                        }
+                        variant="secondary"
+                        title={sizePerPageButtonText}
+                      >
+                        {paginationProps.sizePerPageList.map(size => (
+                          <Dropdown.Item key={size.value} eventKey={size.value}>
+                            {size.text}
+                          </Dropdown.Item>
+                        ))}
+                      </DropdownButton>
+                    </Col>
+                    <Col xs={smallPagination ? 9 : 6}>
+                      <PaginationListStandalone
+                        {...paginationProps}
+                        prePageTitle={t('table:pagination_previous_page')}
+                        nextPageTitle={t('table:pagination_next_page')}
+                        firstPageTitle={t('table:pagination_first_page')}
+                        lastPageTitle={t('table:pagination_last_page')}
+                        alwaysShowAllBtns={!smallPagination}
+                      />
+                    </Col>
+                    {!smallPagination && (
+                      <Col xs={3} className="text-right">
+                        <PaginationTotalStandalone
+                          {...paginationProps}
+                          paginationTotalRenderer={(from, to, dataSize) => (
+                            <span className="react-bootstrap-table-pagination-total">
+                              {t('table:pagination_total', {from: from, to: to, dataSize: dataSize})}
+                            </span>
+                          )}
+                        />
+                      </Col>
+                    )}
+                  </Row>
+                </div>
+              )}
+            </ToolkitProvider>
           )}
-        </ToolkitProvider>
-      )}
-    </PaginationProvider>
+        </PaginationProvider>
+      </Card.Body>
+    </Card>
   )
 }
 

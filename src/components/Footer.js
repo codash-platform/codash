@@ -1,18 +1,18 @@
 import moment from 'moment'
-import React from 'react'
-import {Col, Container, Row} from 'react-bootstrap'
+import React, {Component} from 'react'
+import {Col, Row} from 'react-bootstrap'
 import {withTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import {DATE_TIME_FORMAT_APP} from '../global/constants'
 import {appName, buildTime} from '../global/variables'
 
-class FooterComponent extends React.Component {
+class FooterComponent extends Component {
   render() {
     const {t} = this.props
 
     return (
-      <Container fluid>
-        <Row>
+      <div className="app-footer">
+        <div className="app-footer__inner">
           <Col xs={8}>
             <Row>
               <Col xs={12}>
@@ -43,8 +43,8 @@ class FooterComponent extends React.Component {
               {t('footer:data_source_ecdc')}
             </a>
           </Col>
-        </Row>
-      </Container>
+        </div>
+      </div>
     )
   }
 }

@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import {Col, Row} from 'react-bootstrap'
 import {withTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import {MainLayout} from '../../components/MainLayout'
@@ -18,12 +17,10 @@ class OverviewComponent extends Component {
   render() {
     return (
       <MainLayout>
-        <Row>
-          <Col xs={12}>
-            <Graphs />
-            <Table />
-          </Col>
-        </Row>
+        <>
+          <Graphs />
+          <Table />
+        </>
       </MainLayout>
     )
   }

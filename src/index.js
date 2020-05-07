@@ -5,7 +5,7 @@ import {I18nextProvider} from 'react-i18next'
 import {Provider} from 'react-redux'
 import {BrowserRouter} from 'react-router-dom'
 import {APP_ROUTES} from './global/routes'
-import store from './global/store'
+import {store} from './global/store'
 import i18n from './global/i18n'
 
 const CombinedApp = () => (

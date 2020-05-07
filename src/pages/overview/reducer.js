@@ -131,14 +131,14 @@ export const overview = (state = initialState, action = {}) => {
         ...state.dateFilter,
         startDate: state.data?.startDate,
         endDate: state.data?.endDate,
-        mode: action.mode,
+        mode: action.filterMode,
       }
 
-      switch (action.mode) {
+      switch (action.filterMode) {
         case DATE_FILTER.TOTAL:
           break
         default:
-          const daysCount = parseInt(action.mode)
+          const daysCount = parseInt(action.filterMode)
           if (state.data?.endDate && Object.values(DATE_FILTER).includes(daysCount)) {
             dateFilter.startDate = moment(state.data.endDate, DATE_FORMAT_APP)
               .subtract(daysCount - 1, 'days')

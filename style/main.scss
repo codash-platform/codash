@@ -49,18 +49,48 @@ a:active {
 .DateRangePickerInput {
   border-radius: 0.2rem;
   border-width: 1px;
-  border-color: #FFFFFF;
+  border-color: vars.$codash-translucent;
+  background-color: vars.$codash-translucent;
+
 
   .DateRangePickerInput_calendarIcon {
-    padding: 0 0 4px;
+    padding: 0 0 2px;
+
+    .DateRangePickerInput_calendarIcon_svg {
+      fill: vars.$white;
+
+    }
   }
 
-  .DateInput_input {
-    color: vars.$dark;
-    font-weight: 400;
+  .DateRangePickerInput_arrow {
+    color: vars.$white;
   }
 
-  .DateInput_input__small {
-    padding: 5px 7px 4px;
+  .DateInput {
+    background-color: unset;
+
+
+    .DateInput_input {
+      color: vars.$white;
+      font-weight: 400;
+      background-color: unset;
+
+      &::placeholder {
+        color: vars.$light;
+      }
+
+      &.DateInput_input__focused {
+        border-bottom: 2px solid vars.$info;
+      }
+    }
+
+    .DateInput_input__small {
+      padding: 5px 7px 4px;
+      line-height: 16px;
+    }
   }
+}
+
+.DateRangePicker_picker {
+  z-index: 100;
 }

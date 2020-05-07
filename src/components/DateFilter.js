@@ -1,5 +1,5 @@
 import moment from 'moment'
-import React from 'react'
+import React, {Component} from 'react'
 import {DateRangePicker} from 'react-dates'
 import {withTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
@@ -7,7 +7,7 @@ import {withRouter} from 'react-router'
 import {ACTION_CHANGE_DATE_FILTER_INTERVAL, DATE_FORMAT_APP} from '../global/constants'
 import {action} from '../global/util'
 
-class DateFilterComponent extends React.Component {
+class DateFilterComponent extends Component {
   constructor() {
     super()
 

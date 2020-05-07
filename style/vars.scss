@@ -1,6 +1,9 @@
 /* app specific variables */
 $color-light-blue: #ddf7f9;
 $font-regular: 'Open Sans', sans-serif;
+$logo-path: '/images/logo/logo.png';
+$logo-width: 180px;
+$logo-height: 60px;
 
 /* default variables from node_modules/bootstrap/scss/_variables.scss for reusability */
 $white: #fff;
@@ -14,26 +17,69 @@ $gray-700: #495057;
 $gray-800: #343a40;
 $gray-900: #212529;
 $black: #000;
-$blue: #007bff;
-$indigo: #6610f2;
-$purple: #6f42c1;
-$pink: #e83e8c;
-$red: #dc3545;
-$orange: #fd7e14;
-$yellow: #ffc107;
-$green: #28a745;
-$teal: #20c997;
-$cyan: #17a2b8;
-$primary: $blue;
+
+$grays: ();
+
+$grays: map-merge(
+  (
+    "100": $gray-100,
+    "200": $gray-200,
+    "300": $gray-300,
+    "400": $gray-400,
+    "500": $gray-500,
+    "600": $gray-600,
+    "700": $gray-700,
+    "800": $gray-800,
+    "900": $gray-900
+  ),
+  $grays
+);
+
+$blue-royal: #3f6bdb;
+$blue: #75bdf3;
+$indigo: #373348;
+$purple: #4f2f5d;
+$pink: #f15b9f;
+$red: #db234f;
+$orange: #f57c17;
+$yellow: #ffc800;
+$green: #2fa76a;
+$teal: #18debc;
+$cyan: #26b1ce;
+$translucent: rgba(240, 240, 240, 0.15);
+
+$primary: $blue-royal;
 $secondary: $gray-600;
 $success: $green;
 $info: $cyan;
 $warning: $yellow;
 $danger: $red;
-$light: $gray-100;
+$light: $gray-400;
 $dark: $gray-800;
+$codash-primary: $purple;
+$codash-secondary: $indigo;
+$codash-translucent: $translucent;
+
+$theme-colors: ();
+
+$theme-colors: map-merge(
+  (
+    "primary": $primary,
+    "secondary": $secondary,
+    "success": $success,
+    "info": $info,
+    "warning": $warning,
+    "danger": $danger,
+    "light": $light,
+    "dark": $dark,
+    "codash-primary": $codash-primary,
+    "codash-secondary": $codash-secondary,
+    "codash-translucent": $codash-translucent
+  ),
+  $theme-colors
+);
 
 /* override variables from node_modules/bootstrap/scss/_variables.scss */
 $enable-rounded: true;
 $btn-focus-box-shadow: none !important;
-$dropdown-link-hover-bg: $color-light-blue;
+$dropdown-link-hover-bg: $codash-translucent;

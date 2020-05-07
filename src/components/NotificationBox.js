@@ -1,11 +1,11 @@
 import {faSpinner} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import React from 'react'
-import {Alert, Col, Container, Row} from 'react-bootstrap'
+import React, {Component} from 'react'
+import {Alert, Col, Row} from 'react-bootstrap'
 import {withTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 
-class NotificationBoxComponent extends React.Component {
+class NotificationBoxComponent extends Component {
   render() {
     const {t, overview} = this.props
     const message = overview.notification?.message
@@ -13,23 +13,21 @@ class NotificationBoxComponent extends React.Component {
     const showSpinner = overview.notification?.showSpinner || false
 
     return (
-      <Container fluid>
-        <Row>
-          <Col xs={12}>
-            {message && (
-              <Alert variant={variant} className="mt-3">
-                {t(message)}
-                {showSpinner && (
-                  <>
-                    &nbsp;
-                    <FontAwesomeIcon icon={faSpinner} spin={true} />
-                  </>
-                )}
-              </Alert>
-            )}
-          </Col>
-        </Row>
-      </Container>
+      <Row>
+        <Col xs={12}>
+          {message && (
+            <Alert variant={variant}>
+              {t(message)}
+              {showSpinner && (
+                <>
+                  &nbsp;
+                  <FontAwesomeIcon icon={faSpinner} spin={true} />
+                </>
+              )}
+            </Alert>
+          )}
+        </Col>
+      </Row>
     )
   }
 }

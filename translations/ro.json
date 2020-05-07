@@ -75,7 +75,11 @@
     "table:unit_percentage_accumulated": "(% în ultima zi selectată)",
     "table:unit_period": "(pentru perioada selectată)",
     "intervals:60": "Ultimele 60 de zile",
-    "header:graph_scale_label": "Scară Grafice",
+    "header:graph_scale_label": "Scară Grafice Tip Linie",
     "header:graph_scale_LOGARITHMIC": "Logaritmică",
-    "header:graph_scale_LINEAR": "Liniară"
+    "header:graph_scale_LINEAR": "Liniară",
+    "sidebar:header_time": "Timp",
+    "sidebar:header_view": "Vizualizare",
+    "sidebar:header_graph": "Grafice",
+    "sidebar:header_table": "Tabele"
 }

@@ -3,20 +3,15 @@ import React, {Component} from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import {connect} from 'react-redux'
-import {ACTION_ENABLE_MOBILE_MENU} from '../../global/constants'
 import {HeaderLogo} from '../header/HeaderLogo'
 import {SidebarMenus} from './SidebarMenus'
 
 class SidebarComponent extends Component {
   render() {
-    let {backgroundColor, enableSidebarShadow, enableMobileMenu} = this.props
+    let {backgroundColor, enableSidebarShadow} = this.props
 
     return (
       <>
-        <div
-          className="sidebar-mobile-overlay"
-          onClick={() => action(ACTION_ENABLE_MOBILE_MENU, {enableMobileMenu: !enableMobileMenu})}
-        />
         <ReactCSSTransitionGroup
           component="div"
           className={classNames('app-sidebar', backgroundColor, {'sidebar-shadow': enableSidebarShadow})}
@@ -40,7 +35,6 @@ class SidebarComponent extends Component {
 
 const mapStateToProps = state => ({
   enableSidebarShadow: state.theme.enableSidebarShadow,
-  enableMobileMenu: state.theme.enableMobileMenu,
   backgroundColor: state.theme.backgroundColor,
 })
 

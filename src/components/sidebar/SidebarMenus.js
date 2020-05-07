@@ -74,6 +74,8 @@ class SidebarMenusComponent extends Component {
   }
 
   render() {
+    const {t} = this.props
+
     this.viewModeMenu.activeKeys = [this.props.overview.viewMode]
     this.graphModeMenu.activeKeys = [this.props.graphOverview.graphMode]
     this.graphScaleMenu.activeKeys = [this.props.graphOverview.graphScale]
@@ -81,12 +83,15 @@ class SidebarMenusComponent extends Component {
 
     return (
       <>
-        <h5 className="app-sidebar__heading">Menu</h5>
-
         <div className="sidebar-menu vertical-nav-menu">
           <ul className="sidebar-menu-container">
+            <h5 className="app-sidebar__heading">{t('sidebar:header_time')}</h5>
             <SidebarMenuSet menuData={this.intervalsMenu} />
+
+            <h5 className="app-sidebar__heading">{t('sidebar:header_view')}</h5>
             <SidebarMenuSet menuData={this.viewModeMenu} />
+
+            <h5 className="app-sidebar__heading">{t('sidebar:header_graph')}</h5>
             <SidebarMenuSet menuData={this.graphMetricsMenu} />
             <SidebarMenuSet menuData={this.graphModeMenu} />
             <SidebarMenuSet menuData={this.graphScaleMenu} />

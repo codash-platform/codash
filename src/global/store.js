@@ -1,4 +1,3 @@
-/** global: localStorage */
 import {applyMiddleware, compose, createStore} from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import {
@@ -9,7 +8,7 @@ import {
   STORAGE_EXPIRY_KEY,
   STORAGE_EXPIRY_TIMEOUT,
 } from './constants'
-import rootReducer from './reducer'
+import {rootReducer} from './reducer'
 import {generalSaga} from './sagas'
 import {isProduction} from './variables'
 
@@ -25,8 +24,15 @@ const localStorageMiddleware = ({getState}) => {
     for (let [key, value] of Object.entries(state)) {
       const newReducer = {}
       for (let [subKey, subValue] of Object.entries(value)) {
-        if (subKey === 'data' && key === 'overview') {
-          continue
+        if (subKey === 'data' && key === 'overview' && subValue) {
+          const entries = Object.entries(subValue)
+          subValue = {}
+          for (let [subDataKey, subDataValue] of entries) {
+            if (subDataKey === 'rawData') {
+              continue
+            }
+            subValue[subDataKey] = subDataValue
+          }
         }
         newReducer[subKey] = subValue
       }
@@ -69,17 +75,6 @@ const reHydrateStore = () => {
       console.warn('Bad redux store data')
       localStorage.setItem(REDUX_STORE_STORAGE_NAME, JSON.stringify(localData))
     }
-
-    // check for valid login status & data
-    if (
-      localData
-      && localData.auth
-      && localData.auth.loadingStatus !== ASYNC_STATUS.IDLE
-      && localData.auth.loadingStatus !== ASYNC_STATUS.SUCCESS
-    ) {
-      localData.auth.loadingStatus = ASYNC_STATUS.IDLE
-      // localData.auth.token = null
-    }
   }
 
   return localData
@@ -106,7 +101,7 @@ const enhancer = composeEnhancers(
 )
 
 // create the redux store
-const store = createStore(rootReducer, reHydrateStore(), enhancer)
+export const store = createStore(rootReducer, reHydrateStore(), enhancer)
 
 // then run the saga
 sagaMiddleware.run(generalSaga)
@@ -117,5 +112,3 @@ if (module.hot) {
     store.replaceReducer(rootReducer)
   })
 }
-
-export default store

@@ -12,8 +12,6 @@ const appReducer = combineReducers({
 })
 
 // have global actions here
-const rootReducer = (state, action) => {
+export const rootReducer = (state, action) => {
   return appReducer(state, action)
 }
-
-export default rootReducer

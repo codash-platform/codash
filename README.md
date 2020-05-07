@@ -1,4 +1,4 @@
-# CoDash - COVID-19 Dashboard
+# CoDash - COVID-19 Dashboard <img align="right" width="300" src="https://github.com/codash-platform/codash/blob/master/static/images/logo/logo_large.png?raw=true" alt="CoDash" >
 
 This frontend app focuses on providing (yet one more) dashboard to visualize the COVID-19 data.
 

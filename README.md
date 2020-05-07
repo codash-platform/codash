@@ -30,4 +30,12 @@ Build system: Babel with Webpack
 
 The current data source is the ECDC - European Centre for Disease Prevention and Control.
 
-More info can be found here: https://www.ecdc.europa.eu/en/publications-data/download-todays-data-geographic-distribution-covid-19-cases-worldwide
+More info can be found [here](https://www.ecdc.europa.eu/en/publications-data/download-todays-data-geographic-distribution-covid-19-cases-worldwide).
+
+## Credits
+
+Theme inspired from [ArchitectUI Bootstrap 4 ReactJS Theme FREE](https://github.com/DashboardPack/architectui-react-theme-free)
+
+Logo - [Alex Nae](mailto:naealexandrunicolae@gmail.com) - check out his [game](https://www.theundergroundkinggame.com/)
+
+Development & Testing - [Marius Popa](mailto:contact@popa-marius.com) 

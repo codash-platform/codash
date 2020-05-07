@@ -75,7 +75,11 @@
     "table:unit_percentage_accumulated": "(% le dernier jour sélectionné)",
     "table:unit_period": "(pour la période sélectionnée)",
     "intervals:60": "60 Derniers Jours",
-    "header:graph_scale_label": "Échelle Graphique",
+    "header:graph_scale_label": "Échelle Graphique Linéaire",
     "header:graph_scale_LOGARITHMIC": "Logarithmique",
-    "header:graph_scale_LINEAR": "Linéaire"
+    "header:graph_scale_LINEAR": "Linéaire",
+    "sidebar:header_time": "",
+    "sidebar:header_view": "",
+    "sidebar:header_graph": "",
+    "sidebar:header_table": ""
 }

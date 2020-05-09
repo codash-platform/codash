@@ -81,5 +81,6 @@
     "sidebar:header_time": "Timp",
     "sidebar:header_view": "Vizualizare",
     "sidebar:header_graph": "Grafice",
-    "sidebar:header_table": "Tabele"
+    "sidebar:header_table": "Tabele",
+    "intervals:90": "Ultimele 90 de zile"
 }

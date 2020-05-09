@@ -81,5 +81,6 @@
     "sidebar:header_time": "",
     "sidebar:header_view": "",
     "sidebar:header_graph": "",
-    "sidebar:header_table": ""
+    "sidebar:header_table": "",
+    "intervals:90": "90 Derniers Jours"
 }

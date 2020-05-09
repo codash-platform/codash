@@ -3,15 +3,14 @@ import ReactDOM from 'react-dom'
 import {hot} from 'react-hot-loader/root'
 import {I18nextProvider} from 'react-i18next'
 import {Provider} from 'react-redux'
-import {BrowserRouter} from 'react-router-dom'
-import {APP_ROUTES} from './global/routes'
-import {store} from './global/store'
+import {MainLayout} from './components/MainLayout'
 import i18n from './global/i18n'
+import {store} from './global/store'
 
 const CombinedApp = () => (
   <Provider store={store}>
     <I18nextProvider i18n={i18n}>
-      <BrowserRouter>{APP_ROUTES}</BrowserRouter>
+      <MainLayout />
     </I18nextProvider>
   </Provider>
 )

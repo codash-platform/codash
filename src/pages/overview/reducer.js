@@ -8,11 +8,13 @@ import {
   ACTION_GET_DATA_FAIL,
   ACTION_GET_DATA_START,
   ACTION_GET_DATA_SUCCESS,
+  ACTION_PARSE_URL_PARAMS,
   ACTION_REPARSE_DATA,
   ACTION_SET_NOTIFICATION,
   ASYNC_STATUS,
   DATE_FILTER,
   DATE_FORMAT_APP,
+  URL_ELEMENT_SEPARATOR,
   VIEW_MODE,
 } from '../../global/constants'
 import {parseRawData} from '../../global/dataParsing'
@@ -32,7 +34,7 @@ const initialState = {
   selectedGeoIds: {},
 }
 
-const preselectedGeoIds = ['WW', 'US', 'CN', 'DE', 'FR', 'ES', 'IT', 'CH']
+const preselectedGeoIds = ['US', 'CN', 'DE', 'FR', 'ES', 'IT', 'CH']
 
 export const overview = (state = initialState, action = {}) => {
   // noinspection FallThroughInSwitchStatementJS
@@ -53,6 +55,47 @@ export const overview = (state = initialState, action = {}) => {
         ...state,
         notification: initialState.notification,
       }
+
+    case ACTION_PARSE_URL_PARAMS:
+      let newStateParams = {...state}
+      const {params} = action
+
+      if (Object.values(VIEW_MODE).includes(params.viewMode)) {
+        newStateParams = {
+          ...newStateParams,
+          ...processViewMode(params.viewMode),
+        }
+      }
+
+      if (Object.values(DATE_FILTER).includes(params.startDate)) {
+        newStateParams = {
+          ...newStateParams,
+          dateFilter: {
+            ...newStateParams.dateFilter,
+            ...processDateFilterMode(params.startDate, null, null),
+          },
+        }
+      } else if (params.startDate || params.endDate) {
+        newStateParams = {
+          ...newStateParams,
+          dateFilter: {
+            ...newStateParams.dateFilter,
+            ...processDateFilterChange(params.startDate, params.endDate),
+          },
+        }
+      }
+
+      if (params.selectedGeoIds) {
+        const selectedGeoIds = {}
+        params.selectedGeoIds.split(URL_ELEMENT_SEPARATOR).map(geoId => (selectedGeoIds[geoId] = true))
+
+        newStateParams = {
+          ...newStateParams,
+          selectedGeoIds: selectedGeoIds,
+        }
+      }
+
+      return newStateParams
 
     case ACTION_GET_DATA_START:
       return {
@@ -91,7 +134,7 @@ export const overview = (state = initialState, action = {}) => {
       }
 
       let selectedGeoIds = {}
-      if (parsedData.geoIds) {
+      if (Object.keys(state.selectedGeoIds).length === 0 && parsedData.geoIds) {
         parsedData.geoIds.map(geoId => {
           selectedGeoIds[geoId] = preselectedGeoIds.includes(geoId)
         })
@@ -111,7 +154,10 @@ export const overview = (state = initialState, action = {}) => {
           endDate: parsedData.endDate,
           mode: DATE_FILTER.LAST_14_DAYS,
         },
-        selectedGeoIds: selectedGeoIds,
+        selectedGeoIds: {
+          ...state.selectedGeoIds,
+          ...selectedGeoIds,
+        },
       }
 
     case ACTION_GET_DATA_FAIL:
@@ -127,42 +173,26 @@ export const overview = (state = initialState, action = {}) => {
       }
 
     case ACTION_CHANGE_DATE_FILTER_MODE:
-      const dateFilter = {
-        ...state.dateFilter,
-        startDate: state.data?.startDate,
-        endDate: state.data?.endDate,
-        mode: action.filterMode,
-      }
-
-      switch (action.filterMode) {
-        case DATE_FILTER.TOTAL:
-          break
-        default:
-          const daysCount = parseInt(action.filterMode)
-          if (state.data?.endDate && Object.values(DATE_FILTER).includes(daysCount)) {
-            dateFilter.startDate = moment(state.data.endDate, DATE_FORMAT_APP)
-              .subtract(daysCount - 1, 'days')
-              .format(DATE_FORMAT_APP)
-          }
-          break
-      }
+      const parsedDateFilterState = processDateFilterMode(action.filterMode, state.data?.startDate, state.data?.endDate)
 
       return {
         ...state,
-        dateFilter,
+        dateFilter: {
+          ...state.dateFilter,
+          ...parsedDateFilterState,
+        },
       }
 
     case ACTION_CHANGE_DATE_FILTER_INTERVAL:
-      let newState = {...state}
+      let newDateFilterState = processDateFilterChange(action.startDate, action.endDate)
 
-      if (action.startDate) {
-        newState.dateFilter.startDate = action.startDate
+      return {
+        ...state,
+        dateFilter: {
+          ...state.dateFilter,
+          ...newDateFilterState,
+        },
       }
-      if (action.endDate) {
-        newState.dateFilter.endDate = action.endDate
-      }
-
-      return newState
 
     case ACTION_CHANGE_GEOID_SELECTION:
       const newSelectedGeoIds = {...state.selectedGeoIds}
@@ -174,28 +204,72 @@ export const overview = (state = initialState, action = {}) => {
       }
 
     case ACTION_CHANGE_VIEW_MODE:
-      let tableVisible = true
-      let graphsVisible = true
-      switch (action.viewMode) {
-        default:
-        case VIEW_MODE.COMBO:
-          break
-        case VIEW_MODE.GRAPHS:
-          tableVisible = false
-          break
-        case VIEW_MODE.TABLE:
-          graphsVisible = false
-          break
-      }
-
       return {
         ...state,
-        viewMode: action.viewMode,
-        tableVisible: tableVisible,
-        graphsVisible: graphsVisible,
+        ...processViewMode(action.viewMode),
       }
 
     default:
       return state
   }
+}
+
+const processViewMode = viewMode => {
+  let tableVisible = true
+  let graphsVisible = true
+
+  switch (viewMode) {
+    default:
+    case VIEW_MODE.COMBO:
+      break
+    case VIEW_MODE.GRAPHS:
+      tableVisible = false
+      break
+    case VIEW_MODE.TABLE:
+      graphsVisible = false
+      break
+  }
+
+  return {
+    viewMode: viewMode,
+    tableVisible: tableVisible,
+    graphsVisible: graphsVisible,
+  }
+}
+
+const processDateFilterMode = (dateFilterMode, dataStartDate, dataEndDate) => {
+  const dateFilter = {
+    startDate: dataStartDate,
+    endDate: dataEndDate,
+    mode: dateFilterMode,
+  }
+
+  switch (dateFilterMode) {
+    case DATE_FILTER.TOTAL:
+      break
+    default:
+      const daysCount = parseInt(dateFilterMode)
+      if (dataEndDate && Object.values(DATE_FILTER).includes(daysCount)) {
+        dateFilter.startDate = moment(dataEndDate, DATE_FORMAT_APP)
+          .subtract(daysCount - 1, 'days')
+          .format(DATE_FORMAT_APP)
+      }
+      break
+  }
+
+  return dateFilter
+}
+
+const processDateFilterChange = (startDate, endDate) => {
+  const newDateFilterState = {}
+  if (startDate) {
+    newDateFilterState.startDate = startDate
+    newDateFilterState.mode = null
+  }
+  if (endDate) {
+    newDateFilterState.endDate = endDate
+    newDateFilterState.mode = null
+  }
+
+  return newDateFilterState
 }

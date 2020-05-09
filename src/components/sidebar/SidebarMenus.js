@@ -19,11 +19,11 @@ import {SidebarMenuSet} from './SidebarMenuSet'
 
 class SidebarMenusComponent extends Component {
   viewModeMenu = {
-    labelPlaceholder: 'header:view_mode_label',
+    labelPlaceholder: 'menu:view_mode_label',
     icon: faLayerGroup,
     activeKeys: [],
     subMenu: Object.values(VIEW_MODE).map(key => ({
-      labelPlaceholder: `header:view_mode_${key}`,
+      labelPlaceholder: `menu:view_mode_${key}`,
       key: key,
       action: () => action(ACTION_CHANGE_VIEW_MODE, {viewMode: key}),
     })),
@@ -41,33 +41,33 @@ class SidebarMenusComponent extends Component {
   }
 
   graphModeMenu = {
-    labelPlaceholder: 'header:graph_mode_label',
+    labelPlaceholder: 'menu:graph_mode_label',
     icon: faChartBar,
     activeKeys: [],
     subMenu: Object.values(GRAPH_MODE).map(key => ({
-      labelPlaceholder: `header:graph_mode_${key}`,
+      labelPlaceholder: `menu:graph_mode_${key}`,
       key: key,
       action: () => action(ACTION_CHANGE_GRAPH_MODE, {graphMode: key}),
     })),
   }
 
   graphScaleMenu = {
-    labelPlaceholder: 'header:graph_scale_label',
+    labelPlaceholder: 'menu:graph_scale_label',
     icon: faRulerCombined,
     activeKeys: [],
     subMenu: Object.values(GRAPH_SCALE).map(key => ({
-      labelPlaceholder: `header:graph_scale_${key}`,
+      labelPlaceholder: `menu:graph_scale_${key}`,
       key: key,
       action: () => action(ACTION_CHANGE_GRAPH_SCALE, {graphScale: key}),
     })),
   }
 
   graphMetricsMenu = {
-    labelPlaceholder: 'header:graph_metrics_label',
+    labelPlaceholder: 'menu:graph_metrics_label',
     icon: faTasks,
     activeKeys: [],
     subMenu: ['all', 'none', ...graphMetricsOrder].map(key => ({
-      labelPlaceholder: `header:metrics_${key}`,
+      labelPlaceholder: `menu:metrics_${key}`,
       key: key,
       action: () => action(ACTION_CHANGE_METRIC_GRAPH_VISIBILITY, {metric: key}),
     })),
@@ -76,6 +76,7 @@ class SidebarMenusComponent extends Component {
   render() {
     const {t} = this.props
 
+    this.intervalsMenu.activeKeys = [this.props.overview.dateFilter.mode]
     this.viewModeMenu.activeKeys = [this.props.overview.viewMode]
     this.graphModeMenu.activeKeys = [this.props.graphOverview.graphMode]
     this.graphScaleMenu.activeKeys = [this.props.graphOverview.graphScale]

@@ -1,10 +1,12 @@
 import classNames from 'classnames'
-import PropTypes from 'prop-types'
 import React, {Component} from 'react'
 import {withTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import ResizeDetector from 'react-resize-detector'
+import {Router} from 'react-router-dom'
 import {Footer} from './Footer'
+import {APP_ROUTES} from '../global/routes'
+import {history} from '../global/store'
 import {Header} from './header/Header'
 import {NotificationBox} from './NotificationBox'
 import {Sidebar} from './sidebar/Sidebar'
@@ -31,40 +33,37 @@ class MainLayoutComponent extends Component {
       closedSidebar,
       closedSmallerSidebar,
       enableMobileMenu,
-      children,
     } = this.props
 
     return (
-      <div
-        className={classNames(
-          'app-container app-theme-' + colorScheme,
-          {'fixed-header': enableFixedHeader},
-          {'fixed-sidebar': enableFixedSidebar || width < 1250},
-          {'fixed-footer': enableFixedFooter},
-          {'closed-sidebar': closedSidebar || width < 1250},
-          {'closed-sidebar-mobile': closedSmallerSidebar || width < 1250},
-          {'sidebar-mobile-open': enableMobileMenu}
-        )}
-      >
-        <Header />
-        <div className="app-main">
-          <Sidebar />
-          <div className="app-main__outer">
-            <div className="app-main__inner">
-              <NotificationBox />
-              {children}
+      <Router history={history}>
+        <div
+          className={classNames(
+            'app-container app-theme-' + colorScheme,
+            {'fixed-header': enableFixedHeader},
+            {'fixed-sidebar': enableFixedSidebar || width < 1250},
+            {'fixed-footer': enableFixedFooter},
+            {'closed-sidebar': closedSidebar || width < 1250},
+            {'closed-sidebar-mobile': closedSmallerSidebar || width < 1250},
+            {'sidebar-mobile-open': enableMobileMenu}
+          )}
+        >
+          <Header />
+          <div className="app-main">
+            <Sidebar />
+            <div className="app-main__outer">
+              <div className="app-main__inner">
+                <NotificationBox />
+                {APP_ROUTES}
+              </div>
+              <Footer />
             </div>
-            <Footer />
           </div>
+          <ResizeDetector handleWidth onResize={this.onResize} />
         </div>
-        <ResizeDetector handleWidth onResize={this.onResize} />
-      </div>
+      </Router>
     )
   }
-}
-
-MainLayoutComponent.propTypes = {
-  children: PropTypes.element.isRequired,
 }
 
 const stateToProps = state => ({

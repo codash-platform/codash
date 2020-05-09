@@ -1,51 +1,52 @@
 export const ASYNC_STATUS = {
-  IDLE: 'IDLE',
-  PENDING: 'PENDING',
-  SUCCESS: 'SUCCESS',
-  FAIL: 'FAIL',
+  IDLE: 'idle',
+  PENDING: 'pending',
+  SUCCESS: 'success',
+  FAIL: 'fail',
 }
 
 export const DATE_FILTER = {
-  TOTAL: 'TOTAL',
+  TOTAL: 'total',
   LAST_DAY: 1,
   LAST_7_DAYS: 7,
   LAST_14_DAYS: 14,
   LAST_30_DAYS: 30,
   LAST_60_DAYS: 60,
+  LAST_90_DAYS: 90,
 }
 
 export const VIEW_MODE = {
-  COMBO: 'COMBO',
-  TABLE: 'TABLE',
-  GRAPHS: 'GRAPHS',
+  COMBO: 'combo',
+  TABLE: 'table',
+  GRAPHS: 'graphs',
 }
 
 export const GRAPH_MODE = {
-  COMBO: 'COMBO',
-  LINE: 'LINE',
-  BAR: 'BAR',
+  COMBO: 'combo',
+  LINE: 'line',
+  BAR: 'bar',
 }
 
 export const GRAPH_SCALE = {
-  LINEAR: 'LINEAR',
-  LOGARITHMIC: 'LOGARITHMIC',
+  LINEAR: 'linear',
+  LOGARITHMIC: 'logarithmic',
 }
 
 export const METRICS = {
-  CASES_NEW: 'cases',
-  CASES_ACCUMULATED: 'casesAccumulated',
-  CASES_PER_CAPITA: 'infectionPerCapita',
-  CASES_PER_CAPITA_ACCUMULATED: 'infectionPerCapitaAccumulated',
-  DEATHS_NEW: 'deaths',
-  DEATHS_ACCUMULATED: 'deathsAccumulated',
-  DEATHS_PER_CAPITA: 'mortalityPerCapita',
-  DEATHS_PER_CAPITA_ACCUMULATED: 'mortalityPerCapitaAccumulated',
-  MORTALITY_PERCENTAGE: 'mortalityPercentage',
-  MORTALITY_PERCENTAGE_ACCUMULATED: 'mortalityPercentageAccumulated',
+  CASES_NEW: 'cases_new',
+  CASES_ACCUMULATED: 'cases_accumulated',
+  CASES_PER_CAPITA: 'cases_per_capita',
+  CASES_PER_CAPITA_ACCUMULATED: 'cases_per_capita_accumulated',
+  DEATHS_NEW: 'deaths_new',
+  DEATHS_ACCUMULATED: 'deaths_accumulated',
+  DEATHS_PER_CAPITA: 'deaths_per_capita',
+  DEATHS_PER_CAPITA_ACCUMULATED: 'deaths_per_capita_accumulated',
+  MORTALITY_PERCENTAGE: 'mortality_percentage',
+  MORTALITY_PERCENTAGE_ACCUMULATED: 'mortality_percentage_accumulated',
 }
 
 export const TABLE_TYPE = {
-  MAIN: 'MAIN',
+  MAIN: 'main',
   CASES_NEW: METRICS.CASES_NEW,
   CASES_ACCUMULATED: METRICS.CASES_ACCUMULATED,
   CASES_PER_CAPITA: METRICS.CASES_PER_CAPITA,
@@ -64,9 +65,13 @@ export const STORAGE_EXPIRY_KEY = 'updatedAt'
 // used to save the current store in localStorage for faster reload
 export const REDUX_STORE_STORAGE_NAME = 'dataStore'
 
-// route urls
-export const ROUTE_TABLE_OVERVIEW = '/overview'
+export const URL_ELEMENT_SEPARATOR = '-'
 
+// route urls
+export const ROUTE_DASHBOARD =
+  '/:viewMode?/:startDate?/:endDate?/:graphMode?/:graphScale?/:selectedGeoIds?/:metricsVisible?'
+
+export const ACTION_PARSE_URL_PARAMS = 'ACTION_PARSE_URL_PARAMS'
 export const ACTION_GET_DATA_START = 'ACTION_GET_DATA_START'
 export const ACTION_GET_DATA_SUCCESS = 'ACTION_GET_DATA_SUCCESS'
 export const ACTION_GET_DATA_FAIL = 'ACTION_GET_DATA_FAIL'
@@ -98,7 +103,7 @@ export const ACTION_SET_COLOR_SCHEME = 'ACTION_SET_COLOR_SCHEME'
 export const ACTION_SET_HEADER_BACKGROUND_COLOR = 'ACTION_SET_HEADER_BACKGROUND_COLOR'
 export const ACTION_TOGGLE_SIDEBAR = 'ACTION_TOGGLE_SIDEBAR'
 
-export const REDUX_STORE_VERSION = '3'
+export const REDUX_STORE_VERSION = '4'
 export const REDUX_STORE_VERSION_PROPERTY = 'version'
 
 export const DATE_FORMAT_ECDC = 'DD/MM/YYYY'

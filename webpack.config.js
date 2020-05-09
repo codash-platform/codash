@@ -39,7 +39,9 @@ const baseConfig = {
     host: '0.0.0.0',
     disableHostCheck: true,
     contentBase: staticPath,
-    historyApiFallback: true,
+    historyApiFallback: {
+      disableDotRule: true,
+    },
     clientLogLevel: process.env.DEV_CLIENT_LOG_LEVEL,
     port: process.env.DEV_SERVER_PORT,
     stats: {

@@ -1,7 +1,7 @@
+import {createBrowserHistory} from 'history'
 import {applyMiddleware, compose, createStore} from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import {
-  ASYNC_STATUS,
   REDUX_STORE_STORAGE_NAME,
   REDUX_STORE_VERSION,
   REDUX_STORE_VERSION_PROPERTY,
@@ -79,6 +79,8 @@ const reHydrateStore = () => {
 
   return localData
 }
+
+export const history = createBrowserHistory()
 
 // create the saga middleware
 const sagaMiddleware = createSagaMiddleware()

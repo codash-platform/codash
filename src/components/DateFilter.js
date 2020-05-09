@@ -38,9 +38,9 @@ class DateFilterComponent extends Component {
           initialVisibleMonth={() => moment().subtract(1, 'month')}
           disabled={!overview.data?.datesAvailable}
           startDate={startDateObj}
-          startDateId={(startDate || 'no start date') + id}
+          startDateId={(startDate || 'no-start-date') + id + 'start'}
           endDate={endDateObj}
-          endDateId={(endDate || 'no end date') + id}
+          endDateId={(endDate || 'no-end-date') + id + 'end'}
           onDatesChange={({startDate, endDate}) =>
             action(ACTION_CHANGE_DATE_FILTER_INTERVAL, {
               startDate: startDate?.format(DATE_FORMAT_APP) || null,

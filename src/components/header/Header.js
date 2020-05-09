@@ -58,11 +58,11 @@ class HeaderComponent extends Component {
             <MenuButton
               disabled={overview.loadingStatus === ASYNC_STATUS.PENDING}
               action={() => action(ACTION_GET_DATA_START)}
-              title={t('header:reload_data')}
+              title={t('menu:reload_data')}
               icon={faRedo}
             />
             {!isProduction && (
-              <MenuButton icon={faCalculator} action={() => action(ACTION_REPARSE_DATA)} title={t('header:reparse')} />
+              <MenuButton icon={faCalculator} action={() => action(ACTION_REPARSE_DATA)} title={t('menu:reparse')} />
             )}
             <Dropdown className="m-1 d-inline-block" onSelect={language => i18n.changeLanguage(language)}>
               <Dropdown.Toggle id={'language-dropdown'} size="sm" variant="codash-translucent" className="text-white">

@@ -81,5 +81,6 @@
     "sidebar:header_time": "Time",
     "sidebar:header_view": "View",
     "sidebar:header_graph": "Graphs",
-    "sidebar:header_table": "Tables"
+    "sidebar:header_table": "Tables",
+    "intervals:90": "Last 90 Days"
 }

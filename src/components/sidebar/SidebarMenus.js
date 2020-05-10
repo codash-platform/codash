@@ -14,7 +14,7 @@ import {
   VIEW_MODE,
 } from '../../global/constants'
 import {action} from '../../global/util'
-import {graphMetricsOrder} from '../../pages/overview/graph/Graphs'
+import {graphMetricsOrder} from '../../pages/dashboard/graph/Graphs'
 import {SidebarMenuSet} from './SidebarMenuSet'
 
 class SidebarMenusComponent extends Component {

@@ -6,7 +6,7 @@ import {action} from '../../global/util'
 import {Graphs} from './graph/Graphs'
 import {Table} from './table/Table'
 
-class OverviewComponent extends Component {
+class DashboardComponent extends Component {
   componentDidMount() {
     const {match, overview} = this.props
 
@@ -35,4 +35,4 @@ const stateToProps = state => ({
 
 const dispatchToProps = {}
 
-export const Overview = connect(stateToProps, dispatchToProps)(withTranslation()(OverviewComponent))
+export const Dashboard = connect(stateToProps, dispatchToProps)(withTranslation()(DashboardComponent))

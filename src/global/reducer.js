@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux'
-import {graphOverview} from '../pages/overview/graph/reducer'
-import {overview} from '../pages/overview/reducer'
-import {tableOverview} from '../pages/overview/table/reducer'
+import {graphOverview} from '../pages/dashboard/graph/reducer'
+import {overview} from '../pages/dashboard/reducer'
+import {tableOverview} from '../pages/dashboard/table/reducer'
 import {theme} from './themeReducer'
 
 // will hold all reducers and will also be used to hot reload

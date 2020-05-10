@@ -3,8 +3,8 @@ import {withTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import {ACTION_GET_DATA_START, ACTION_PARSE_URL_PARAMS} from '../../global/constants'
 import {action} from '../../global/util'
-import {Graphs} from './graph/Graphs'
-import {Table} from './table/Table'
+import {Graphs} from './graphs/Graphs'
+import {Tables} from './tables/Tables'
 
 class DashboardComponent extends Component {
   componentDidMount() {
@@ -23,7 +23,7 @@ class DashboardComponent extends Component {
     return (
       <>
         <Graphs />
-        <Table />
+        <Tables />
       </>
     )
   }

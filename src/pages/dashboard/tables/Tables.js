@@ -18,7 +18,7 @@ import {
 } from '../../../global/constants'
 import {getTableData} from '../../../global/dataParsing'
 import {action} from '../../../global/util'
-import {colors} from '../graph/Graphs'
+import {colors} from '../graphs/Graphs'
 
 class TableComponent extends Component {
   perCapitaCellFormatter = cell => {
@@ -332,4 +332,4 @@ const stateToProps = state => ({
 
 const dispatchToProps = {}
 
-export const Table = connect(stateToProps, dispatchToProps)(withTranslation()(TableComponent))
+export const Tables = connect(stateToProps, dispatchToProps)(withTranslation()(TableComponent))

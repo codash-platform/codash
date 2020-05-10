@@ -45,13 +45,20 @@ a:active {
   }
 }
 
+.btn-codash-translucent {
+  border-color: transparent;
+}
+
 /* react-dates styling */
 .DateRangePickerInput {
   border-radius: 0.2rem;
   border-width: 1px;
-  border-color: vars.$codash-translucent;
+  border-color: transparent;
   background-color: vars.$codash-translucent;
 
+  &:hover {
+    border-color: vars.$codash-translucent;
+  }
 
   .DateRangePickerInput_calendarIcon {
     padding: 0 0 2px;

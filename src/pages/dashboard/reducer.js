@@ -95,7 +95,7 @@ export const overview = (state = initialState, action = {}) => {
       if (params.selectedGeoIds) {
         const selectedGeoIds = {}
 
-        Object.keys(state.selectedGeoIds).map(geoId => selectedGeoIds[geoId] = false)
+        Object.keys(state.selectedGeoIds).map(geoId => (selectedGeoIds[geoId] = false))
         params.selectedGeoIds.split(URL_ELEMENT_SEPARATOR).map(geoId => (selectedGeoIds[geoId] = true))
 
         newStateParams = {

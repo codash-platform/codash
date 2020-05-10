@@ -30,7 +30,7 @@
     "graph:metrics_deaths_per_capita": "Decese noi (per capita)",
     "graph:metrics_mortality_percentage": "Mortalitate cazuri (%)",
     "table:pagination_all": "Tot",
-    "table:unit_per_capita": "(per milion)",
+    "table:unit_per_capita": "(per capita)",
     "table:unit_cumulated": "(în ultima zi selectată)",
     "table:unit_percentage": "(% pe perioada selectată)",
     "table:column_selected": "Grafic",
@@ -82,5 +82,6 @@
     "sidebar:header_view": "Vizualizare",
     "sidebar:header_graph": "Grafice",
     "sidebar:header_table": "Tabele",
-    "intervals:90": "Ultimele 90 de zile"
+    "intervals:90": "Ultimele 90 de zile",
+    "menu:view_mode_rankings": "Clasamente"
 }

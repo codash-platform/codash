@@ -2944,7 +2944,7 @@ a.badge-alternate {
 }
 
 .card-header {
-  display: flex;
+  display: flex !important;
   align-items: center;
   border-bottom-width: 1px;
   padding-top: 0;

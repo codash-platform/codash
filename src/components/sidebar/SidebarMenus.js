@@ -67,7 +67,7 @@ class SidebarMenusComponent extends Component {
     icon: faTasks,
     activeKeys: [],
     subMenu: ['all', 'none', ...graphMetricsOrder].map(key => ({
-      labelPlaceholder: `menu:metrics_${key}`,
+      labelPlaceholder: `general:metrics_${key}`,
       key: key,
       action: () => action(ACTION_CHANGE_METRIC_GRAPH_VISIBILITY, {metric: key}),
     })),

@@ -36,6 +36,10 @@ a:active {
   }
 }
 
+.card-header > label.search-label {
+  margin-bottom: 0;
+}
+
 .table-container {
   .pagination {
     justify-content: center;

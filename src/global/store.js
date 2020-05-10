@@ -58,7 +58,6 @@ const reHydrateStore = () => {
   // check for expired or obsolete local storage
   if (
     !lastUpdatedAt
-    || expiryTime < now
     || localStorage.getItem(REDUX_STORE_VERSION_PROPERTY) !== REDUX_STORE_VERSION
   ) {
     localStorage.setItem(REDUX_STORE_STORAGE_NAME, JSON.stringify(localData))
@@ -71,6 +70,9 @@ const reHydrateStore = () => {
   if (localDataRaw) {
     try {
       localData = JSON.parse(localDataRaw)
+      if (expiryTime < now && localData.overview?.data) {
+        localData.overview.data = null
+      }
     } catch (error) {
       console.warn('Bad redux store data')
       localStorage.setItem(REDUX_STORE_STORAGE_NAME, JSON.stringify(localData))

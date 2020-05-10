@@ -4,7 +4,7 @@ import {hot} from 'react-hot-loader/root'
 import {I18nextProvider} from 'react-i18next'
 import {Provider} from 'react-redux'
 import {MainLayout} from './components/MainLayout'
-import i18n from './global/i18n'
+import {i18n} from './global/i18n'
 import {store} from './global/store'
 
 const CombinedApp = () => (

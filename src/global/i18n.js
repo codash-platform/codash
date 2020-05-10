@@ -50,4 +50,4 @@ i18next
     },
   })
 
-export default i18next
+export const i18n = i18next

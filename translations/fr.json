@@ -30,7 +30,7 @@
     "graph:metrics_deaths_per_capita": "Nouveaux Décès (par habitant)",
     "graph:metrics_mortality_percentage": "Taux de Mortalité (%)",
     "table:pagination_all": "Tout",
-    "table:unit_per_capita": "(par million sur la période sélectionnée)",
+    "table:unit_per_capita": "(par capita sur la période sélectionnée)",
     "table:unit_cumulated": "(le dernier jour sélectionné)",
     "table:unit_percentage": "(% pour la période sélectionnée)",
     "table:column_selected": "Graphique",
@@ -82,5 +82,6 @@
     "sidebar:header_view": "",
     "sidebar:header_graph": "",
     "sidebar:header_table": "",
-    "intervals:90": "90 Derniers Jours"
+    "intervals:90": "90 Derniers Jours",
+    "menu:view_mode_rankings": ""
 }

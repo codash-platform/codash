@@ -46,6 +46,7 @@ class SidebarMenuSetComponent extends Component {
                   'sidebar-menu-link': true,
                   active: menuData.activeKeys.includes(subMenuData.key),
                 })}
+                title={t(subMenuData.labelPlaceholder)}
                 href="#"
                 onClick={e => {
                   e.preventDefault()

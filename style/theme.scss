@@ -570,8 +570,11 @@ a, button, .btn {
         }
 
         > .sidebar-menu-item > .sidebar-menu-link {
-          height: 2.3em;
-          line-height: 2.3em;
+          height: 1.8em;
+          line-height: 1.8em;
+          margin-top: 2px;
+          margin-bottom: 2px;
+          font-size: 15px;
           color: #868e96;
 
           &:hover {

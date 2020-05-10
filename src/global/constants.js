@@ -18,6 +18,7 @@ export const DATE_FILTER = {
 export const VIEW_MODE = {
   COMBO: 'combo',
   TABLE: 'table',
+  RANKINGS: 'rankings',
   GRAPHS: 'graphs',
 }
 

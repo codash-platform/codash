@@ -25,6 +25,7 @@ const initialState = {
   data: null,
   viewMode: VIEW_MODE.COMBO,
   tableVisible: true,
+  rankingsVisible: true,
   graphsVisible: true,
   dateFilter: {
     startDate: null,
@@ -215,24 +216,32 @@ export const overview = (state = initialState, action = {}) => {
 }
 
 const processViewMode = viewMode => {
-  let tableVisible = true
-  let graphsVisible = true
+  let tableVisible = false
+  let rankingsVisible = false
+  let graphsVisible = false
 
   switch (viewMode) {
     default:
     case VIEW_MODE.COMBO:
+      tableVisible = true
+      rankingsVisible = true
+      graphsVisible = true
       break
     case VIEW_MODE.GRAPHS:
-      tableVisible = false
+      graphsVisible = true
       break
     case VIEW_MODE.TABLE:
-      graphsVisible = false
+      tableVisible = true
+      break
+    case VIEW_MODE.RANKINGS:
+      rankingsVisible = true
       break
   }
 
   return {
     viewMode: viewMode,
     tableVisible: tableVisible,
+    rankingsVisible: rankingsVisible,
     graphsVisible: graphsVisible,
   }
 }

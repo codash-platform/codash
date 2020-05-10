@@ -145,7 +145,7 @@ class TableComponent extends Component {
     const {overview, tableOverview, t} = this.props
     const {data, dateFilter, selectedGeoIds, tableVisible, rankingsVisible} = overview
 
-    if (!data || (!tableVisible && !rankingsVisible)) {
+    if (!data || !dateFilter.startDate || !dateFilter.endDate || (!tableVisible && !rankingsVisible)) {
       return null
     }
 

@@ -212,14 +212,8 @@ const getMissingPopulation = element => {
 }
 
 export const getTableData = (data, dateFilter, selectedGeoIds, maxSelectionReached) => {
-  let startDate = null
-  let endDate = null
-  if (dateFilter.startDate) {
-    startDate = moment(dateFilter.startDate, DATE_FORMAT_APP)
-  }
-  if (dateFilter.endDate) {
-    endDate = moment(dateFilter.endDate, DATE_FORMAT_APP)
-  }
+  let startDate = moment(dateFilter.startDate, DATE_FORMAT_APP)
+  let endDate = moment(dateFilter.endDate, DATE_FORMAT_APP)
 
   const sectionData = parseSectionData(data?.perDateData, startDate, endDate)
 

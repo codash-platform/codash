@@ -68,13 +68,19 @@ export const overview = (state = initialState, action = {}) => {
         }
       }
 
-      if (Object.values(DATE_FILTER).includes(params.startDate)) {
-        newStateParams = {
-          ...newStateParams,
-          dateFilter: {
-            ...newStateParams.dateFilter,
-            ...processDateFilterMode(params.startDate, null, null),
-          },
+      if (params.startDate) {
+        const integerFilterValue = parseInt(params.startDate)
+        const hasIntegerFilter = Number.isInteger(integerFilterValue)
+        const filterValue = hasIntegerFilter ? integerFilterValue : params.startDate
+
+        if (Object.values(DATE_FILTER).includes(filterValue)) {
+          newStateParams = {
+            ...newStateParams,
+            dateFilter: {
+              ...newStateParams.dateFilter,
+              ...processDateFilterMode(filterValue, state.data?.startDate, state.data?.endDate),
+            },
+          }
         }
       } else if (params.startDate || params.endDate) {
         newStateParams = {
@@ -88,6 +94,8 @@ export const overview = (state = initialState, action = {}) => {
 
       if (params.selectedGeoIds) {
         const selectedGeoIds = {}
+
+        Object.keys(state.selectedGeoIds).map(geoId => selectedGeoIds[geoId] = false)
         params.selectedGeoIds.split(URL_ELEMENT_SEPARATOR).map(geoId => (selectedGeoIds[geoId] = true))
 
         newStateParams = {
@@ -148,13 +156,6 @@ export const overview = (state = initialState, action = {}) => {
           ...state.data,
           ...parsedData,
         },
-        dateFilter: {
-          startDate: moment(parsedData.endDate, DATE_FORMAT_APP)
-            .subtract(14, 'days')
-            .format(DATE_FORMAT_APP),
-          endDate: parsedData.endDate,
-          mode: DATE_FILTER.LAST_14_DAYS,
-        },
         selectedGeoIds: {
           ...state.selectedGeoIds,
           ...selectedGeoIds,
@@ -174,24 +175,20 @@ export const overview = (state = initialState, action = {}) => {
       }
 
     case ACTION_CHANGE_DATE_FILTER_MODE:
-      const parsedDateFilterState = processDateFilterMode(action.filterMode, state.data?.startDate, state.data?.endDate)
-
       return {
         ...state,
         dateFilter: {
           ...state.dateFilter,
-          ...parsedDateFilterState,
+          ...processDateFilterMode(action.filterMode, state.data?.startDate, state.data?.endDate),
         },
       }
 
     case ACTION_CHANGE_DATE_FILTER_INTERVAL:
-      let newDateFilterState = processDateFilterChange(action.startDate, action.endDate)
-
       return {
         ...state,
         dateFilter: {
           ...state.dateFilter,
-          ...newDateFilterState,
+          ...processDateFilterChange(action.startDate, action.endDate),
         },
       }
 

@@ -93,7 +93,7 @@ class GraphsComponent extends Component {
     const {lineGraphVisible, barGraphVisible, metricsVisible, graphScale} = graphOverview
     const graphs = []
 
-    if (!graphsVisible || !data) {
+    if (!graphsVisible || !data || !dateFilter.startDate || !dateFilter.endDate) {
       return graphs
     }
 

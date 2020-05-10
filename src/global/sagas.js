@@ -12,11 +12,14 @@ import {
   ACTION_GET_DATA_FAIL,
   ACTION_GET_DATA_START,
   ACTION_GET_DATA_SUCCESS,
+  ACTION_REPARSE_DATA,
   ACTION_SET_NOTIFICATION,
+  DATE_FILTER,
   ROUTE_DASHBOARD,
   URL_ELEMENT_SEPARATOR,
 } from './constants'
 import {history} from './store'
+import {action} from './util'
 
 const routingActions = [
   ACTION_CHANGE_DATE_FILTER_MODE,
@@ -85,4 +88,7 @@ function* changeUrl() {
 export function* generalSaga() {
   yield takeLatest(ACTION_GET_DATA_START, getData)
   yield takeLatest(routingActions, changeUrl)
+  yield takeLatest([ACTION_GET_DATA_SUCCESS, ACTION_REPARSE_DATA], () =>
+    action(ACTION_CHANGE_DATE_FILTER_MODE, {filterMode: DATE_FILTER.LAST_14_DAYS})
+  )
 }

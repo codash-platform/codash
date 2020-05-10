@@ -30,7 +30,7 @@
     "graph:metrics_deaths_per_capita": "New Deaths (per capita)",
     "graph:metrics_mortality_percentage": "Case Fatality (%)",
     "table:pagination_all": "All",
-    "table:unit_per_capita": "(per million for selected period)",
+    "table:unit_per_capita": "(per capita for selected period)",
     "table:unit_cumulated": "(on last selected day)",
     "table:unit_percentage": "(% for selected period)",
     "table:column_selected": "Graph",
@@ -82,5 +82,6 @@
     "sidebar:header_view": "View",
     "sidebar:header_graph": "Graphs",
     "sidebar:header_table": "Tables",
-    "intervals:90": "Last 90 Days"
+    "intervals:90": "Last 90 Days",
+    "menu:view_mode_rankings": "Rankings"
 }

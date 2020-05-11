@@ -3,23 +3,23 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import classNames from 'classnames'
 import React, {Component} from 'react'
 import {withTranslation} from 'react-i18next'
+import {connect} from 'react-redux'
+import {ACTION_TOGGLE_SIDEBAR_MENU} from '../../global/constants'
+import {action} from '../../global/util'
 
 class SidebarMenuSetComponent extends Component {
-  state = {
-    expanded: false,
-  }
-
   render() {
-    const {t, menuData} = this.props
+    const {t, menuData, activeKeys, sidebar} = this.props
+    const expanded = sidebar[menuData.id].expanded
 
     return (
-      <li className="sidebar-menu-item">
+      <li className="sidebar-menu-item" {...menuData.extraProps}>
         <a
           className="sidebar-menu-link"
           href="#"
           onClick={e => {
             e.preventDefault()
-            this.setState(prevState => ({expanded: !prevState.expanded}))
+            action(ACTION_TOGGLE_SIDEBAR_MENU, {menuId: menuData.id, expanded: !expanded})
           }}
         >
           <FontAwesomeIcon className="sidebar-menu-icon" icon={menuData.icon} />
@@ -28,7 +28,7 @@ class SidebarMenuSetComponent extends Component {
           <FontAwesomeIcon
             className={classNames({
               'sidebar-menu-state-icon': true,
-              'rotate-minus-90': this.state.expanded,
+              'rotate-minus-90': expanded,
             })}
             icon={faAngleDown}
           />
@@ -36,7 +36,7 @@ class SidebarMenuSetComponent extends Component {
         <ul
           className={classNames({
             'sidebar-menu-container': true,
-            visible: this.state.expanded,
+            visible: expanded,
           })}
         >
           {menuData.subMenu.map(subMenuData => (
@@ -44,7 +44,7 @@ class SidebarMenuSetComponent extends Component {
               <a
                 className={classNames({
                   'sidebar-menu-link': true,
-                  active: menuData.activeKeys.includes(subMenuData.key),
+                  active: activeKeys.includes(subMenuData.key),
                 })}
                 title={t(subMenuData.labelPlaceholder)}
                 href="#"
@@ -62,5 +62,10 @@ class SidebarMenuSetComponent extends Component {
     )
   }
 }
+const stateToProps = state => ({
+  sidebar: state.sidebar,
+})
 
-export const SidebarMenuSet = withTranslation()(SidebarMenuSetComponent)
+const dispatchToProps = {}
+
+export const SidebarMenuSet = connect(stateToProps, dispatchToProps)(withTranslation()(SidebarMenuSetComponent))

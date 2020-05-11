@@ -1,4 +1,5 @@
 import {combineReducers} from 'redux'
+import {sidebar} from '../components/sidebar/reducer'
 import {graphOverview} from '../pages/dashboard/graphs/reducer'
 import {overview} from '../pages/dashboard/reducer'
 import {tableOverview} from '../pages/dashboard/tables/reducer'
@@ -11,6 +12,7 @@ const appReducer = combineReducers({
   overview,
   tableOverview,
   graphOverview,
+  sidebar,
 })
 
 // have global actions here

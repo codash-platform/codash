@@ -11,6 +11,7 @@ import {
   DATE_FILTER,
   GRAPH_MODE,
   GRAPH_SCALE,
+  SIDEBAR_MENUS,
   VIEW_MODE,
 } from '../../global/constants'
 import {action} from '../../global/util'
@@ -18,84 +19,122 @@ import {graphMetricsOrder} from '../../pages/dashboard/graphs/Graphs'
 import {SidebarMenuSet} from './SidebarMenuSet'
 
 class SidebarMenusComponent extends Component {
-  viewModeMenu = {
-    labelPlaceholder: 'menu:view_mode_label',
-    icon: faLayerGroup,
-    activeKeys: [],
-    subMenu: Object.values(VIEW_MODE).map(key => ({
-      labelPlaceholder: `menu:view_mode_${key}`,
-      key: key,
-      action: () => action(ACTION_CHANGE_VIEW_MODE, {viewMode: key}),
-    })),
-  }
+  menus = [
+    {
+      id: SIDEBAR_MENUS.VIEW_MODE_MENU,
+      labelPlaceholder: 'menu:view_mode_label',
+      icon: faLayerGroup,
+      activeKeys: [],
+      subMenu: Object.values(VIEW_MODE).map(key => ({
+        labelPlaceholder: `menu:view_mode_${key}`,
+        key: key,
+        action: () => action(ACTION_CHANGE_VIEW_MODE, {viewMode: key}),
+      })),
+    },
+    {
+      id: SIDEBAR_MENUS.INTERVALS_MENU,
+      labelPlaceholder: 'intervals:button_label',
+      icon: faClock,
+      activeKeys: [],
+      subMenu: Object.values(DATE_FILTER).map(key => ({
+        labelPlaceholder: `intervals:${key}`,
+        key: key,
+        action: () => action(ACTION_CHANGE_DATE_FILTER_MODE, {filterMode: key}),
+      })),
+      extraProps: {
+        'data-tutorial': 'time-filter',
+      },
+    },
+    {
+      id: SIDEBAR_MENUS.GRAPH_MODE_MENU,
+      labelPlaceholder: 'menu:graph_mode_label',
+      icon: faChartBar,
+      activeKeys: [],
+      subMenu: Object.values(GRAPH_MODE).map(key => ({
+        labelPlaceholder: `menu:graph_mode_${key}`,
+        key: key,
+        action: () => action(ACTION_CHANGE_GRAPH_MODE, {graphMode: key}),
+      })),
+    },
+    {
+      id: SIDEBAR_MENUS.GRAPH_SCALE_MENU,
+      labelPlaceholder: 'menu:graph_scale_label',
+      icon: faRulerCombined,
+      activeKeys: [],
+      subMenu: Object.values(GRAPH_SCALE).map(key => ({
+        labelPlaceholder: `menu:graph_scale_${key}`,
+        key: key,
+        action: () => action(ACTION_CHANGE_GRAPH_SCALE, {graphScale: key}),
+      })),
+    },
+    {
+      id: SIDEBAR_MENUS.GRAPH_METRICS_MENU,
+      labelPlaceholder: 'menu:graph_metrics_label',
+      icon: faTasks,
+      activeKeys: [],
+      subMenu: ['all', 'none', ...graphMetricsOrder].map(key => ({
+        labelPlaceholder: `general:metrics_${key}`,
+        key: key,
+        action: () => action(ACTION_CHANGE_METRIC_GRAPH_VISIBILITY, {metric: key}),
+      })),
+    },
+  ]
 
-  intervalsMenu = {
-    labelPlaceholder: 'intervals:button_label',
-    icon: faClock,
-    activeKeys: [],
-    subMenu: Object.values(DATE_FILTER).map(key => ({
-      labelPlaceholder: `intervals:${key}`,
-      key: key,
-      action: () => action(ACTION_CHANGE_DATE_FILTER_MODE, {filterMode: key}),
-    })),
-  }
+  getActiveKeysForMenu(menuId) {
+    const {graphOverview, overview} = this.props
 
-  graphModeMenu = {
-    labelPlaceholder: 'menu:graph_mode_label',
-    icon: faChartBar,
-    activeKeys: [],
-    subMenu: Object.values(GRAPH_MODE).map(key => ({
-      labelPlaceholder: `menu:graph_mode_${key}`,
-      key: key,
-      action: () => action(ACTION_CHANGE_GRAPH_MODE, {graphMode: key}),
-    })),
-  }
-
-  graphScaleMenu = {
-    labelPlaceholder: 'menu:graph_scale_label',
-    icon: faRulerCombined,
-    activeKeys: [],
-    subMenu: Object.values(GRAPH_SCALE).map(key => ({
-      labelPlaceholder: `menu:graph_scale_${key}`,
-      key: key,
-      action: () => action(ACTION_CHANGE_GRAPH_SCALE, {graphScale: key}),
-    })),
-  }
-
-  graphMetricsMenu = {
-    labelPlaceholder: 'menu:graph_metrics_label',
-    icon: faTasks,
-    activeKeys: [],
-    subMenu: ['all', 'none', ...graphMetricsOrder].map(key => ({
-      labelPlaceholder: `general:metrics_${key}`,
-      key: key,
-      action: () => action(ACTION_CHANGE_METRIC_GRAPH_VISIBILITY, {metric: key}),
-    })),
+    switch (menuId) {
+      case SIDEBAR_MENUS.INTERVALS_MENU:
+        return [overview.dateFilter.mode]
+      case SIDEBAR_MENUS.VIEW_MODE_MENU:
+        return [overview.viewMode]
+      case SIDEBAR_MENUS.GRAPH_SCALE_MENU:
+        return [graphOverview.graphScale]
+      case SIDEBAR_MENUS.GRAPH_MODE_MENU:
+        return [graphOverview.graphMode]
+      case SIDEBAR_MENUS.GRAPH_METRICS_MENU:
+        return [...graphOverview.metricsVisible]
+    }
   }
 
   render() {
     const {t} = this.props
 
-    this.intervalsMenu.activeKeys = [this.props.overview.dateFilter.mode]
-    this.viewModeMenu.activeKeys = [this.props.overview.viewMode]
-    this.graphModeMenu.activeKeys = [this.props.graphOverview.graphMode]
-    this.graphScaleMenu.activeKeys = [this.props.graphOverview.graphScale]
-    this.graphMetricsMenu.activeKeys = [...this.props.graphOverview.metricsVisible]
+    const intervalsMenu = this.menus.find(menuData => menuData.id === SIDEBAR_MENUS.INTERVALS_MENU)
+    const viewModeMenu = this.menus.find(menuData => menuData.id === SIDEBAR_MENUS.VIEW_MODE_MENU)
+    const graphModeMenu = this.menus.find(menuData => menuData.id === SIDEBAR_MENUS.GRAPH_MODE_MENU)
+    const graphScaleMenu = this.menus.find(menuData => menuData.id === SIDEBAR_MENUS.GRAPH_SCALE_MENU)
+    const graphMetricsMenu = this.menus.find(menuData => menuData.id === SIDEBAR_MENUS.GRAPH_METRICS_MENU)
 
     return (
       <>
         <div className="sidebar-menu vertical-nav-menu">
-          <ul className="sidebar-menu-container">
+          <ul className="sidebar-menu-container" data-tutorial="observe">
             <h5 className="app-sidebar__heading">{t('sidebar:header_time')}</h5>
-            <SidebarMenuSet menuData={this.intervalsMenu} />
+            <SidebarMenuSet
+              menuData={intervalsMenu}
+              activeKeys={this.getActiveKeysForMenu(intervalsMenu.id)}
+            />
 
             <h5 className="app-sidebar__heading">{t('sidebar:header_view')}</h5>
-            <SidebarMenuSet menuData={this.viewModeMenu} />
+            <SidebarMenuSet
+              menuData={viewModeMenu}
+              activeKeys={this.getActiveKeysForMenu(viewModeMenu.id)}
+            />
 
             <h5 className="app-sidebar__heading">{t('sidebar:header_graph')}</h5>
-            <SidebarMenuSet menuData={this.graphMetricsMenu} />
-            <SidebarMenuSet menuData={this.graphModeMenu} />
-            <SidebarMenuSet menuData={this.graphScaleMenu} />
+            <SidebarMenuSet
+              menuData={graphMetricsMenu}
+              activeKeys={this.getActiveKeysForMenu(graphMetricsMenu.id)}
+            />
+            <SidebarMenuSet
+              menuData={graphModeMenu}
+              activeKeys={this.getActiveKeysForMenu(graphModeMenu.id)}
+            />
+            <SidebarMenuSet
+              menuData={graphScaleMenu}
+              activeKeys={this.getActiveKeysForMenu(graphScaleMenu.id)}
+            />
           </ul>
         </div>
       </>

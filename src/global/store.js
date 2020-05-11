@@ -56,10 +56,7 @@ const reHydrateStore = () => {
   const expiryTime = parseInt(lastUpdatedAt, 10) + STORAGE_EXPIRY_TIMEOUT * 60000
 
   // check for expired or obsolete local storage
-  if (
-    !lastUpdatedAt
-    || localStorage.getItem(REDUX_STORE_VERSION_PROPERTY) !== REDUX_STORE_VERSION
-  ) {
+  if (!lastUpdatedAt || localStorage.getItem(REDUX_STORE_VERSION_PROPERTY) !== REDUX_STORE_VERSION) {
     localStorage.setItem(REDUX_STORE_STORAGE_NAME, JSON.stringify(localData))
 
     return localData

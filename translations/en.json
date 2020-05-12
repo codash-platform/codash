@@ -85,5 +85,14 @@
     "intervals:90": "Last 90 Days",
     "menu:view_mode_rankings": "Rankings",
     "table:title_main": "All metrics",
-    "table:title_ranking": "Rankings for {{metric}}"
+    "table:title_ranking": "Rankings for {{metric}}",
+    "menu:start_tour": "How To Use",
+    "tour:step_date_filter": "This is where you can select between which dates should the the data be calculated for the graphs, table and rankings.",
+    "tour:step_quick_interval": "An alternative method of selecting a date interval is by directly picking one of the predefined intervals from the sidebar.",
+    "tour:step_country_selection": "To select which countries you want added to your charts, check their corresponding boxes from the main table or the ranking tables.",
+    "tour:step_view_mode": "Here you can select if you want the combo view (which combines all of the other views) or if you want one of the specific views:\n\n- the Table View contains processed information for all countries plus a \"Combined Data\" row which combines all of the other rows\n- the Rankings View shows a table for each metric with entries sorted in descending order\n- the Graph View uses the selected countries and builds tables using the other selected options for graphs\n",
+    "tour:step_graph_mode": "This setting allows you to switch between line and bar graphs.",
+    "tour:step_graph_metrics": "For each of the selected metrics a new graph will be created.",
+    "tour:step_graph_scale": "Here you can change the scale between linear and logarithmic. Only works for linear graphs.",
+    "tour:step_tour_button": "That's it! Feel free to press this button if you want to repeat the tour."
 }

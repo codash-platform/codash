@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {withTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
+import {FeatureTour} from '../../components/FeatureTour'
 import {ACTION_GET_DATA_START, ACTION_PARSE_URL_PARAMS} from '../../global/constants'
 import {action} from '../../global/util'
 import {Graphs} from './graphs/Graphs'
@@ -22,6 +23,7 @@ class DashboardComponent extends Component {
   render() {
     return (
       <>
+        <FeatureTour />
         <Graphs />
         <Tables />
       </>

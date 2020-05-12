@@ -1,5 +1,4 @@
 import {
-  ACTION_TOGGLE_SIDEBAR,
   ACTION_ENABLE_FIXED_FOOTER,
   ACTION_ENABLE_FIXED_HEADER,
   ACTION_ENABLE_FIXED_SIDEBAR,
@@ -12,7 +11,9 @@ import {
   ACTION_ENABLE_SIDEBAR_SHADOW,
   ACTION_SET_BACKGROUND_COLOR,
   ACTION_SET_COLOR_SCHEME,
+  ACTION_SET_DESKTOP_DEVICE,
   ACTION_SET_HEADER_BACKGROUND_COLOR,
+  ACTION_TOGGLE_SIDEBAR,
 } from './constants'
 
 const initialState = {
@@ -29,6 +30,7 @@ const initialState = {
   enablePageTitleIcon: true,
   enablePageTitleSubheading: true,
   enablePageTabsAlt: false,
+  isDeviceDesktop: null,
 }
 
 export function theme(state = initialState, action) {
@@ -115,6 +117,12 @@ export function theme(state = initialState, action) {
       return {
         ...state,
         colorScheme: action.colorScheme,
+      }
+
+    case ACTION_SET_DESKTOP_DEVICE:
+      return {
+        ...state,
+        isDeviceDesktop: action.isDeviceDesktop,
       }
   }
   return state

@@ -1,3 +1,4 @@
+import {faQuestionCircle} from '@fortawesome/free-regular-svg-icons'
 import {faCalculator, faRedo} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import classNames from 'classnames'
@@ -7,7 +8,12 @@ import {Button, Dropdown} from 'react-bootstrap'
 import {withTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
-import {ACTION_GET_DATA_START, ACTION_REPARSE_DATA, ASYNC_STATUS} from '../../global/constants'
+import {
+  ACTION_CHANGE_TOUR_STATE,
+  ACTION_GET_DATA_START,
+  ACTION_REPARSE_DATA,
+  ASYNC_STATUS,
+} from '../../global/constants'
 import {languageOrder} from '../../global/i18n'
 import {action} from '../../global/util'
 import {isProduction} from '../../global/variables'
@@ -29,7 +35,15 @@ const MenuButton = props => {
 
 class HeaderComponent extends Component {
   render() {
-    const {overview, t, i18n, headerBackgroundColor, enableMobileMenuSmall, enableHeaderShadow} = this.props
+    const {
+      overview,
+      t,
+      i18n,
+      headerBackgroundColor,
+      enableMobileMenuSmall,
+      enableHeaderShadow,
+      isDeviceDesktop,
+    } = this.props
     const currentLanguage = i18n.language.substring(0, 2)
     const sortedLanguages = languageOrder.filter(language => i18n.languages.includes(language))
 
@@ -55,6 +69,15 @@ class HeaderComponent extends Component {
           </div>
 
           <div className="app-header-right">
+            {isDeviceDesktop && (
+              <MenuButton
+                className="tour-button"
+                disabled={overview.tourEnabled}
+                action={() => action(ACTION_CHANGE_TOUR_STATE, {enabled: true})}
+                title={t('menu:start_tour')}
+                icon={faQuestionCircle}
+              />
+            )}
             <MenuButton
               disabled={overview.loadingStatus === ASYNC_STATUS.PENDING}
               action={() => action(ACTION_GET_DATA_START)}
@@ -105,6 +128,7 @@ const stateToProps = state => ({
   enableHeaderShadow: state.theme.enableHeaderShadow,
   headerBackgroundColor: state.theme.headerBackgroundColor,
   enableMobileMenuSmall: state.theme.enableMobileMenuSmall,
+  isDeviceDesktop: state.theme.isDeviceDesktop,
 })
 
 const dispatchToProps = {}

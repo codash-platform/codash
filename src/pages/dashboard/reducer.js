@@ -3,6 +3,7 @@ import {
   ACTION_CHANGE_DATE_FILTER_INTERVAL,
   ACTION_CHANGE_DATE_FILTER_MODE,
   ACTION_CHANGE_GEOID_SELECTION,
+  ACTION_CHANGE_TOUR_STATE,
   ACTION_CHANGE_VIEW_MODE,
   ACTION_CLEAR_NOTIFICATION,
   ACTION_GET_DATA_FAIL,
@@ -11,6 +12,7 @@ import {
   ACTION_PARSE_URL_PARAMS,
   ACTION_REPARSE_DATA,
   ACTION_SET_NOTIFICATION,
+  ACTION_TOGGLE_DATE_FILTER,
   ASYNC_STATUS,
   DATE_FILTER,
   DATE_FORMAT_APP,
@@ -31,8 +33,10 @@ const initialState = {
     startDate: null,
     endDate: null,
     mode: DATE_FILTER.TOTAL,
+    focusedInput: null,
   },
   selectedGeoIds: {},
+  tourEnabled: false,
 }
 
 const preselectedGeoIds = ['US', 'CN', 'DE', 'FR', 'ES', 'IT', 'CH']
@@ -205,6 +209,21 @@ export const overview = (state = initialState, action = {}) => {
       return {
         ...state,
         ...processViewMode(action.viewMode),
+      }
+
+    case ACTION_TOGGLE_DATE_FILTER:
+      return {
+        ...state,
+        dateFilter: {
+          ...state.dateFilter,
+          focusedInput: action.focusedInput,
+        },
+      }
+
+    case ACTION_CHANGE_TOUR_STATE:
+      return {
+        ...state,
+        tourEnabled: action.enabled,
       }
 
     default:

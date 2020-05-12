@@ -1,4 +1,4 @@
-import {ACTION_TOGGLE_SIDEBAR_MENU, SIDEBAR_MENUS} from '../../global/constants'
+import {ACTION_EXPAND_ONLY_SIDEBAR_MENU, ACTION_TOGGLE_SIDEBAR_MENU, SIDEBAR_MENUS} from '../../global/constants'
 
 const initialState = {
   [SIDEBAR_MENUS.GRAPH_SCALE_MENU]: {
@@ -28,6 +28,16 @@ export const sidebar = (state = initialState, action = {}) => {
           expanded: action.expanded,
         },
       }
+
+    case ACTION_EXPAND_ONLY_SIDEBAR_MENU:
+      const newState = {...state}
+      Object.values(SIDEBAR_MENUS).map(menuId => {
+        newState[menuId].expanded = false
+      })
+
+      newState[action.menuId].expanded = true
+
+      return newState
 
     default:
       return state

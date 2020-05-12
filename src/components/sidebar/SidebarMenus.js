@@ -30,6 +30,9 @@ class SidebarMenusComponent extends Component {
         key: key,
         action: () => action(ACTION_CHANGE_VIEW_MODE, {viewMode: key}),
       })),
+      extraProps: {
+        'data-feature-tour': 'view-mode',
+      },
     },
     {
       id: SIDEBAR_MENUS.INTERVALS_MENU,
@@ -42,7 +45,7 @@ class SidebarMenusComponent extends Component {
         action: () => action(ACTION_CHANGE_DATE_FILTER_MODE, {filterMode: key}),
       })),
       extraProps: {
-        'data-tutorial': 'time-filter',
+        'data-feature-tour': 'quick-interval',
       },
     },
     {
@@ -55,6 +58,9 @@ class SidebarMenusComponent extends Component {
         key: key,
         action: () => action(ACTION_CHANGE_GRAPH_MODE, {graphMode: key}),
       })),
+      extraProps: {
+        'data-feature-tour': 'graph-mode',
+      },
     },
     {
       id: SIDEBAR_MENUS.GRAPH_SCALE_MENU,
@@ -66,6 +72,9 @@ class SidebarMenusComponent extends Component {
         key: key,
         action: () => action(ACTION_CHANGE_GRAPH_SCALE, {graphScale: key}),
       })),
+      extraProps: {
+        'data-feature-tour': 'graph-scale',
+      },
     },
     {
       id: SIDEBAR_MENUS.GRAPH_METRICS_MENU,
@@ -77,6 +86,9 @@ class SidebarMenusComponent extends Component {
         key: key,
         action: () => action(ACTION_CHANGE_METRIC_GRAPH_VISIBILITY, {metric: key}),
       })),
+      extraProps: {
+        'data-feature-tour': 'graph-metrics',
+      },
     },
   ]
 
@@ -109,32 +121,17 @@ class SidebarMenusComponent extends Component {
     return (
       <>
         <div className="sidebar-menu vertical-nav-menu">
-          <ul className="sidebar-menu-container" data-tutorial="observe">
+          <ul className="sidebar-menu-container">
             <h5 className="app-sidebar__heading">{t('sidebar:header_time')}</h5>
-            <SidebarMenuSet
-              menuData={intervalsMenu}
-              activeKeys={this.getActiveKeysForMenu(intervalsMenu.id)}
-            />
+            <SidebarMenuSet menuData={intervalsMenu} activeKeys={this.getActiveKeysForMenu(intervalsMenu.id)} />
 
             <h5 className="app-sidebar__heading">{t('sidebar:header_view')}</h5>
-            <SidebarMenuSet
-              menuData={viewModeMenu}
-              activeKeys={this.getActiveKeysForMenu(viewModeMenu.id)}
-            />
+            <SidebarMenuSet menuData={viewModeMenu} activeKeys={this.getActiveKeysForMenu(viewModeMenu.id)} />
 
             <h5 className="app-sidebar__heading">{t('sidebar:header_graph')}</h5>
-            <SidebarMenuSet
-              menuData={graphMetricsMenu}
-              activeKeys={this.getActiveKeysForMenu(graphMetricsMenu.id)}
-            />
-            <SidebarMenuSet
-              menuData={graphModeMenu}
-              activeKeys={this.getActiveKeysForMenu(graphModeMenu.id)}
-            />
-            <SidebarMenuSet
-              menuData={graphScaleMenu}
-              activeKeys={this.getActiveKeysForMenu(graphScaleMenu.id)}
-            />
+            <SidebarMenuSet menuData={graphMetricsMenu} activeKeys={this.getActiveKeysForMenu(graphMetricsMenu.id)} />
+            <SidebarMenuSet menuData={graphModeMenu} activeKeys={this.getActiveKeysForMenu(graphModeMenu.id)} />
+            <SidebarMenuSet menuData={graphScaleMenu} activeKeys={this.getActiveKeysForMenu(graphScaleMenu.id)} />
           </ul>
         </div>
       </>

@@ -4,18 +4,10 @@ import {DateRangePicker} from 'react-dates'
 import {withTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
-import {ACTION_CHANGE_DATE_FILTER_INTERVAL, DATE_FORMAT_APP} from '../global/constants'
+import {ACTION_CHANGE_DATE_FILTER_INTERVAL, ACTION_TOGGLE_DATE_FILTER, DATE_FORMAT_APP} from '../global/constants'
 import {action} from '../global/util'
 
 class DateFilterComponent extends Component {
-  constructor() {
-    super()
-
-    this.state = {
-      datePickerFocus: null,
-    }
-  }
-
   render() {
     const {overview, className, id} = this.props
     const {dateFilter} = overview
@@ -47,8 +39,8 @@ class DateFilterComponent extends Component {
               endDate: endDate?.format(DATE_FORMAT_APP) || null,
             })
           }
-          focusedInput={this.state.datePickerFocus}
-          onFocusChange={focusedInput => this.setState({datePickerFocus: focusedInput})}
+          focusedInput={dateFilter.focusedInput}
+          onFocusChange={focusedInput => action(ACTION_TOGGLE_DATE_FILTER, {focusedInput: focusedInput})}
           enableOutsideDays={false}
           isOutsideRange={date => {
             if (!overview.data?.datesAvailable) {

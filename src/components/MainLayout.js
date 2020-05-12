@@ -4,6 +4,8 @@ import {withTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import ResizeDetector from 'react-resize-detector'
 import {Router} from 'react-router-dom'
+import {ACTION_SET_DESKTOP_DEVICE} from '../global/constants'
+import {action} from '../global/util'
 import {Footer} from './Footer'
 import {APP_ROUTES} from '../global/routes'
 import {history} from '../global/store'
@@ -12,19 +14,17 @@ import {NotificationBox} from './NotificationBox'
 import {Sidebar} from './sidebar/Sidebar'
 
 class MainLayoutComponent extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      closedSmallerSidebar: false,
-      width: undefined,
+  isDeviceDesktop = width => width >= 1250
+
+  onResize = width => {
+    const isDeviceDesktop = this.isDeviceDesktop(width)
+
+    if (this.props.isDeviceDesktop !== isDeviceDesktop) {
+      action(ACTION_SET_DESKTOP_DEVICE, {isDeviceDesktop: isDeviceDesktop})
     }
   }
 
-  onResize = width => this.setState({width})
-
   render() {
-    const {width} = this.state
-
     let {
       colorScheme,
       enableFixedHeader,
@@ -33,20 +33,21 @@ class MainLayoutComponent extends Component {
       closedSidebar,
       closedSmallerSidebar,
       enableMobileMenu,
+      isDeviceDesktop,
     } = this.props
 
     return (
       <Router history={history}>
         <div
-          className={classNames(
-            'app-container app-theme-' + colorScheme,
-            {'fixed-header': enableFixedHeader},
-            {'fixed-sidebar': enableFixedSidebar || width < 1250},
-            {'fixed-footer': enableFixedFooter},
-            {'closed-sidebar': closedSidebar || width < 1250},
-            {'closed-sidebar-mobile': closedSmallerSidebar || width < 1250},
-            {'sidebar-mobile-open': enableMobileMenu}
-          )}
+          className={classNames({
+            ['app-container app-theme-' + colorScheme]: true,
+            'fixed-header': enableFixedHeader,
+            'fixed-sidebar': enableFixedSidebar || !isDeviceDesktop,
+            'fixed-footer': enableFixedFooter,
+            'closed-sidebar': closedSidebar || !isDeviceDesktop,
+            'closed-sidebar-mobile': closedSmallerSidebar || !isDeviceDesktop,
+            'sidebar-mobile-open': enableMobileMenu,
+          })}
         >
           <Header />
           <div className="app-main">
@@ -73,6 +74,7 @@ const stateToProps = state => ({
   enableFixedFooter: state.theme.enableFixedFooter,
   enableFixedSidebar: state.theme.enableFixedSidebar,
   closedSidebar: state.theme.closedSidebar,
+  isDeviceDesktop: state.theme.isDeviceDesktop,
 })
 
 const dispatchToProps = {}

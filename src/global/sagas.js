@@ -7,6 +7,7 @@ import {
   ACTION_CHANGE_GRAPH_MODE,
   ACTION_CHANGE_GRAPH_SCALE,
   ACTION_CHANGE_METRIC_GRAPH_VISIBILITY,
+  ACTION_CHANGE_TOUR_STATE,
   ACTION_CHANGE_VIEW_MODE,
   ACTION_CLEAR_NOTIFICATION,
   ACTION_GET_DATA_FAIL,
@@ -31,7 +32,7 @@ const routingActions = [
   ACTION_CHANGE_METRIC_GRAPH_VISIBILITY,
 ]
 
-function* getData(action) {
+function* getData() {
   try {
     yield put({type: ACTION_SET_NOTIFICATION, message: 'global:notification_loading', showSpinner: true})
     const result = yield call(
@@ -40,6 +41,14 @@ function* getData(action) {
     )
     yield put({type: ACTION_GET_DATA_SUCCESS, result: result.data})
     yield put({type: ACTION_CLEAR_NOTIFICATION})
+
+    const {isDeviceDesktop, tourCompleted} = yield select(state => ({
+      isDeviceDesktop: state.theme.isDeviceDesktop,
+      tourCompleted: state.overview.tourCompleted,
+    }))
+    if (isDeviceDesktop && !tourCompleted) {
+      yield put({type: ACTION_CHANGE_TOUR_STATE, enabled: true})
+    }
   } catch (e) {
     console.error(e)
     yield put({type: ACTION_GET_DATA_FAIL, error: e.message})

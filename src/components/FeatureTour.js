@@ -4,6 +4,7 @@ import Joyride, {EVENTS, STATUS} from 'react-joyride'
 import {connect} from 'react-redux'
 import {
   ACTION_CHANGE_METRIC_GRAPH_VISIBILITY,
+  ACTION_CHANGE_TOUR_COMPLETION,
   ACTION_CHANGE_TOUR_STATE,
   ACTION_CHANGE_VIEW_MODE,
   ACTION_EXPAND_ONLY_SIDEBAR_MENU,
@@ -132,6 +133,7 @@ class FeatureTourComponent extends Component {
           // Need to set our running state to false, so we can restart if we click start again.
           if ([STATUS.FINISHED, STATUS.SKIPPED].includes(data.status)) {
             action(ACTION_CHANGE_TOUR_STATE, {enabled: false})
+            action(ACTION_CHANGE_TOUR_COMPLETION, {completed: true})
           }
         }}
       />

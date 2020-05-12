@@ -3,6 +3,7 @@ import {
   ACTION_CHANGE_DATE_FILTER_INTERVAL,
   ACTION_CHANGE_DATE_FILTER_MODE,
   ACTION_CHANGE_GEOID_SELECTION,
+  ACTION_CHANGE_TOUR_COMPLETION,
   ACTION_CHANGE_TOUR_STATE,
   ACTION_CHANGE_VIEW_MODE,
   ACTION_CLEAR_NOTIFICATION,
@@ -37,6 +38,7 @@ const initialState = {
   },
   selectedGeoIds: {},
   tourEnabled: false,
+  tourCompleted: false,
 }
 
 const preselectedGeoIds = ['US', 'CN', 'DE', 'FR', 'ES', 'IT', 'CH']
@@ -224,6 +226,12 @@ export const overview = (state = initialState, action = {}) => {
       return {
         ...state,
         tourEnabled: action.enabled,
+      }
+
+    case ACTION_CHANGE_TOUR_COMPLETION:
+      return {
+        ...state,
+        tourCompleted: action.completed,
       }
 
     default:

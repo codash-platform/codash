@@ -1,8 +1,10 @@
 # CoDash - COVID-19 Dashboard <img align="right" width="300" src="https://github.com/codash-platform/codash/blob/master/static/images/logo/logo_large.png?raw=true" alt="CoDash" >
 
-This frontend app focuses on providing (yet one more) dashboard to visualize the COVID-19 data.
+Live website: https://codash.io
 
-Live demo: https://codash.io
+This dashboard focuses on providing a more customisable way to sort and visualise the currently available covid data.
+
+
 
 ### Getting started
 
@@ -10,7 +12,7 @@ Live demo: https://codash.io
 2. Run `npm install`
 3. Run `npm start`
 
-Additional info:
+##### Additional info
 * edit `.env` to modify some of the environment variables
 * to autoformat the code -> run the code linter `npm run pretty`
 * run `npm run start:prod` if you want to run the production version (minimized code)
@@ -21,9 +23,9 @@ Additional info:
 
 Main frameworks: React with Redux and Saga
 
-UI framework: React Bootstrap and React Bootstrap Table
+UI framework: Bootstrap with a lot of addons
 
-Build system: Babel with Webpack
+Build system: Webpack with Babel
 
     
 ## Data Source

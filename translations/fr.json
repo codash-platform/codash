@@ -85,5 +85,14 @@
     "intervals:90": "90 Derniers Jours",
     "menu:view_mode_rankings": "",
     "table:title_main": "",
-    "table:title_ranking": ""
+    "table:title_ranking": "",
+    "menu:start_tour": "",
+    "tour:step_date_filter": "",
+    "tour:step_quick_interval": "",
+    "tour:step_country_selection": "",
+    "tour:step_view_mode": "",
+    "tour:step_graph_mode": "",
+    "tour:step_graph_metrics": "",
+    "tour:step_graph_scale": "",
+    "tour:step_tour_button": ""
 }

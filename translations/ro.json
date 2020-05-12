@@ -92,7 +92,12 @@
     "tour:step_country_selection": "Pentru a selecta țările ce vor aparea in grafice, bifează casuța corespunzatoare din tabelul principal sau din clasamente.",
     "tour:step_view_mode": "Aici poți alege dacă vrei vizualizarea combo (ce conține toate celelalte vizualizări) sau una dintre vizualizările specifice:\n\n- vizualizarea Tabel contine informațiile procesate pentru toate țările plus un rând \"Combined Data\" ce combină toate celelalte rânduri\n- vizualizarea Clasamente ce arată câte un table pentru fiecare metrică cu randurile sortate in ordine descrescatoare\n- vizualizarea Grafice ce foloseste țările selectate si construiește grafice folosind toate opțiunile selectate",
     "tour:step_graph_mode": "Această opțiune permite schimbarea între grafice liniare si cele cu bare.",
-    "tour:step_graph_metrics": "Pentru fiecare metrică selectată un nou grafic va fi creat.",
+    "tour:step_graph_metrics": "Pentru fiecare metrică selectată, un nou grafic va fi creat.",
     "tour:step_graph_scale": "Aici poți schimba scara graficelor între scară liniară și scară logaritmica. Funcționează doar pentru grafice liniare.",
-    "tour:step_tour_button": "Asta e tot! Dacă vrei sa repeți acest ghid, poți folosi acest buton."
+    "tour:step_tour_button": "Asta e tot!\nDacă vrei sa repeți acest ghid, poți folosi acest buton.",
+    "tour:button_back": "Înapoi",
+    "tour:button_close": "Închide",
+    "tour:button_last": "Ultimul Pas",
+    "tour:button_next": "Următorul Pas",
+    "tour:button_skip": ""
 }

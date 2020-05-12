@@ -94,5 +94,10 @@
     "tour:step_graph_mode": "",
     "tour:step_graph_metrics": "",
     "tour:step_graph_scale": "",
-    "tour:step_tour_button": ""
+    "tour:step_tour_button": "",
+    "tour:button_back": "",
+    "tour:button_close": "",
+    "tour:button_last": "",
+    "tour:button_next": "",
+    "tour:button_skip": ""
 }

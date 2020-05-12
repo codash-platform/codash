@@ -35,10 +35,7 @@ const routingActions = [
 function* getData() {
   try {
     yield put({type: ACTION_SET_NOTIFICATION, message: 'global:notification_loading', showSpinner: true})
-    const result = yield call(
-      axios.get,
-      'https://cors-anywhere.herokuapp.com/https://opendata.ecdc.europa.eu/covid19/casedistribution/json'
-    )
+    const result = yield call(axios.get, '//api.codash.io/download.php')
     yield put({type: ACTION_GET_DATA_SUCCESS, result: result.data})
     yield put({type: ACTION_CLEAR_NOTIFICATION})
 

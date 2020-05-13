@@ -25,14 +25,7 @@ const localStorageMiddleware = ({getState}) => {
       const newReducer = {}
       for (let [subKey, subValue] of Object.entries(value)) {
         if (subKey === 'data' && key === 'overview' && subValue) {
-          const entries = Object.entries(subValue)
-          subValue = {}
-          for (let [subDataKey, subDataValue] of entries) {
-            if (subDataKey === 'rawData') {
-              continue
-            }
-            subValue[subDataKey] = subDataValue
-          }
+          continue
         }
         newReducer[subKey] = subValue
       }

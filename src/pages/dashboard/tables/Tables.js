@@ -45,18 +45,25 @@ class TableComponent extends Component {
       sort: true,
       headerStyle: {width: '90px'},
       style: {textAlign: 'center'},
-      formatter: (cell, row) => (
-        <Form.Check
-          custom
-          type="checkbox"
-          id={`select-${row.geoId}`}
-          value={row.geoId}
-          label=""
-          disabled={!cell && row.maxSelectionReached}
-          onChange={e => action(ACTION_CHANGE_GEOID_SELECTION, {geoId: e.target.value, selected: e.target.checked})}
-          checked={cell}
-        />
-      ),
+      formatter: (cell, row) => {
+        // TODO inspect table bug
+        if (!row) {
+          return
+        }
+
+        return (
+          <Form.Check
+            custom
+            type="checkbox"
+            id={`select-${row.geoId}`}
+            value={row.geoId}
+            label=""
+            disabled={!cell && row.maxSelectionReached}
+            onChange={e => action(ACTION_CHANGE_GEOID_SELECTION, {geoId: e.target.value, selected: e.target.checked})}
+            checked={cell}
+          />
+        )
+      },
     },
     {
       dataField: 'name',

@@ -99,5 +99,7 @@
     "tour:button_close": "",
     "tour:button_last": "",
     "tour:button_next": "",
-    "tour:button_skip": ""
+    "tour:button_skip": "",
+    "sidebar:header_project": "",
+    "sidebar:menu_about": ""
 }

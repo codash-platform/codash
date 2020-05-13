@@ -99,5 +99,7 @@
     "tour:button_close": "Close",
     "tour:button_last": "Last",
     "tour:button_next": "Next",
-    "tour:button_skip": "Cancel Tour"
+    "tour:button_skip": "Cancel Tour",
+    "sidebar:header_project": "Project",
+    "sidebar:menu_about": "About"
 }

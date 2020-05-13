@@ -71,7 +71,7 @@ class HeaderComponent extends Component {
           <div className="app-header-right">
             {isDeviceDesktop && (
               <MenuButton
-                className="tour-button"
+                className="tour-button mx-1"
                 disabled={overview.tourEnabled}
                 action={() => action(ACTION_CHANGE_TOUR_STATE, {enabled: true})}
                 title={t('menu:start_tour')}

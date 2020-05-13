@@ -97,6 +97,10 @@ class GraphsComponent extends Component {
       return graphs
     }
 
+    // disable animations when too much data causes UI lagging
+    const animationsEnabled =
+      metricsVisible.length < 5 && Object.values(selectedGeoIds).filter(selected => selected).length < 5
+
     graphMetricsOrder
       .filter(metric => metricsVisible.includes(metric))
       .map(metricName => {
@@ -120,6 +124,7 @@ class GraphsComponent extends Component {
                 scale={graphScale}
                 logarithmParams={processedData.logarithmParams}
                 getColorForDataSet={this.getColorForDataSet}
+                animationsEnabled={animationsEnabled}
               />
             </Card>
           )
@@ -135,6 +140,7 @@ class GraphsComponent extends Component {
                   keys={processedData.barData?.keys}
                   getColorForDataSet={this.getColorForDataSet}
                   getColorForTooltip={this.getColorForTooltip}
+                  animationsEnabled={animationsEnabled}
                 />
               </Card.Body>
             </Card>
@@ -146,7 +152,7 @@ class GraphsComponent extends Component {
   }
 }
 
-export const BarGraph = ({data, keys, getColorForDataSet, getColorForTooltip}) => {
+export const BarGraph = ({data, keys, getColorForDataSet, getColorForTooltip, animationsEnabled}) => {
   return (
     <AutoSizer disableHeight>
       {({width}) => (
@@ -155,6 +161,7 @@ export const BarGraph = ({data, keys, getColorForDataSet, getColorForTooltip}) =
           width={width}
           data={data || []}
           keys={keys}
+          animate={animationsEnabled}
           margin={{top: 50, right: 120, bottom: 70, left: 70}}
           groupMode="grouped"
           layout="vertical"
@@ -258,7 +265,7 @@ export const BarGraph = ({data, keys, getColorForDataSet, getColorForTooltip}) =
   )
 }
 
-export const LineGraph = ({data, scale, logarithmParams, getColorForDataSet}) => {
+export const LineGraph = ({data, scale, logarithmParams, getColorForDataSet, animationsEnabled}) => {
   let yScaleConfig = {
     type: 'linear',
     stacked: false,
@@ -294,6 +301,7 @@ export const LineGraph = ({data, scale, logarithmParams, getColorForDataSet}) =>
           data={data || []}
           height={500}
           width={width}
+          animate={animationsEnabled}
           margin={{top: 10, right: 120, bottom: 70, left: 70}}
           xScale={{
             type: 'time',

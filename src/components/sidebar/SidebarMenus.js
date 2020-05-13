@@ -1,4 +1,12 @@
-import {faChartBar, faClock, faLayerGroup, faRulerCombined, faTasks} from '@fortawesome/free-solid-svg-icons'
+import {
+  faAddressCard,
+  faChartBar,
+  faClock,
+  faLayerGroup,
+  faRulerCombined,
+  faTasks,
+} from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import React, {Component} from 'react'
 import {withTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
@@ -132,6 +140,14 @@ class SidebarMenusComponent extends Component {
             <SidebarMenuSet menuData={graphMetricsMenu} activeKeys={this.getActiveKeysForMenu(graphMetricsMenu.id)} />
             <SidebarMenuSet menuData={graphModeMenu} activeKeys={this.getActiveKeysForMenu(graphModeMenu.id)} />
             <SidebarMenuSet menuData={graphScaleMenu} activeKeys={this.getActiveKeysForMenu(graphScaleMenu.id)} />
+
+            <h5 className="app-sidebar__heading">{t('sidebar:header_project')}</h5>
+            <li className="sidebar-menu-item">
+              <a className="sidebar-menu-link" target="_blank" href="https://github.com/codash-platform/codash">
+                <FontAwesomeIcon className="sidebar-menu-icon" icon={faAddressCard} />
+                {t('sidebar:menu_about')}
+              </a>
+            </li>
           </ul>
         </div>
       </>

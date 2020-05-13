@@ -99,5 +99,7 @@
     "tour:button_close": "Închide",
     "tour:button_last": "Ultimul Pas",
     "tour:button_next": "Următorul Pas",
-    "tour:button_skip": "Anulează Turul"
+    "tour:button_skip": "Anulează Turul",
+    "sidebar:header_project": "Proiect",
+    "sidebar:menu_about": "Despre"
 }

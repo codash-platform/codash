@@ -20,7 +20,6 @@ class FooterComponent extends Component {
                 <a className="font-weight-bold" href="https://github.com/codash-platform/codash">
                   {appName}
                 </a>
-                {t('footer:signature')}
               </Col>
               {buildTime && (
                 <Col xs={12}>

@@ -96,7 +96,6 @@ class FeatureTourComponent extends Component {
           if (data.type === EVENTS.BEACON) {
             switch (data.index) {
               case tourStepOrder.dateFilter:
-                action(ACTION_CHANGE_VIEW_MODE, {viewMode: VIEW_MODE.GRAPHS})
                 action(ACTION_CHANGE_METRIC_GRAPH_VISIBILITY, {metric: 'all'})
                 action(ACTION_TOGGLE_DATE_FILTER, {focusedInput: null})
                 break

@@ -212,6 +212,7 @@ export const BarGraph = ({data, keys, getColorForDataSet, getColorForTooltip}) =
                 <tbody>
                   {Object.entries(data.data)
                     .filter(([name, value]) => !['date', 'nameToGeoId'].includes(name))
+                    .sort((a, b) => b?.[1] - a?.[1])
                     .map(([name, value]) => (
                       <tr key={name}>
                         <td style={{padding: '3px 5px'}}>
@@ -338,23 +339,25 @@ export const LineGraph = ({data, scale, logarithmParams, getColorForDataSet}) =>
                 <div className="font-weight-bold text-center">{slice.points[0].data.xFormatted}</div>
                 <table style={{width: '100%', borderCollapse: 'collapse'}}>
                   <tbody>
-                    {slice.points.map(point => (
-                      <tr key={point.id}>
-                        <td style={{padding: '3px 5px'}}>
-                          <div
-                            style={{
-                              width: '12px',
-                              height: '12px',
-                              backgroundColor: point.serieColor,
-                            }}
-                          />
-                        </td>
-                        <td style={{padding: '3px 5px'}}>{point.serieId}</td>
-                        <td className="font-weight-bold text-right" style={{padding: '3px 5px'}}>
-                          {point.data.yFormatted.toLocaleString(LOCALE_DEFAULT)}
-                        </td>
-                      </tr>
-                    ))}
+                    {slice.points
+                      .sort((a, b) => b?.data?.yFormatted - a?.data?.yFormatted)
+                      .map(point => (
+                        <tr key={point.id}>
+                          <td style={{padding: '3px 5px'}}>
+                            <div
+                              style={{
+                                width: '12px',
+                                height: '12px',
+                                backgroundColor: point.serieColor,
+                              }}
+                            />
+                          </td>
+                          <td style={{padding: '3px 5px'}}>{point.serieId}</td>
+                          <td className="font-weight-bold text-right" style={{padding: '3px 5px'}}>
+                            {point.data.yFormatted.toLocaleString(LOCALE_DEFAULT)}
+                          </td>
+                        </tr>
+                      ))}
                   </tbody>
                 </table>
               </div>

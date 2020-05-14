@@ -79,6 +79,7 @@ export const URL_ELEMENT_SEPARATOR = '-'
 // route urls
 export const ROUTE_DASHBOARD =
   '/:viewMode?/:startDate?/:endDate?/:graphMode?/:graphScale?/:selectedGeoIds?/:metricsVisible?'
+export const ROUTE_EMPTY_PARAM = '-'
 
 export const ACTION_PARSE_URL_PARAMS = 'ACTION_PARSE_URL_PARAMS'
 export const ACTION_GET_DATA_START = 'ACTION_GET_DATA_START'

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {withTranslation} from 'react-i18next'
+import {withTranslation, WithTranslation} from 'react-i18next'
 import Joyride, {EVENTS, STATUS} from 'react-joyride'
 import {connect} from 'react-redux'
 import {
@@ -69,12 +69,16 @@ const steps = [
   },
 ]
 
-class FeatureTourComponent extends Component {
+interface FeatureTourComponentI extends WithTranslation{
+	[any: string]: any;
+}
+
+class FeatureTourComponent extends Component<FeatureTourComponentI> {
   render() {
     const {overview, t} = this.props
     const {tourEnabled} = overview
 
-    const translatedSteps = steps.map(step => {
+    const translatedSteps = steps.map((step: Record<string,any>) => {
       step.content = t(step.contentPlaceholder)
       return step
     })
@@ -82,7 +86,8 @@ class FeatureTourComponent extends Component {
     return (
       <Joyride
         run={tourEnabled}
-        disableOverlayClose={true}
+		disableOverlayClose={true}
+		//@ts-ignore
         steps={translatedSteps}
         showSkipButton={true}
         locale={{
@@ -92,7 +97,7 @@ class FeatureTourComponent extends Component {
           next: t('tour:button_next'),
           skip: t('tour:button_skip'),
         }}
-        callback={data => {
+        callback={(data: Record<string,any>) => {
           if (data.type === EVENTS.BEACON) {
             switch (data.index) {
               case tourStepOrder.dateFilter:

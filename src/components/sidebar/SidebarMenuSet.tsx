@@ -2,12 +2,16 @@ import {faAngleDown} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import classNames from 'classnames'
 import React, {Component} from 'react'
-import {withTranslation} from 'react-i18next'
+import {withTranslation, WithTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import {ACTION_TOGGLE_SIDEBAR_MENU} from '../../global/constants'
 import {action} from '../../global/util'
 
-class SidebarMenuSetComponent extends Component {
+interface SidebarMenuSetComponentI extends WithTranslation{
+	[any: string]: any;
+}
+
+class SidebarMenuSetComponent extends Component<SidebarMenuSetComponentI> {
   render() {
     const {t, menuData, activeKeys, sidebar} = this.props
     const expanded = sidebar[menuData.id].expanded

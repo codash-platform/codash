@@ -1,12 +1,16 @@
 import moment from 'moment'
 import React, {Component} from 'react'
 import {Col, Row} from 'react-bootstrap'
-import {withTranslation} from 'react-i18next'
+import {withTranslation, WithTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import {DATE_TIME_FORMAT_APP} from '../global/constants'
 import {appName, buildTime} from '../global/variables'
 
-class FooterComponent extends Component {
+interface FooterComponentI extends WithTranslation{
+	[any: string]: any;
+}
+
+class FooterComponent extends Component<FooterComponentI> {
   render() {
     const {t} = this.props
 

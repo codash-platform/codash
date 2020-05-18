@@ -8,7 +8,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import React, {Component} from 'react'
-import {withTranslation} from 'react-i18next'
+import {withTranslation, WithTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import {
   ACTION_CHANGE_DATE_FILTER_MODE,
@@ -26,7 +26,11 @@ import {action} from '../../global/util'
 import {graphMetricsOrder} from '../../pages/dashboard/graphs/Graphs'
 import {SidebarMenuSet} from './SidebarMenuSet'
 
-class SidebarMenusComponent extends Component {
+interface SidebarMenusComponentI extends WithTranslation{
+	[any: string]: any;
+}
+
+class SidebarMenusComponent extends Component<SidebarMenusComponentI> {
   menus = [
     {
       id: SIDEBAR_MENUS.VIEW_MODE_MENU,

@@ -20,9 +20,9 @@ languageOrder.map(lang => {
 i18next
   .use(LanguageDetector)
   .use(initReactI18next) // passes i18n down to react-i18next
-  .on('initialized', () => moment.locale(i18next.language.substring(0, 2)))
-  .on('languageChanged', language => moment.locale(language.substring(0, 2)))
-  .init({
+  .on('initialized', () => moment.locale(i18next.language.substring(0, 2))) 
+i18next.on('languageChanged', language => moment.locale(language.substring(0, 2)))
+i18next.init({
     interpolation: {
       // React already does escaping
       escapeValue: false,

@@ -4,8 +4,10 @@ import {connect} from 'react-redux'
 import {ACTION_TOGGLE_SIDEBAR} from '../../global/constants'
 import {action} from '../../global/util'
 import {MobileMenu} from './MobileMenu'
-
-class HeaderLogoComponent extends Component {
+interface HeaderLogoComponentI {
+	[any: string]: any;
+}
+class HeaderLogoComponent extends Component<HeaderLogoComponentI> {
   render() {
     const {closedSidebar} = this.props
 

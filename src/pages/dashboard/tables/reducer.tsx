@@ -36,7 +36,7 @@ const initialState = {
   },
 }
 
-export const tableOverview = (state = initialState, action = {}) => {
+export const tableOverview = (state = initialState, action: Record<string,any> = {}) => {
   switch (action.type) {
     case ACTION_CHANGE_SIZE_PER_PAGE:
       if (!Object.values(TABLE_TYPE).includes(action.tableType)) {

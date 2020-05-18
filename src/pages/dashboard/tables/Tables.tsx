@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {Col, Form, Row} from 'react-bootstrap'
-import {withTranslation} from 'react-i18next'
+import {withTranslation, WithTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import {ACTION_CHANGE_GEOID_SELECTION, LOCALE_DEFAULT, METRICS, TABLE_TYPE} from '../../../global/constants'
 import {getTableData} from '../../../global/dataParsing'
@@ -8,7 +8,12 @@ import {action} from '../../../global/util'
 import {colors} from '../graphs/Graphs'
 import {CustomTable} from './CustomTable'
 
-class TableComponent extends Component {
+interface TableComponentI extends WithTranslation{
+	overview: Record<string,any>;
+	tableOverview: Record<string,any>;
+}
+
+class TableComponent extends Component<TableComponentI,any> {
   perCapitaCellFormatter = cell => {
     if (!cell || isNaN(cell) || !isFinite(cell)) {
       return '--'
@@ -163,7 +168,7 @@ class TableComponent extends Component {
     return (
       <>
         <Row>
-          {Object.values(TABLE_TYPE).map(tableType => {
+          {Object.values(TABLE_TYPE).map((tableType: string) => {
             if (tableType === TABLE_TYPE.MAIN) {
               if (!tableVisible) {
                 return

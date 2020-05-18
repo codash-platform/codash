@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import React, {Component} from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import {Button, Dropdown} from 'react-bootstrap'
-import {withTranslation} from 'react-i18next'
+import {withTranslation,WithTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
 import {
@@ -33,7 +33,10 @@ const MenuButton = props => {
   )
 }
 
-class HeaderComponent extends Component {
+interface HeaderComponentI extends WithTranslation{
+	[any: string]: any;
+}
+class HeaderComponent extends Component<HeaderComponentI> {
   render() {
     const {
       overview,
@@ -88,6 +91,7 @@ class HeaderComponent extends Component {
               <MenuButton icon={faCalculator} action={() => action(ACTION_REPARSE_DATA)} title={t('menu:reparse')} />
             )}
             <Dropdown className="m-1 d-inline-block" onSelect={language => i18n.changeLanguage(language)}>
+			{/* @ts-ignore */}
               <Dropdown.Toggle id={'language-dropdown'} size="sm" variant="codash-translucent" className="text-white">
                 <img src={`/images/i18n/${currentLanguage}.svg`} alt={currentLanguage} className="flag" />
                 &nbsp;

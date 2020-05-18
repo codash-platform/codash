@@ -18,7 +18,7 @@ const initialState = {
   metricsVisible: Object.values(METRICS),
 }
 
-export const graphOverview = (state = initialState, action = {}) => {
+export const graphOverview = (state = initialState, action: Record<string,any> = {}) => {
   switch (action.type) {
     case ACTION_CHANGE_GRAPH_MODE:
       return {

@@ -8,7 +8,7 @@ import {ACTION_CHANGE_DATE_FILTER_INTERVAL, ACTION_TOGGLE_DATE_FILTER, DATE_FORM
 import {action} from '../global/util'
 
 interface DateFilterComponentI extends WithTranslation {
-  [any: string]: any
+  [any: string]: any;
 }
 
 class DateFilterComponent extends Component<DateFilterComponentI> {

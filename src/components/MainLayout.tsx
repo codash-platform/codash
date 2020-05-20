@@ -14,7 +14,7 @@ import {NotificationBox} from './NotificationBox'
 import {Sidebar} from './sidebar/Sidebar'
 
 interface MainLayoutComponentI extends WithTranslation {
-  [any: string]: any
+  [any: string]: any;
 }
 
 class MainLayoutComponent extends Component<MainLayoutComponentI> {

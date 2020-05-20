@@ -27,7 +27,7 @@ import {graphMetricsOrder} from '../../pages/dashboard/graphs/Graphs'
 import {SidebarMenuSet} from './SidebarMenuSet'
 
 interface SidebarMenusComponentI extends WithTranslation {
-  [any: string]: any
+  [any: string]: any;
 }
 
 class SidebarMenusComponent extends Component<SidebarMenusComponentI> {

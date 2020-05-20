@@ -9,8 +9,8 @@ import {colors} from '../graphs/Graphs'
 import {CustomTable} from './CustomTable'
 
 interface TableComponentI extends WithTranslation {
-  overview: Record<string, any>
-  tableOverview: Record<string, any>
+  overview: Record<string, any>;
+  tableOverview: Record<string, any>;
 }
 
 class TableComponent extends Component<TableComponentI, any> {

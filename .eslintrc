@@ -16,7 +16,7 @@
     "node": true,
     "es2020": true
   },
-  "parser": "babel-eslint",
+  "parser": "@typescript-eslint/parser",
   "settings": {
     "react": {
       "pragma": "React",

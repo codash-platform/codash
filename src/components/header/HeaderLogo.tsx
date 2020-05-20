@@ -6,7 +6,7 @@ import {action} from '../../global/util'
 import {MobileMenu} from './MobileMenu'
 
 interface HeaderLogoComponentI {
-  [any: string]: any
+  [any: string]: any;
 }
 
 class HeaderLogoComponent extends Component<HeaderLogoComponentI> {

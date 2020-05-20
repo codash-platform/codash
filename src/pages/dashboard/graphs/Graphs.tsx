@@ -38,7 +38,7 @@ export const colors = [
 ]
 
 interface GraphsComponentI extends WithTranslation {
-  [any: string]: any
+  [any: string]: any;
 }
 
 class GraphsComponent extends Component<GraphsComponentI, any> {
@@ -227,7 +227,7 @@ export const BarGraph = ({data, keys, getColorForDataSet, getColorForTooltip, an
                   <tbody>
                     {Object.entries(data.data)
                       .filter(([name, value]) => !['date', 'nameToGeoId'].includes(name))
-                      .sort((a, b) => b?.[1] - a?.[1])
+                      .sort((a, b) => (b?.[1] as any) - (a?.[1] as any))
                       .map(([name, value]) => (
                         <tr key={name}>
                           <td style={{padding: '3px 5px'}}>

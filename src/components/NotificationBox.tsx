@@ -6,7 +6,7 @@ import {withTranslation, WithTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 
 interface NotificationBoxComponentI extends WithTranslation {
-  [any: string]: any
+  [any: string]: any;
 }
 
 class NotificationBoxComponent extends Component<NotificationBoxComponentI> {

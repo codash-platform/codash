@@ -9,7 +9,7 @@ import {ACTION_ENABLE_MOBILE_MENU, ACTION_ENABLE_MOBILE_MENU_SMALL} from '../../
 import {action} from '../../global/util'
 
 interface MobileMenuComponentI {
-  [any: string]: any
+  [any: string]: any;
 }
 
 class MobileMenuComponent extends Component<MobileMenuComponentI> {

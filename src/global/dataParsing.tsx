@@ -359,7 +359,7 @@ const getLineGraphData = (cleanedData, geoIdToNameMapping, propertyName, graphSc
 const sortArrayByDateProperty = (array, datePropertyKey) => {
   return array.sort(
     (a, b) =>
-      (moment(a[datePropertyKey], DATE_FORMAT_APP).toDate() as any) -
-      (moment(b[datePropertyKey], DATE_FORMAT_APP).toDate() as any)
+      (moment(a[datePropertyKey], DATE_FORMAT_APP).toDate() as any)
+      - (moment(b[datePropertyKey], DATE_FORMAT_APP).toDate() as any)
   )
 }

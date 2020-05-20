@@ -8,7 +8,7 @@ import {Graphs} from './graphs/Graphs'
 import {Tables} from './tables/Tables'
 
 interface DashboardComponentI extends WithTranslation {
-  [any: string]: any
+  [any: string]: any;
 }
 
 class DashboardComponent extends Component<DashboardComponentI> {

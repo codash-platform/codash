@@ -70,7 +70,7 @@ const steps = [
 ]
 
 interface FeatureTourComponentI extends WithTranslation {
-  [any: string]: any
+  [any: string]: any;
 }
 
 class FeatureTourComponent extends Component<FeatureTourComponentI> {

@@ -11,15 +11,15 @@ import {ACTION_CHANGE_SIZE_PER_PAGE, TABLE_TYPE} from '../../../global/constants
 import {action} from '../../../global/util'
 
 interface CustomTableI {
-  sizePerPage?: any
-  count?: any
-  t?: any
-  data?: any
-  columns?: any
-  headerFormatter?: any
-  tableType?: any
-  defaultSorted?: any
-  smallPagination?: any
+  sizePerPage?: any;
+  count?: any;
+  t?: any;
+  data?: any;
+  columns?: any;
+  headerFormatter?: any;
+  tableType?: any;
+  defaultSorted?: any;
+  smallPagination?: any;
 }
 
 export const CustomTable: FC<CustomTableI> = ({

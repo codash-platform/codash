@@ -8,7 +8,7 @@ import {ACTION_TOGGLE_SIDEBAR_MENU} from '../../global/constants'
 import {action} from '../../global/util'
 
 interface SidebarMenuSetComponentI extends WithTranslation {
-  [any: string]: any
+  [any: string]: any;
 }
 
 class SidebarMenuSetComponent extends Component<SidebarMenuSetComponentI> {

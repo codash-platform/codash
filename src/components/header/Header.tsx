@@ -34,7 +34,7 @@ const MenuButton = props => {
 }
 
 interface HeaderComponentI extends WithTranslation {
-  [any: string]: any
+  [any: string]: any;
 }
 
 class HeaderComponent extends Component<HeaderComponentI> {

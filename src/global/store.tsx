@@ -79,7 +79,7 @@ const sagaMiddleware = createSagaMiddleware()
 
 declare global {
   interface Window {
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
   }
 }
 
@@ -87,8 +87,8 @@ declare global {
 const composeEnhancers =
   !isProduction && typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__()
-    : // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
-      compose
+    : compose
+// Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
 
 // mixes the optional redux development extension with other middleware
 const enhancer = composeEnhancers(

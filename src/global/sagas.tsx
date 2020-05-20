@@ -17,6 +17,7 @@ import {
   ACTION_SET_NOTIFICATION,
   DATE_FILTER,
   ROUTE_DASHBOARD,
+  ROUTE_EMPTY_PARAM,
   URL_ELEMENT_SEPARATOR,
 } from './constants'
 import {history} from './store'
@@ -54,23 +55,24 @@ function* getData() {
 
 function* changeUrl() {
   const urlParams = yield select(state => {
-    const result: Record<string,any> = {
-      viewMode: state.overview?.viewMode || '',
-      startDate: state.overview?.dateFilter?.startDate || '',
-      endDate: state.overview?.dateFilter?.endDate || '',
-      graphMode: state.graphOverview?.graphMode || '',
-      graphScale: state.graphOverview?.graphScale || '',
-      metricsVisible: state.graphOverview?.metricsVisible?.join(URL_ELEMENT_SEPARATOR) || '',
+    const result:Record<string,any> = {
+      viewMode: state.overview?.viewMode || ROUTE_EMPTY_PARAM,
+      startDate: state.overview?.dateFilter?.startDate || ROUTE_EMPTY_PARAM,
+      endDate: state.overview?.dateFilter?.endDate || ROUTE_EMPTY_PARAM,
+      graphMode: state.graphOverview?.graphMode || ROUTE_EMPTY_PARAM,
+      graphScale: state.graphOverview?.graphScale || ROUTE_EMPTY_PARAM,
+      metricsVisible: state.graphOverview?.metricsVisible?.join(URL_ELEMENT_SEPARATOR) || ROUTE_EMPTY_PARAM,
     }
 
     if (state.overview?.selectedGeoIds) {
-      result.selectedGeoIds = Object.entries(state.overview.selectedGeoIds)
-        .filter(([geoId, active]) => active)
-        .map(([geoId, active]) => geoId)
-        .sort()
-        .join(URL_ELEMENT_SEPARATOR)
+      result.selectedGeoIds =
+        Object.entries(state.overview.selectedGeoIds)
+          .filter(([geoId, active]) => active)
+          .map(([geoId, active]) => geoId)
+          .sort()
+          .join(URL_ELEMENT_SEPARATOR) || ROUTE_EMPTY_PARAM
     } else {
-      result.selectedGeoIds = ''
+      result.selectedGeoIds = ROUTE_EMPTY_PARAM
     }
 
     if (state.overview?.dateFilter?.mode) {

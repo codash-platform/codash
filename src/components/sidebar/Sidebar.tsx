@@ -7,8 +7,8 @@ import {HeaderLogo} from '../header/HeaderLogo'
 import {SidebarMenus} from './SidebarMenus'
 import {WithTranslation} from 'react-i18next'
 
-interface SidebarComponentI extends WithTranslation{
-	[any: string]: any;
+interface SidebarComponentI extends WithTranslation {
+  [any: string]: any
 }
 
 class SidebarComponent extends Component<SidebarComponentI> {

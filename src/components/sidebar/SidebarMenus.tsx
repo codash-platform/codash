@@ -26,8 +26,8 @@ import {action} from '../../global/util'
 import {graphMetricsOrder} from '../../pages/dashboard/graphs/Graphs'
 import {SidebarMenuSet} from './SidebarMenuSet'
 
-interface SidebarMenusComponentI extends WithTranslation{
-	[any: string]: any;
+interface SidebarMenusComponentI extends WithTranslation {
+  [any: string]: any
 }
 
 class SidebarMenusComponent extends Component<SidebarMenusComponentI> {

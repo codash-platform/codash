@@ -69,8 +69,8 @@ const steps = [
   },
 ]
 
-interface FeatureTourComponentI extends WithTranslation{
-	[any: string]: any;
+interface FeatureTourComponentI extends WithTranslation {
+  [any: string]: any
 }
 
 class FeatureTourComponent extends Component<FeatureTourComponentI> {
@@ -78,7 +78,7 @@ class FeatureTourComponent extends Component<FeatureTourComponentI> {
     const {overview, t} = this.props
     const {tourEnabled} = overview
 
-    const translatedSteps = steps.map((step: Record<string,any>) => {
+    const translatedSteps = steps.map((step: Record<string, any>) => {
       step.content = t(step.contentPlaceholder)
       return step
     })
@@ -86,8 +86,8 @@ class FeatureTourComponent extends Component<FeatureTourComponentI> {
     return (
       <Joyride
         run={tourEnabled}
-		disableOverlayClose={true}
-		//@ts-ignore
+        disableOverlayClose={true}
+        //@ts-ignore
         steps={translatedSteps}
         showSkipButton={true}
         locale={{
@@ -97,7 +97,7 @@ class FeatureTourComponent extends Component<FeatureTourComponentI> {
           next: t('tour:button_next'),
           skip: t('tour:button_skip'),
         }}
-        callback={(data: Record<string,any>) => {
+        callback={(data: Record<string, any>) => {
           if (data.type === EVENTS.BEACON) {
             switch (data.index) {
               case tourStepOrder.dateFilter:
@@ -111,7 +111,10 @@ class FeatureTourComponent extends Component<FeatureTourComponentI> {
                 break
 
               case tourStepOrder.countrySelection:
-                action(ACTION_TOGGLE_SIDEBAR_MENU, {menuId: SIDEBAR_MENUS.VIEW_MODE_MENU, expanded: false})
+                action(ACTION_TOGGLE_SIDEBAR_MENU, {
+                  menuId: SIDEBAR_MENUS.VIEW_MODE_MENU,
+                  expanded: false,
+                })
                 break
 
               case tourStepOrder.viewMode:

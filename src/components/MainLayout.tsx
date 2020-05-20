@@ -13,8 +13,8 @@ import {Header} from './header/Header'
 import {NotificationBox} from './NotificationBox'
 import {Sidebar} from './sidebar/Sidebar'
 
-interface MainLayoutComponentI extends WithTranslation{
-	[any: string]: any;
+interface MainLayoutComponentI extends WithTranslation {
+  [any: string]: any
 }
 
 class MainLayoutComponent extends Component<MainLayoutComponentI> {

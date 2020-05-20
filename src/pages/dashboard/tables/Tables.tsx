@@ -8,12 +8,12 @@ import {action} from '../../../global/util'
 import {colors} from '../graphs/Graphs'
 import {CustomTable} from './CustomTable'
 
-interface TableComponentI extends WithTranslation{
-	overview: Record<string,any>;
-	tableOverview: Record<string,any>;
+interface TableComponentI extends WithTranslation {
+  overview: Record<string, any>
+  tableOverview: Record<string, any>
 }
 
-class TableComponent extends Component<TableComponentI,any> {
+class TableComponent extends Component<TableComponentI, any> {
   perCapitaCellFormatter = cell => {
     if (!cell || isNaN(cell) || !isFinite(cell)) {
       return '--'
@@ -64,7 +64,12 @@ class TableComponent extends Component<TableComponentI,any> {
             value={row.geoId}
             label=""
             disabled={!cell && row.maxSelectionReached}
-            onChange={e => action(ACTION_CHANGE_GEOID_SELECTION, {geoId: e.target.value, selected: e.target.checked})}
+            onChange={e =>
+              action(ACTION_CHANGE_GEOID_SELECTION, {
+                geoId: e.target.value,
+                selected: e.target.checked,
+              })
+            }
             checked={cell}
           />
         )

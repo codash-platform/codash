@@ -37,11 +37,11 @@ export const colors = [
   '#ffff99',
 ]
 
-interface GraphsComponentI extends WithTranslation{
-	[any: string]: any;
+interface GraphsComponentI extends WithTranslation {
+  [any: string]: any
 }
 
-class GraphsComponent extends Component<GraphsComponentI,any> {
+class GraphsComponent extends Component<GraphsComponentI, any> {
   getColorForDataSet = databject => {
     const {selectedGeoIds, data} = this.props.overview
 
@@ -110,7 +110,7 @@ class GraphsComponent extends Component<GraphsComponentI,any> {
       .filter(metric => metricsVisible.includes(metric))
       .map(metricName => {
         const metricLabel = t(`graph:metrics_${metricName}`)
-        const processedData: Record<string,any> = getGraphData(
+        const processedData: Record<string, any> = getGraphData(
           data,
           dateFilter,
           selectedGeoIds,
@@ -158,12 +158,12 @@ class GraphsComponent extends Component<GraphsComponentI,any> {
 }
 
 export const BarGraph = ({data, keys, getColorForDataSet, getColorForTooltip, animationsEnabled}) => {
-	const xScale: Scale={
-		type: 'time',
-		format: '%d.%m.%Y',
-		precision: 'day',
-		useUTC: false,
-	  }
+  const xScale: Scale = {
+    type: 'time',
+    format: '%d.%m.%Y',
+    precision: 'day',
+    useUTC: false,
+  }
   return (
     <AutoSizer disableHeight>
       {({width}) => (
@@ -178,7 +178,7 @@ export const BarGraph = ({data, keys, getColorForDataSet, getColorForTooltip, an
             groupMode="grouped"
             layout="vertical"
             indexBy="date"
-              // @ts-ignore
+            // @ts-ignore
             xScale={xScale}
             xFormat="time:%d.%m.%Y"
             yScale={{

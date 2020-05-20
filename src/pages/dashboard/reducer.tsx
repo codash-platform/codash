@@ -43,7 +43,7 @@ const initialState = {
 
 const preselectedGeoIds = ['US', 'CN', 'DE', 'FR', 'ES', 'IT', 'CH']
 
-export const overview = (state = initialState, action: Record<string,any> = {}) => {
+export const overview = (state = initialState, action: Record<string, any> = {}) => {
   // noinspection FallThroughInSwitchStatementJS
   switch (action.type) {
     case ACTION_SET_NOTIFICATION:
@@ -294,7 +294,7 @@ const processDateFilterMode = (dateFilterMode, dataStartDate, dataEndDate) => {
 }
 
 const processDateFilterChange = (startDate, endDate) => {
-  const newDateFilterState: Record<string,any> = {}
+  const newDateFilterState: Record<string, any> = {}
   if (startDate) {
     newDateFilterState.startDate = startDate
     newDateFilterState.mode = null

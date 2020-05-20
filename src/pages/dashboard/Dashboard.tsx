@@ -6,9 +6,11 @@ import {ACTION_GET_DATA_START, ACTION_PARSE_URL_PARAMS} from '../../global/const
 import {action} from '../../global/util'
 import {Graphs} from './graphs/Graphs'
 import {Tables} from './tables/Tables'
-interface DashboardComponentI extends WithTranslation{
-	[any: string]: any;
+
+interface DashboardComponentI extends WithTranslation {
+  [any: string]: any
 }
+
 class DashboardComponent extends Component<DashboardComponentI> {
   componentDidMount() {
     const {match, overview} = this.props

@@ -18,7 +18,7 @@ const initialState = {
   },
 }
 
-export const sidebar = (state = initialState, action: Record<string,any> = {}) => {
+export const sidebar = (state = initialState, action: Record<string, any> = {}) => {
   switch (action.type) {
     case ACTION_TOGGLE_SIDEBAR_MENU:
       return {

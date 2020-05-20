@@ -6,7 +6,7 @@ export const parseRawData = rawData => {
   const globalPerDay = []
   const datesAvailable = new Set()
   const geoIds = new Set()
-  const geoIdToNameMapping: Record<string,any> = {}
+  const geoIdToNameMapping: Record<string, any> = {}
 
   if (!rawData[0]?.dateRep) {
     return null
@@ -63,8 +63,9 @@ export const parseRawData = rawData => {
 }
 
 const getSortedDates = datesSet => {
-  return [...datesSet].sort((a, b) => moment(a, DATE_FORMAT_APP).toDate() as any 
-  - (moment(b, DATE_FORMAT_APP).toDate() as any))
+  return [...datesSet].sort(
+    (a, b) => (moment(a, DATE_FORMAT_APP).toDate() as any) - (moment(b, DATE_FORMAT_APP).toDate() as any)
+  )
 }
 
 const calculateRatesData = data => {
@@ -118,7 +119,7 @@ const calculateAccumulatedData = (perDateData, sortedDates) => {
   return perDateData
 }
 
-const parseSectionData = (perDateData: Record<string,any> = {}, startDate, endDate) => {
+const parseSectionData = (perDateData: Record<string, any> = {}, startDate, endDate) => {
   const perGeoIdData = {}
 
   for (let [dateKey, entriesForDate] of Object.entries(perDateData)) {
@@ -280,8 +281,8 @@ const getBarGraphData = (cleanedData, geoIdToNameMapping, selectedGeoIds, proper
   const parsedData = []
 
   for (let [dateKey, entriesForDate] of Object.entries(cleanedData)) {
-    const newEntry = {date: dateKey, nameToGeoId: {}};
-    (entriesForDate as any).map(entry => {
+    const newEntry = {date: dateKey, nameToGeoId: {}}
+    ;(entriesForDate as any).map(entry => {
       newEntry[geoIdToNameMapping[entry.geoId]] = entry[propertyName]
       newEntry.nameToGeoId[geoIdToNameMapping[entry.geoId]] = entry.geoId
     })
@@ -310,7 +311,7 @@ const getLineGraphData = (cleanedData, geoIdToNameMapping, propertyName, graphSc
   }
 
   for (let [dateKey, entriesForDate] of Object.entries(cleanedData)) {
-    (entriesForDate as any).map(entry => {
+    ;(entriesForDate as any).map(entry => {
       if (!parsedData[entry.geoId]) {
         parsedData[entry.geoId] = []
       }
@@ -358,7 +359,7 @@ const getLineGraphData = (cleanedData, geoIdToNameMapping, propertyName, graphSc
 const sortArrayByDateProperty = (array, datePropertyKey) => {
   return array.sort(
     (a, b) =>
-	  moment(a[datePropertyKey], DATE_FORMAT_APP).toDate() as any 
-	  - (moment(b[datePropertyKey], DATE_FORMAT_APP).toDate() as any)
+      (moment(a[datePropertyKey], DATE_FORMAT_APP).toDate() as any) -
+      (moment(b[datePropertyKey], DATE_FORMAT_APP).toDate() as any)
   )
 }

@@ -1,127 +1,86 @@
 {
-	"parserOptions": {
-		"ecmaVersion": 11,
-		"sourceType": "module",
-		"ecmaFeatures": {
-			"jsx": true
-		}
-	},
-	"extends": [
-		"plugin:react/recommended",
-		"plugin:@typescript-eslint/eslint-recommended",
-		"plugin:@typescript-eslint/recommended"
-	],
-	"env": {
-		"browser": true,
-		"node": true,
-		"es2020": true
-	},
-	"parser": "babel-eslint",
-	"settings": {
-		"react": {
-			"pragma": "React",
-			"version": "detect",
-		}
-	},
-	"globals": {
-		"object": "readonly"
-	},
-	"plugins": [
-		"react",
-		"@typescript-eslint"
-	],
-	"rules": {
-		"strict": [
-			2,
-			"never"
-		],
-		"react/jsx-uses-react": 2,
-		"react/jsx-uses-vars": 2,
-		"react/react-in-jsx-scope": 2,
-		"react/jsx-max-props-per-line": [
-			2,
-			{
-				"maximum": 2,
-				"when": "multiline"
-			}
-		],
-		"semi": [
-			2,
-			"never"
-		],
-		"object-curly-spacing": [
-			2,
-			"never"
-		],
-		"comma-dangle": [
-			2,
-			{
-				"arrays": "always-multiline",
-				"objects": "always-multiline",
-				"imports": "always-multiline",
-				"exports": "always-multiline",
-				"functions": "only-multiline"
-			}
-		],
-		"quotes": [
-			2,
-			"single"
-		],
-		"dot-notation": "error",
-		"brace-style": "error",
-		// keeping it off since it cause problems for react actions
-		"sort-keys": [
-			"off",
-			"asc",
-			{
-				"caseSensitive": false,
-				"natural": true
-			}
-		],
-		"sort-vars": [
-			"error"
-		],
-		"operator-linebreak": [
-			2,
-			"before",
-			{
-				"overrides": {
-					"=": "after"
-				}
-			}
-		],
-		"newline-per-chained-call": [
-			"error",
-			{
-				"ignoreChainWithDepth": 2
-			}
-		],
-		"no-unneeded-ternary": [
-			"error",
-			{
-				"defaultAssignment": false
-			}
-		],
-		"max-len": [
-			"warn",
-			{
-				"code": 120,
-				"ignoreComments": true,
-				"ignoreUrls": true,
-				"ignoreStrings": true,
-				"ignoreTemplateLiterals": true
-			}
-		],
-		// Remove one by one to fix errors
-		"react/jsx-no-target-blank":"off",
-		"react/prop-types":"off",
-		"prefer-const":"off",
-		"react/no-render-return-value":"off",
-		"@typescript-eslint/no-var-requires": "off",
-		"@typescript-eslint/explicit-function-return-type":"off",
-		"@typescript-eslint/no-unused-vars":"off",
-		"@typescript-eslint/no-use-before-define":"off",
-		"@typescript-eslint/no-explicit-any":"off",
-		"@typescript-eslint/ban-ts-ignore":"off"
-	}
+  "parserOptions": {
+    "ecmaVersion": 11,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2020": true
+  },
+  "parser": "babel-eslint",
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "detect"
+    }
+  },
+  "globals": {
+    "object": "readonly"
+  },
+  "plugins": [
+    "react",
+    "@typescript-eslint"
+  ],
+  "rules": {
+    "strict": [2, "never"],
+    "react/jsx-uses-react": 2,
+    "react/jsx-uses-vars": 2,
+    "react/react-in-jsx-scope": 2,
+    "react/jsx-max-props-per-line": [2, {
+      "maximum": 2,
+      "when": "multiline"
+    }],
+    "semi": [2, "never"],
+    "object-curly-spacing": [2, "never"],
+    "comma-dangle": [2, {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "always-multiline",
+      "exports": "always-multiline",
+      "functions": "only-multiline"
+    }],
+    "quotes": [2, "single"],
+    "dot-notation": "error",
+    "brace-style": "error",
+    // keeping it off since it cause problems for react actions
+    "sort-keys": ["off", "asc", {"caseSensitive": false, "natural": true}],
+    "sort-vars": ["error"],
+    "operator-linebreak": [2, "before", {
+      "overrides": {
+        "=": "after"
+      }
+    }],
+    "newline-per-chained-call": ["error", { "ignoreChainWithDepth": 2}],
+    "no-unneeded-ternary": ["error", { "defaultAssignment": false }],
+    "max-len": [
+      "warn",
+      {
+        "code": 120,
+        "ignoreComments": true,
+        "ignoreUrls": true,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true
+      }
+    ],
+    // Remove one by one to fix errors
+    "react/jsx-no-target-blank": "off",
+    "react/prop-types": "off",
+    "prefer-const": "off",
+    "react/no-render-return-value": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/ban-ts-ignore": "off"
+  }
 }

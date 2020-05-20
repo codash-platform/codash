@@ -7,9 +7,11 @@ import Hamburger from 'react-hamburgers'
 import {connect} from 'react-redux'
 import {ACTION_ENABLE_MOBILE_MENU, ACTION_ENABLE_MOBILE_MENU_SMALL} from '../../global/constants'
 import {action} from '../../global/util'
+
 interface MobileMenuComponentI {
-	[any: string]: any;
+  [any: string]: any
 }
+
 class MobileMenuComponent extends Component<MobileMenuComponentI> {
   render() {
     const {enableMobileMenu, enableMobileMenuSmall} = this.props

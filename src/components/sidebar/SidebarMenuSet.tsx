@@ -7,8 +7,8 @@ import {connect} from 'react-redux'
 import {ACTION_TOGGLE_SIDEBAR_MENU} from '../../global/constants'
 import {action} from '../../global/util'
 
-interface SidebarMenuSetComponentI extends WithTranslation{
-	[any: string]: any;
+interface SidebarMenuSetComponentI extends WithTranslation {
+  [any: string]: any
 }
 
 class SidebarMenuSetComponent extends Component<SidebarMenuSetComponentI> {
@@ -66,6 +66,7 @@ class SidebarMenuSetComponent extends Component<SidebarMenuSetComponentI> {
     )
   }
 }
+
 const stateToProps = state => ({
   sidebar: state.sidebar,
 })

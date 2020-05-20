@@ -6,8 +6,8 @@ import {connect} from 'react-redux'
 import {DATE_TIME_FORMAT_APP} from '../global/constants'
 import {appName, buildTime} from '../global/variables'
 
-interface FooterComponentI extends WithTranslation{
-	[any: string]: any;
+interface FooterComponentI extends WithTranslation {
+  [any: string]: any
 }
 
 class FooterComponent extends Component<FooterComponentI> {

@@ -2,11 +2,11 @@ import {faSpinner} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import React, {Component} from 'react'
 import {Alert, Col, Row} from 'react-bootstrap'
-import {withTranslation,WithTranslation} from 'react-i18next'
+import {withTranslation, WithTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 
-interface NotificationBoxComponentI extends WithTranslation{
-	[any: string]: any;
+interface NotificationBoxComponentI extends WithTranslation {
+  [any: string]: any
 }
 
 class NotificationBoxComponent extends Component<NotificationBoxComponentI> {

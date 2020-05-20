@@ -10,16 +10,16 @@ import ToolkitProvider, {Search} from 'react-bootstrap-table2-toolkit'
 import {ACTION_CHANGE_SIZE_PER_PAGE, TABLE_TYPE} from '../../../global/constants'
 import {action} from '../../../global/util'
 
-interface CustomTableI{
-	sizePerPage?: any;
-	count?: any;
-	t?: any;
-	data?: any;
-	columns?: any;
-	headerFormatter?: any;
-	tableType?: any;
-	defaultSorted?: any;
-	smallPagination?: any;
+interface CustomTableI {
+  sizePerPage?: any
+  count?: any
+  t?: any
+  data?: any
+  columns?: any
+  headerFormatter?: any
+  tableType?: any
+  defaultSorted?: any
+  smallPagination?: any
 }
 
 export const CustomTable: FC<CustomTableI> = ({
@@ -96,7 +96,14 @@ export const CustomTable: FC<CustomTableI> = ({
                       hover
                       condensed
                       striped
-                      defaultSorted={defaultSorted && [{dataField: defaultSorted, order: 'desc'}]}
+                      defaultSorted={
+                        defaultSorted && [
+                          {
+                            dataField: defaultSorted,
+                            order: 'desc',
+                          },
+                        ]
+                      }
                       {...paginationTableProps}
                       {...baseProps}
                     />
@@ -107,7 +114,10 @@ export const CustomTable: FC<CustomTableI> = ({
                           id={`pageDropDown${tableType}`}
                           drop={'up'}
                           onSelect={value =>
-                            action(ACTION_CHANGE_SIZE_PER_PAGE, {sizePerPage: parseInt(value), tableType: tableType})
+                            action(ACTION_CHANGE_SIZE_PER_PAGE, {
+                              sizePerPage: parseInt(value),
+                              tableType: tableType,
+                            })
                           }
                           variant="secondary"
                           title={sizePerPageButtonText}

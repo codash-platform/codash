@@ -13,7 +13,7 @@
     "start:dev": "NODE_ENV=development webpack-dev-server --mode=development --progress",
     "start:prod": "NODE_ENV=production webpack-dev-server --mode=production --progress",
     "build": "([ -d dist ] && rm -R dist/*) ; NODE_ENV=production webpack --mode=production --display-modules --progress",
-    "pretty": "prettier-eslint --ignore=dist/* --write \"$(pwd)/src/**/*.js\" \"$(pwd)/*.js\" --bracket-spacing false --jsx-bracket-same-line false",
+    "pretty": "prettier-eslint --ignore=dist/* --write \"$(pwd)/src/**/*.tsx\" \"$(pwd)/*.js\" --bracket-spacing false --jsx-bracket-same-line false",
     "serve": "pushstate-server -d dist"
   },
   "repository": {

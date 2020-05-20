@@ -4,9 +4,11 @@ import {connect} from 'react-redux'
 import {ACTION_TOGGLE_SIDEBAR} from '../../global/constants'
 import {action} from '../../global/util'
 import {MobileMenu} from './MobileMenu'
+
 interface HeaderLogoComponentI {
-	[any: string]: any;
+  [any: string]: any
 }
+
 class HeaderLogoComponent extends Component<HeaderLogoComponentI> {
   render() {
     const {closedSidebar} = this.props

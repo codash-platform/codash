@@ -42,7 +42,7 @@ const localStorageMiddleware = ({getState}) => {
 
 // used to read from localStorage any previously saved redux store state
 const reHydrateStore = () => {
-  let localData = {}
+  let localData: Record<string, any> = {}
   const lastUpdatedAt = localStorage.getItem(STORAGE_EXPIRY_KEY)
   const now = new Date().getTime()
   // getTime works in milliseconds so we need to convert the timeout
@@ -77,13 +77,18 @@ export const history = createBrowserHistory()
 // create the saga middleware
 const sagaMiddleware = createSagaMiddleware()
 
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+  }
+}
+
 // for development enable the redux browser extension
 const composeEnhancers =
   !isProduction && typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-        // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
-      })
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__()
     : compose
+// Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
 
 // mixes the optional redux development extension with other middleware
 const enhancer = composeEnhancers(
@@ -101,7 +106,9 @@ export const store = createStore(rootReducer, reHydrateStore(), enhancer)
 sagaMiddleware.run(generalSaga)
 
 // enable Webpack hot module replacement for reducers (needed in newer versions)
+// @ts-ignore
 if (module.hot) {
+  // @ts-ignore
   module.hot.accept('./reducer', () => {
     store.replaceReducer(rootReducer)
   })

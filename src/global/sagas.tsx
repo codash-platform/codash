@@ -55,7 +55,7 @@ function* getData() {
 
 function* changeUrl() {
   const urlParams = yield select(state => {
-    const result = {
+    const result: Record<string, any> = {
       viewMode: state.overview?.viewMode || ROUTE_EMPTY_PARAM,
       startDate: state.overview?.dateFilter?.startDate || ROUTE_EMPTY_PARAM,
       endDate: state.overview?.dateFilter?.endDate || ROUTE_EMPTY_PARAM,
@@ -84,7 +84,7 @@ function* changeUrl() {
   })
 
   const route = Object.entries(urlParams).reduce(
-    (parsedRoute, [paramName, paramValue]) => parsedRoute.replace(`:${paramName}?`, paramValue),
+    (parsedRoute, [paramName, paramValue]) => parsedRoute.replace(`:${paramName}?`, paramValue as string),
     ROUTE_DASHBOARD
   )
 

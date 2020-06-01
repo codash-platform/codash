@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {FC} from 'react'
 import {Card, Col, Dropdown, DropdownButton, Row} from 'react-bootstrap'
 import BootstrapTable from 'react-bootstrap-table-next'
 import paginationFactory, {
@@ -10,7 +10,19 @@ import ToolkitProvider, {Search} from 'react-bootstrap-table2-toolkit'
 import {ACTION_CHANGE_SIZE_PER_PAGE, TABLE_TYPE} from '../../../global/constants'
 import {action} from '../../../global/util'
 
-export const CustomTable = ({
+interface CustomTableI {
+  sizePerPage?: any;
+  count?: any;
+  t?: any;
+  data?: any;
+  columns?: any;
+  headerFormatter?: any;
+  tableType?: any;
+  defaultSorted?: any;
+  smallPagination?: any;
+}
+
+export const CustomTable: FC<CustomTableI> = ({
   sizePerPage,
   count,
   t,
@@ -84,7 +96,14 @@ export const CustomTable = ({
                       hover
                       condensed
                       striped
-                      defaultSorted={defaultSorted && [{dataField: defaultSorted, order: 'desc'}]}
+                      defaultSorted={
+                        defaultSorted && [
+                          {
+                            dataField: defaultSorted,
+                            order: 'desc',
+                          },
+                        ]
+                      }
                       {...paginationTableProps}
                       {...baseProps}
                     />
@@ -95,7 +114,10 @@ export const CustomTable = ({
                           id={`pageDropDown${tableType}`}
                           drop={'up'}
                           onSelect={value =>
-                            action(ACTION_CHANGE_SIZE_PER_PAGE, {sizePerPage: parseInt(value), tableType: tableType})
+                            action(ACTION_CHANGE_SIZE_PER_PAGE, {
+                              sizePerPage: parseInt(value),
+                              tableType: tableType,
+                            })
                           }
                           variant="secondary"
                           title={sizePerPageButtonText}

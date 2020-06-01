@@ -1,8 +1,9 @@
 import {Bar} from '@nivo/bar'
 import {Line} from '@nivo/line'
+import {Scale} from '@nivo/scales'
 import React, {Component} from 'react'
 import {Card} from 'react-bootstrap'
-import {withTranslation} from 'react-i18next'
+import {withTranslation, WithTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import {GRAPH_SCALE, LOCALE_DEFAULT, METRICS} from '../../../global/constants'
@@ -36,7 +37,11 @@ export const colors = [
   '#ffff99',
 ]
 
-class GraphsComponent extends Component {
+interface GraphsComponentI extends WithTranslation {
+  [any: string]: any;
+}
+
+class GraphsComponent extends Component<GraphsComponentI, any> {
   getColorForDataSet = databject => {
     const {selectedGeoIds, data} = this.props.overview
 
@@ -105,7 +110,7 @@ class GraphsComponent extends Component {
       .filter(metric => metricsVisible.includes(metric))
       .map(metricName => {
         const metricLabel = t(`graph:metrics_${metricName}`)
-        const processedData = getGraphData(
+        const processedData: Record<string, any> = getGraphData(
           data,
           dateFilter,
           selectedGeoIds,
@@ -153,6 +158,12 @@ class GraphsComponent extends Component {
 }
 
 export const BarGraph = ({data, keys, getColorForDataSet, getColorForTooltip, animationsEnabled}) => {
+  const xScale: Scale = {
+    type: 'time',
+    format: '%d.%m.%Y',
+    precision: 'day',
+    useUTC: false,
+  }
   return (
     <AutoSizer disableHeight>
       {({width}) => (
@@ -167,12 +178,8 @@ export const BarGraph = ({data, keys, getColorForDataSet, getColorForTooltip, an
             groupMode="grouped"
             layout="vertical"
             indexBy="date"
-            xScale={{
-              type: 'time',
-              format: '%d.%m.%Y',
-              precision: 'day',
-              useUTC: false,
-            }}
+            // @ts-ignore
+            xScale={xScale}
             xFormat="time:%d.%m.%Y"
             yScale={{
               type: 'linear',
@@ -220,7 +227,7 @@ export const BarGraph = ({data, keys, getColorForDataSet, getColorForTooltip, an
                   <tbody>
                     {Object.entries(data.data)
                       .filter(([name, value]) => !['date', 'nameToGeoId'].includes(name))
-                      .sort((a, b) => b?.[1] - a?.[1])
+                      .sort((a, b) => (b?.[1] as any) - (a?.[1] as any))
                       .map(([name, value]) => (
                         <tr key={name}>
                           <td style={{padding: '3px 5px'}}>
@@ -268,14 +275,14 @@ export const BarGraph = ({data, keys, getColorForDataSet, getColorForTooltip, an
 }
 
 export const LineGraph = ({data, scale, logarithmParams, getColorForDataSet, animationsEnabled}) => {
-  let yScaleConfig = {
+  let yScaleConfig: Scale = {
     type: 'linear',
     stacked: false,
   }
   let leftAxisFormatter = value => value.toLocaleString(LOCALE_DEFAULT)
 
   if (scale === GRAPH_SCALE.LOGARITHMIC) {
-    const LogYScale = {
+    const LogYScale: Scale = {
       type: 'log',
       base: 10,
       min: logarithmParams.min || 'auto',

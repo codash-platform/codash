@@ -13,7 +13,7 @@
     "start:dev": "NODE_ENV=development webpack-dev-server --mode=development --progress",
     "start:prod": "NODE_ENV=production webpack-dev-server --mode=production --progress",
     "build": "([ -d dist ] && rm -R dist/*) ; NODE_ENV=production webpack --mode=production --display-modules --progress",
-    "pretty": "prettier-eslint --ignore=dist/* --write \"$(pwd)/src/**/*.js\" \"$(pwd)/*.js\" --bracket-spacing false --jsx-bracket-same-line false",
+    "pretty": "prettier-eslint --ignore=dist/* --write \"$(pwd)/src/**/*.tsx\" \"$(pwd)/*.js\" --bracket-spacing false --jsx-bracket-same-line false",
     "serve": "pushstate-server -d dist"
   },
   "repository": {
@@ -21,6 +21,8 @@
     "url": "https://github.com/codash-platform/codash.git"
   },
   "devDependencies": {
+    "@types/react": "~16.9.35",
+    "@types/react-dom": "~16.9.8",
     "babel-eslint": "~10.1.0",
     "eslint": "~7.0.0",
     "eslint-plugin-react": "~7.19.0",
@@ -28,7 +30,10 @@
     "prettier-eslint": "~9.0.1",
     "prettier-eslint-cli": "~5.0.0",
     "pushstate-server": "~3.1.0",
+    "source-map-loader": "~0.2.4",
     "style-loader": "~1.2.1",
+    "ts-loader": "~7.0.4",
+    "typescript": "~3.9.2",
     "webpack-dev-server": "~3.11.0"
   },
   "dependencies": {
@@ -38,6 +43,7 @@
     "@babel/polyfill": "~7.8.7",
     "@babel/preset-env": "~7.9.6",
     "@babel/preset-react": "~7.9.4",
+    "@babel/preset-typescript": "~7.9.0",
     "@babel/runtime": "~7.9.6",
     "@fortawesome/fontawesome-svg-core": "~1.2.28",
     "@fortawesome/free-regular-svg-icons": "~5.13.0",
@@ -46,6 +52,8 @@
     "@hot-loader/react-dom": "~16.13.0",
     "@nivo/bar": "~0.61.1",
     "@nivo/line": "~0.61.1",
+    "@typescript-eslint/eslint-plugin": "~2.33.0",
+    "@typescript-eslint/parser": "~2.33.0",
     "axios": "~0.19.2",
     "babel-loader": "~8.1.0",
     "bootstrap": "~4.4.1",
@@ -56,6 +64,7 @@
     "dotenv-safe": "~8.2.0",
     "dotenv-webpack": "~1.7.0",
     "file-loader": "~6.0.0",
+    "fork-ts-checker-webpack-plugin": "~4.1.4",
     "google-fonts-plugin": "~5.0.2",
     "html-webpack-plugin": "~4.3.0",
     "i18next": "~19.4.4",

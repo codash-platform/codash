@@ -1,13 +1,17 @@
 import moment from 'moment'
 import React, {Component} from 'react'
 import {DateRangePicker} from 'react-dates'
-import {withTranslation} from 'react-i18next'
+import {withTranslation, WithTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
 import {ACTION_CHANGE_DATE_FILTER_INTERVAL, ACTION_TOGGLE_DATE_FILTER, DATE_FORMAT_APP} from '../global/constants'
 import {action} from '../global/util'
 
-class DateFilterComponent extends Component {
+interface DateFilterComponentI extends WithTranslation {
+  [any: string]: any;
+}
+
+class DateFilterComponent extends Component<DateFilterComponentI> {
   render() {
     const {overview, className, id} = this.props
     const {dateFilter} = overview

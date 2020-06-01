@@ -1,16 +1,35 @@
 {
   "parserOptions": {
-    "ecmaVersion": 6,
+    "ecmaVersion": 11,
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
     }
   },
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
   "env": {
     "browser": true,
-    "node": true
+    "node": true,
+    "es2020": true
   },
-  "parser": "babel-eslint",
+  "parser": "@typescript-eslint/parser",
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "detect"
+    }
+  },
+  "globals": {
+    "object": "readonly"
+  },
+  "plugins": [
+    "react",
+    "@typescript-eslint"
+  ],
   "rules": {
     "strict": [2, "never"],
     "react/jsx-uses-react": 2,
@@ -51,9 +70,17 @@
         "ignoreStrings": true,
         "ignoreTemplateLiterals": true
       }
-    ]
-  },
-  "plugins": [
-    "react"
-  ]
+    ],
+    // Remove one by one to fix errors
+    "react/jsx-no-target-blank": "off",
+    "react/prop-types": "off",
+    "prefer-const": "off",
+    "react/no-render-return-value": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/ban-ts-ignore": "off"
+  }
 }

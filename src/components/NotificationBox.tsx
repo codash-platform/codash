@@ -2,10 +2,14 @@ import {faSpinner} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import React, {Component} from 'react'
 import {Alert, Col, Row} from 'react-bootstrap'
-import {withTranslation} from 'react-i18next'
+import {withTranslation, WithTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 
-class NotificationBoxComponent extends Component {
+interface NotificationBoxComponentI extends WithTranslation {
+  [any: string]: any;
+}
+
+class NotificationBoxComponent extends Component<NotificationBoxComponentI> {
   render() {
     const {t, overview} = this.props
     const message = overview.notification?.message

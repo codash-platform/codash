@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import React, {Component} from 'react'
-import {withTranslation} from 'react-i18next'
+import {withTranslation, WithTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import ResizeDetector from 'react-resize-detector'
 import {Router} from 'react-router-dom'
@@ -13,7 +13,11 @@ import {Header} from './header/Header'
 import {NotificationBox} from './NotificationBox'
 import {Sidebar} from './sidebar/Sidebar'
 
-class MainLayoutComponent extends Component {
+interface MainLayoutComponentI extends WithTranslation {
+  [any: string]: any;
+}
+
+class MainLayoutComponent extends Component<MainLayoutComponentI> {
   isDeviceDesktop = width => width >= 1250
 
   onResize = width => {

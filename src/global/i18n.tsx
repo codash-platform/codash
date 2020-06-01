@@ -6,7 +6,7 @@ import {initReactI18next} from 'react-i18next'
 // language order for the dropdown from the header
 export const languageOrder = [
   'en',
-  // 'de',
+  'de',
   'fr',
   'ro',
 ]

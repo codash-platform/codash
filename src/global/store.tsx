@@ -77,16 +77,10 @@ export const history = createBrowserHistory()
 // create the saga middleware
 const sagaMiddleware = createSagaMiddleware()
 
-declare global {
-  interface Window {
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
-  }
-}
-
 // for development enable the redux browser extension
 const composeEnhancers =
-  !isProduction && typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__()
+  !isProduction && typeof window === 'object' && (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    ? (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     : compose
 // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
 

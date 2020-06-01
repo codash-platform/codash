@@ -358,7 +358,7 @@ export const LineGraph = ({data, scale, logarithmParams, getColorForDataSet, ani
                   <table style={{width: '100%', borderCollapse: 'collapse'}}>
                     <tbody>
                       {slice.points
-                        .sort((a, b) => b?.data?.yFormatted - a?.data?.yFormatted)
+                        .sort((a, b) => (b?.data?.yFormatted as any) - (a?.data?.yFormatted as any))
                         .map(point => (
                           <tr key={point.id}>
                             <td style={{padding: '3px 5px'}}>

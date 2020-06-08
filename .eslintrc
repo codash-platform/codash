@@ -12,6 +12,7 @@
   },
   "parser": "babel-eslint",
   "rules": {
+    "arrow-parens": [2, "as-needed"],
     "strict": [2, "never"],
     "react/jsx-uses-react": 2,
     "react/jsx-uses-vars": 2,
@@ -40,7 +41,7 @@
         "=": "after"
       }
     }],
-    "newline-per-chained-call": ["error", { "ignoreChainWithDepth": 2}],
+    "newline-per-chained-call": "off",
     "no-unneeded-ternary": ["error", { "defaultAssignment": false }],
     "max-len": [
       "warn",

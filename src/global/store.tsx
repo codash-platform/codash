@@ -100,9 +100,8 @@ export const store = createStore(rootReducer, reHydrateStore(), enhancer)
 sagaMiddleware.run(generalSaga)
 
 // enable Webpack hot module replacement for reducers (needed in newer versions)
-// @ts-ignore
+declare const module: any
 if (module.hot) {
-  // @ts-ignore
   module.hot.accept('./reducer', () => {
     store.replaceReducer(rootReducer)
   })

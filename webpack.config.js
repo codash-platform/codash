@@ -172,7 +172,7 @@ if (isProd) {
         filename: 'style.[hash].css',
         chunkFilename: '[id].css',
       }),
-      new CopyWebpackPlugin([{from: staticPath, to: distPath, ignore: ['*.ejs']}]),
+      new CopyWebpackPlugin({patterns: [{from: staticPath, to: distPath, globOptions: {ignore: ['**/*.ejs']}}]}),
     ],
   }
 

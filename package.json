@@ -8,7 +8,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "prepare": "cp .env.example .env",
+    "prepare": "cp -n .env.example .env || true",
     "start": "npm run start:dev",
     "start:dev": "NODE_ENV=development webpack-dev-server --mode=development --progress",
     "start:prod": "NODE_ENV=production webpack-dev-server --mode=production --progress",

@@ -5,13 +5,9 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 import {connect} from 'react-redux'
 import {HeaderLogo} from '../header/HeaderLogo'
 import {SidebarMenus} from './SidebarMenus'
-import {WithTranslation} from 'react-i18next'
+import {SidebarComponentProps} from '../../global/typeUtils'
 
-interface SidebarComponentI extends WithTranslation {
-  [any: string]: any;
-}
-
-class SidebarComponent extends Component<SidebarComponentI> {
+class SidebarComponent extends Component<SidebarComponentProps> {
   render() {
     let {backgroundColor, enableSidebarShadow} = this.props
 
@@ -26,10 +22,10 @@ class SidebarComponent extends Component<SidebarComponentI> {
           transitionEnter={false}
           transitionLeave={false}
         >
-          <HeaderLogo />
+          <HeaderLogo/>
           <PerfectScrollbar>
             <div className="app-sidebar__inner">
-              <SidebarMenus />
+              <SidebarMenus/>
             </div>
           </PerfectScrollbar>
         </ReactCSSTransitionGroup>

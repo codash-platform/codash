@@ -8,7 +8,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import React, {Component} from 'react'
-import {withTranslation, WithTranslation} from 'react-i18next'
+import {WithTranslation, withTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import {
   ACTION_CHANGE_DATE_FILTER_MODE,
@@ -25,13 +25,15 @@ import {
 import {action} from '../../global/util'
 import {graphMetricsOrder} from '../../pages/dashboard/graphs/Graphs'
 import {SidebarMenuSet} from './SidebarMenuSet'
+import {GraphOverviewT, MenuDataT, Overview} from '../../global/typeUtils'
 
-interface SidebarMenusComponentI extends WithTranslation {
-  [any: string]: any;
+export interface SidebarMenusComponentProps extends WithTranslation {
+  graphOverview: GraphOverviewT;
+  overview: Overview;
 }
 
-class SidebarMenusComponent extends Component<SidebarMenusComponentI> {
-  menus = [
+class SidebarMenusComponent extends Component<SidebarMenusComponentProps> {
+  menus: MenuDataT[] = [
     {
       id: SIDEBAR_MENUS.VIEW_MODE_MENU,
       labelPlaceholder: 'menu:view_mode_label',
@@ -104,7 +106,7 @@ class SidebarMenusComponent extends Component<SidebarMenusComponentI> {
     },
   ]
 
-  getActiveKeysForMenu(menuId) {
+  getActiveKeysForMenu(menuId: string) {
     const {graphOverview, overview} = this.props
 
     switch (menuId) {
@@ -135,20 +137,20 @@ class SidebarMenusComponent extends Component<SidebarMenusComponentI> {
         <div className="sidebar-menu vertical-nav-menu">
           <ul className="sidebar-menu-container">
             <h5 className="app-sidebar__heading">{t('sidebar:header_time')}</h5>
-            <SidebarMenuSet menuData={intervalsMenu} activeKeys={this.getActiveKeysForMenu(intervalsMenu.id)} />
+            <SidebarMenuSet menuData={intervalsMenu} activeKeys={this.getActiveKeysForMenu(intervalsMenu.id)}/>
 
             <h5 className="app-sidebar__heading">{t('sidebar:header_view')}</h5>
-            <SidebarMenuSet menuData={viewModeMenu} activeKeys={this.getActiveKeysForMenu(viewModeMenu.id)} />
+            <SidebarMenuSet menuData={viewModeMenu} activeKeys={this.getActiveKeysForMenu(viewModeMenu.id)}/>
 
             <h5 className="app-sidebar__heading">{t('sidebar:header_graph')}</h5>
-            <SidebarMenuSet menuData={graphMetricsMenu} activeKeys={this.getActiveKeysForMenu(graphMetricsMenu.id)} />
-            <SidebarMenuSet menuData={graphModeMenu} activeKeys={this.getActiveKeysForMenu(graphModeMenu.id)} />
-            <SidebarMenuSet menuData={graphScaleMenu} activeKeys={this.getActiveKeysForMenu(graphScaleMenu.id)} />
+            <SidebarMenuSet menuData={graphMetricsMenu} activeKeys={this.getActiveKeysForMenu(graphMetricsMenu.id)}/>
+            <SidebarMenuSet menuData={graphModeMenu} activeKeys={this.getActiveKeysForMenu(graphModeMenu.id)}/>
+            <SidebarMenuSet menuData={graphScaleMenu} activeKeys={this.getActiveKeysForMenu(graphScaleMenu.id)}/>
 
             <h5 className="app-sidebar__heading">{t('sidebar:header_project')}</h5>
             <li className="sidebar-menu-item">
               <a className="sidebar-menu-link" target="_blank" href="https://github.com/codash-platform/codash">
-                <FontAwesomeIcon className="sidebar-menu-icon" icon={faAddressCard} />
+                <FontAwesomeIcon className="sidebar-menu-icon" icon={faAddressCard}/>
                 {t('sidebar:menu_about')}
               </a>
             </li>

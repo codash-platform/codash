@@ -13,11 +13,18 @@ import {Header} from './header/Header'
 import {NotificationBox} from './NotificationBox'
 import {Sidebar} from './sidebar/Sidebar'
 
-interface MainLayoutComponentI extends WithTranslation {
-  [any: string]: any;
+interface MainLayoutComponentProps extends WithTranslation {
+  isDeviceDesktop: boolean
+  colorScheme: string
+  enableFixedHeader: string
+  enableFixedSidebar: string
+  enableFixedFooter: string
+  closedSidebar: string
+  closedSmallerSidebar: string
+  enableMobileMenu: string
 }
 
-class MainLayoutComponent extends Component<MainLayoutComponentI> {
+class MainLayoutComponent extends Component<MainLayoutComponentProps> {
   isDeviceDesktop = width => width >= 1250
 
   onResize = width => {
@@ -53,18 +60,18 @@ class MainLayoutComponent extends Component<MainLayoutComponentI> {
             'sidebar-mobile-open': enableMobileMenu,
           })}
         >
-          <Header />
+          <Header/>
           <div className="app-main">
-            <Sidebar />
+            <Sidebar/>
             <div className="app-main__outer">
               <div className="app-main__inner">
-                <NotificationBox />
+                <NotificationBox/>
                 {APP_ROUTES}
               </div>
-              <Footer />
+              <Footer/>
             </div>
           </div>
-          <ResizeDetector handleWidth onResize={this.onResize} />
+          <ResizeDetector handleWidth onResize={this.onResize}/>
         </div>
       </Router>
     )

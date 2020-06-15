@@ -1,34 +1,31 @@
-import React, {Component} from 'react'
+import React from 'react'
 import Hamburger from 'react-hamburgers'
 import {connect} from 'react-redux'
 import {ACTION_TOGGLE_SIDEBAR} from '../../global/constants'
 import {action} from '../../global/util'
 import {MobileMenu} from './MobileMenu'
 
-interface HeaderLogoComponentI {
-  [any: string]: any;
+interface HeaderLogoComponentProps {
+  closedSidebar?: boolean;
 }
 
-class HeaderLogoComponent extends Component<HeaderLogoComponentI> {
-  render() {
-    const {closedSidebar} = this.props
+const HeaderLogoComponent: React.FC<HeaderLogoComponentProps> = ({closedSidebar}) => {
 
-    return (
-      <>
-        <div className="app-header__logo">
-          <div className="logo-src" />
-          <div className="header__pane ml-auto">
-            <Hamburger
-              active={closedSidebar}
-              type="elastic"
-              onClick={() => action(ACTION_TOGGLE_SIDEBAR, {closedSidebar: !closedSidebar})}
-            />
-          </div>
+  return (
+    <>
+      <div className="app-header__logo">
+        <div className="logo-src"/>
+        <div className="header__pane ml-auto">
+          <Hamburger
+            active={closedSidebar}
+            type="elastic"
+            onClick={() => action(ACTION_TOGGLE_SIDEBAR, {closedSidebar: !closedSidebar})}
+          />
         </div>
-        <MobileMenu />
-      </>
-    )
-  }
+      </div>
+      <MobileMenu/>
+    </>
+  )
 }
 
 const mapStateToProps = state => ({

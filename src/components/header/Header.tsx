@@ -7,7 +7,6 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import {Button, Dropdown} from 'react-bootstrap'
 import {withTranslation, WithTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
-import {withRouter} from 'react-router'
 import {
   ACTION_CHANGE_TOUR_STATE,
   ACTION_GET_DATA_START,
@@ -19,25 +18,31 @@ import {action} from '../../global/util'
 import {isProduction} from '../../global/variables'
 import {DateFilter} from '../DateFilter'
 import {HeaderLogo} from './HeaderLogo'
+import {MenuButtonProps, Overview} from '../../global/typeUtils'
 
-const MenuButton = props => {
+const MenuButton:React.FC<MenuButtonProps> = props => {
   const className = props.className || 'mx-1'
   const variant = props.variant || 'codash-translucent'
   const disabled = props.disabled || false
 
+  // @ts-ignore
   return (
     <Button size="sm" className={className} disabled={disabled} variant={variant} onClick={props.action}>
-      {props.icon && <FontAwesomeIcon className="mr-2" size={'sm'} icon={props.icon} />}
+      {props.icon && <FontAwesomeIcon className="mr-2" size={'sm'} icon={props.icon}/>}
       {props.title}
     </Button>
   )
 }
 
-interface HeaderComponentI extends WithTranslation {
-  [any: string]: any;
+interface HeaderComponentProps extends WithTranslation {
+  headerBackgroundColor: string;
+  enableMobileMenuSmall: boolean;
+  enableHeaderShadow: boolean;
+  isDeviceDesktop: boolean;
+  overview: Overview;
 }
 
-class HeaderComponent extends Component<HeaderComponentI> {
+class HeaderComponent extends Component<HeaderComponentProps> {
   render() {
     const {
       overview,
@@ -61,7 +66,7 @@ class HeaderComponent extends Component<HeaderComponentI> {
         transitionEnter={false}
         transitionLeave={false}
       >
-        <HeaderLogo />
+        <HeaderLogo/>
 
         <div
           className={classNames('app-header__content', headerBackgroundColor, {
@@ -69,7 +74,7 @@ class HeaderComponent extends Component<HeaderComponentI> {
           })}
         >
           <div className="app-header-left">
-            <DateFilter className="m-1" id={'date-picker'} />
+            <DateFilter className="m-1" id={'date-picker'}/>
           </div>
 
           <div className="app-header-right">
@@ -89,12 +94,12 @@ class HeaderComponent extends Component<HeaderComponentI> {
               icon={faRedo}
             />
             {!isProduction && (
-              <MenuButton icon={faCalculator} action={() => action(ACTION_REPARSE_DATA)} title={t('menu:reparse')} />
+              <MenuButton icon={faCalculator} action={() => action(ACTION_REPARSE_DATA)} title={t('menu:reparse')}/>
             )}
             <Dropdown className="m-1 d-inline-block" onSelect={language => i18n.changeLanguage(language)}>
               {/* @ts-ignore */}
               <Dropdown.Toggle id={'language-dropdown'} size="sm" variant="codash-translucent" className="text-white">
-                <img src={`/images/i18n/${currentLanguage}.svg`} alt={currentLanguage} className="flag" />
+                <img src={`/images/i18n/${currentLanguage}.svg`} alt={currentLanguage} className="flag"/>
                 &nbsp;
                 <span>{t('global:language_iso_code', {lng: currentLanguage}).toUpperCase()}</span>
               </Dropdown.Toggle>
@@ -111,7 +116,7 @@ class HeaderComponent extends Component<HeaderComponentI> {
                         'bg-primary': isLanguageActive,
                       })}
                     >
-                      <img src={`/images/i18n/${language}.svg`} alt={language} className="flag" />
+                      <img src={`/images/i18n/${language}.svg`} alt={language} className="flag"/>
                       &nbsp;
                       <span>{t('global:language_iso_code', {lng: language}).toUpperCase()}</span>
                     </Dropdown.Item>
@@ -126,7 +131,7 @@ class HeaderComponent extends Component<HeaderComponentI> {
   }
 }
 
-const stateToProps = state => ({
+const stateToProps = (state) => ({
   overview: state.overview,
   tableOverview: state.tableOverview,
   graphOverview: state.graphOverview,
@@ -138,4 +143,4 @@ const stateToProps = state => ({
 
 const dispatchToProps = {}
 
-export const Header = withRouter(connect(stateToProps, dispatchToProps)(withTranslation()(HeaderComponent)))
+export const Header = connect(stateToProps, dispatchToProps)(withTranslation()(HeaderComponent))

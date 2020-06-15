@@ -1,77 +1,75 @@
 import moment from 'moment'
-import React, {Component} from 'react'
+import React from 'react'
 import {DateRangePicker} from 'react-dates'
-import {withTranslation, WithTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
-import {withRouter} from 'react-router'
 import {ACTION_CHANGE_DATE_FILTER_INTERVAL, ACTION_TOGGLE_DATE_FILTER, DATE_FORMAT_APP} from '../global/constants'
 import {action} from '../global/util'
+import {Overview} from '../global/typeUtils'
 
-interface DateFilterComponentI extends WithTranslation {
-  [any: string]: any;
+interface DateFilterComponentProps extends React.HTMLProps<{}> {
+  overview: Overview;
 }
 
-class DateFilterComponent extends Component<DateFilterComponentI> {
-  render() {
-    const {overview, className, id} = this.props
-    const {dateFilter} = overview
-    const startDate = dateFilter.startDate || null
-    const endDate = dateFilter.endDate || null
-    let startDateObj = null
-    let endDateObj = null
+const DateFilterComponent: React.FC<DateFilterComponentProps> = (props) => {
+  const {overview, className, id} = props
+  const {dateFilter} = overview
+  const startDate = dateFilter.startDate || null
+  const endDate = dateFilter.endDate || null
+  let startDateObj = null
+  let endDateObj = null
 
-    if (startDate) {
-      startDateObj = moment(startDate, DATE_FORMAT_APP)
-    }
-
-    if (endDate) {
-      endDateObj = moment(endDate, DATE_FORMAT_APP)
-    }
-
-    return (
-      <div className={'d-inline-block ' + className}>
-        <DateRangePicker
-          initialVisibleMonth={() => moment().subtract(1, 'month')}
-          disabled={!overview.data?.datesAvailable}
-          startDate={startDateObj}
-          startDateId={(startDate || 'no-start-date') + id + 'start'}
-          endDate={endDateObj}
-          endDateId={(endDate || 'no-end-date') + id + 'end'}
-          onDatesChange={({startDate, endDate}) =>
-            action(ACTION_CHANGE_DATE_FILTER_INTERVAL, {
-              startDate: startDate?.format(DATE_FORMAT_APP) || null,
-              endDate: endDate?.format(DATE_FORMAT_APP) || null,
-            })
-          }
-          focusedInput={dateFilter.focusedInput}
-          onFocusChange={focusedInput => action(ACTION_TOGGLE_DATE_FILTER, {focusedInput: focusedInput})}
-          enableOutsideDays={false}
-          isOutsideRange={date => {
-            if (!overview.data?.datesAvailable) {
-              return true
-            }
-
-            const {datesAvailable} = overview.data
-            if (date.isBefore(moment(datesAvailable[0], DATE_FORMAT_APP), 'day')) {
-              return true
-            }
-
-            if (date.isAfter(moment(datesAvailable.slice(-1)[0], DATE_FORMAT_APP), 'day')) {
-              return true
-            }
-
-            return false
-          }}
-          minimumNights={0}
-          firstDayOfWeek={1}
-          displayFormat={DATE_FORMAT_APP}
-          showDefaultInputIcon={true}
-          small={true}
-          hideKeyboardShortcutsPanel={true}
-        />
-      </div>
-    )
+  if (startDate) {
+    startDateObj = moment(startDate, DATE_FORMAT_APP)
   }
+
+  if (endDate) {
+    endDateObj = moment(endDate, DATE_FORMAT_APP)
+  }
+
+  return (
+    <div className={'d-inline-block ' + className}>
+      <DateRangePicker
+        initialVisibleMonth={() => moment().subtract(1, 'month')}
+        disabled={!overview.data?.datesAvailable}
+        startDate={startDateObj}
+        startDateId={(startDate || 'no-start-date') + id + 'start'}
+        endDate={endDateObj}
+        endDateId={(endDate || 'no-end-date') + id + 'end'}
+        onDatesChange={({startDate, endDate}) =>
+          action(ACTION_CHANGE_DATE_FILTER_INTERVAL, {
+            startDate: startDate?.format(DATE_FORMAT_APP) || null,
+            endDate: endDate?.format(DATE_FORMAT_APP) || null,
+          })
+        }
+        focusedInput={dateFilter.focusedInput}
+        onFocusChange={focusedInput => action(ACTION_TOGGLE_DATE_FILTER, {focusedInput: focusedInput})}
+        enableOutsideDays={false}
+        isOutsideRange={date => {
+          if (!overview.data?.datesAvailable) {
+            return true
+          }
+
+          const {datesAvailable} = overview.data
+          if (date.isBefore(moment(datesAvailable[0], DATE_FORMAT_APP), 'day')) {
+            return true
+          }
+
+          if (date.isAfter(moment(datesAvailable.slice(-1)[0], DATE_FORMAT_APP), 'day')) {
+            return true
+          }
+
+          return false
+        }}
+        minimumNights={0}
+        firstDayOfWeek={1}
+        displayFormat={DATE_FORMAT_APP}
+        showDefaultInputIcon={true}
+        small={true}
+        hideKeyboardShortcutsPanel={true}
+      />
+    </div>
+  )
+
 }
 
 const stateToProps = state => ({
@@ -80,4 +78,4 @@ const stateToProps = state => ({
 
 const dispatchToProps = {}
 
-export const DateFilter = withRouter(connect(stateToProps, dispatchToProps)(withTranslation()(DateFilterComponent)))
+export const DateFilter = connect(stateToProps, dispatchToProps)(DateFilterComponent)

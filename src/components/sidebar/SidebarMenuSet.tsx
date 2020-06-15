@@ -2,16 +2,19 @@ import {faAngleDown} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import classNames from 'classnames'
 import React, {Component} from 'react'
-import {withTranslation, WithTranslation} from 'react-i18next'
+import {WithTranslation, withTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import {ACTION_TOGGLE_SIDEBAR_MENU} from '../../global/constants'
 import {action} from '../../global/util'
+import {MenuDataT, SidebarAction} from '../../global/typeUtils'
 
-interface SidebarMenuSetComponentI extends WithTranslation {
-  [any: string]: any;
+export interface SidebarMenuSetComponentProps extends WithTranslation {
+  menuData: MenuDataT;
+  activeKeys: number[];
+  sidebar: Record<string, SidebarAction>;
 }
 
-class SidebarMenuSetComponent extends Component<SidebarMenuSetComponentI> {
+class SidebarMenuSetComponent extends Component<SidebarMenuSetComponentProps> {
   render() {
     const {t, menuData, activeKeys, sidebar} = this.props
     const expanded = sidebar[menuData.id].expanded
@@ -26,7 +29,7 @@ class SidebarMenuSetComponent extends Component<SidebarMenuSetComponentI> {
             action(ACTION_TOGGLE_SIDEBAR_MENU, {menuId: menuData.id, expanded: !expanded})
           }}
         >
-          <FontAwesomeIcon className="sidebar-menu-icon" icon={menuData.icon} />
+          <FontAwesomeIcon className="sidebar-menu-icon" icon={menuData.icon}/>
 
           {t(menuData.labelPlaceholder)}
           <FontAwesomeIcon
@@ -48,7 +51,7 @@ class SidebarMenuSetComponent extends Component<SidebarMenuSetComponentI> {
               <a
                 className={classNames({
                   'sidebar-menu-link': true,
-                  active: activeKeys.includes(subMenuData.key),
+                  active: activeKeys.includes(subMenuData.key as number),
                 })}
                 title={t(subMenuData.labelPlaceholder)}
                 href="#"

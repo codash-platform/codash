@@ -14,6 +14,7 @@ import {
   VIEW_MODE,
 } from '../global/constants'
 import {action} from '../global/util'
+import {Overview} from '../global/typeUtils'
 
 const tourStepOrder = {
   dateFilter: 0,
@@ -69,11 +70,11 @@ const steps = [
   },
 ]
 
-interface FeatureTourComponentI extends WithTranslation {
-  [any: string]: any;
+interface FeatureTourComponentProps extends WithTranslation {
+  overview:Overview
 }
 
-class FeatureTourComponent extends Component<FeatureTourComponentI> {
+class FeatureTourComponent extends Component<FeatureTourComponentProps> {
   render() {
     const {overview, t} = this.props
     const {tourEnabled} = overview

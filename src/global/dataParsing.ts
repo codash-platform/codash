@@ -1,10 +1,11 @@
 import moment from 'moment'
 import {DATE_FORMAT_APP, DATE_FORMAT_ECDC, GRAPH_SCALE, METRICS} from './constants'
+import {InitialDataEntry, RawData} from './typeUtils'
 
-export const parseRawData = rawData => {
-  let perDateData = {}
+export const parseRawData = (rawData: Array<RawData>) => {
+  let perDateData:Record<string, any> = {}
   const globalPerDay = []
-  const datesAvailable = new Set()
+  const datesAvailable = new Set<string>()
   const geoIds = new Set()
   const geoIdToNameMapping: Record<string, any> = {}
 
@@ -62,9 +63,9 @@ export const parseRawData = rawData => {
   }
 }
 
-const getSortedDates = datesSet => {
+const getSortedDates = (datesSet: Set<string>) => {
   return [...datesSet].sort(
-    (a, b) => (moment(a, DATE_FORMAT_APP).toDate() as any) - (moment(b, DATE_FORMAT_APP).toDate() as any)
+    (a, b) => (moment(a, DATE_FORMAT_APP).toDate() as any) - (moment(b, DATE_FORMAT_APP).toDate() as any),
   )
 }
 
@@ -101,17 +102,17 @@ const calculateAccumulatedData = (perDateData, sortedDates) => {
       entry[METRICS.CASES_PER_CAPITA_ACCUMULATED] = calculateRate(
         perGeoIdAccumulatedData[entry.geoId][METRICS.CASES_ACCUMULATED],
         entry.population,
-        1000000
+        1000000,
       )
       entry[METRICS.DEATHS_PER_CAPITA_ACCUMULATED] = calculateRate(
         perGeoIdAccumulatedData[entry.geoId][METRICS.DEATHS_ACCUMULATED],
         entry.population,
-        1000000
+        1000000,
       )
       entry[METRICS.MORTALITY_PERCENTAGE_ACCUMULATED] = calculateRate(
         perGeoIdAccumulatedData[entry.geoId][METRICS.DEATHS_ACCUMULATED],
         perGeoIdAccumulatedData[entry.geoId][METRICS.CASES_ACCUMULATED],
-        100
+        100,
       )
     })
   }
@@ -166,7 +167,7 @@ const parseSectionData = (perDateData: Record<string, any> = {}, startDate, endD
  * @param referenceRate
  * @returns {number}
  */
-const calculateRate = (cases, total, referenceRate) => {
+const calculateRate = (cases, total, referenceRate:number) => {
   if (total === 0) {
     return 0
   }
@@ -174,7 +175,7 @@ const calculateRate = (cases, total, referenceRate) => {
   return changePrecision(cases / (total / referenceRate), 2)
 }
 
-const changePrecision = (number, precision) => {
+const changePrecision = (number:number, precision:number):number => {
   const factor = Math.pow(10, precision)
   const tempNumber = number * factor
   const roundedTempNumber = Math.round(tempNumber)
@@ -182,7 +183,7 @@ const changePrecision = (number, precision) => {
   return roundedTempNumber / factor
 }
 
-const createInitialEntryPerCountry = (name, geoId, population) => {
+const createInitialEntryPerCountry = (name:string, geoId:string, population:number):InitialDataEntry => {
   return {
     [METRICS.CASES_NEW]: 0,
     [METRICS.DEATHS_NEW]: 0,
@@ -202,7 +203,7 @@ const hardcodedPopulationData = {
   FK: 3234,
 }
 
-const getMissingPopulation = element => {
+const getMissingPopulation = (element: RawData): number => {
   let population = null
   if (hardcodedPopulationData[element.geoId]) {
     population = hardcodedPopulationData[element.geoId]
@@ -238,7 +239,7 @@ export const getGraphData = (
   propertyName,
   lineGraphVisible,
   barGraphVisible,
-  graphScale
+  graphScale,
 ) => {
   const result: Record<string, any> = {}
 
@@ -360,6 +361,6 @@ const sortArrayByDateProperty = (array, datePropertyKey) => {
   return array.sort(
     (a, b) =>
       (moment(a[datePropertyKey], DATE_FORMAT_APP).toDate() as any)
-      - (moment(b[datePropertyKey], DATE_FORMAT_APP).toDate() as any)
+      - (moment(b[datePropertyKey], DATE_FORMAT_APP).toDate() as any),
   )
 }

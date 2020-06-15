@@ -4,9 +4,10 @@ import React, {Component} from 'react'
 import {Alert, Col, Row} from 'react-bootstrap'
 import {withTranslation, WithTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
+import {Overview} from '../global/typeUtils'
 
 interface NotificationBoxComponentI extends WithTranslation {
-  [any: string]: any;
+  overview:Overview
 }
 
 class NotificationBoxComponent extends Component<NotificationBoxComponentI> {
@@ -16,6 +17,7 @@ class NotificationBoxComponent extends Component<NotificationBoxComponentI> {
     const variant = overview.notification?.variant || 'info'
     const showSpinner = overview.notification?.showSpinner || false
 
+    // @ts-ignore
     return (
       <Row>
         <Col xs={12}>

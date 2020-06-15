@@ -23,6 +23,8 @@
   "devDependencies": {
     "@types/react": "~16.9.36",
     "@types/react-dom": "~16.9.8",
+    "@types/react-redux": "~7.1.9",
+    "@types/react-router": "~5.1.7",
     "babel-eslint": "~10.1.0",
     "eslint": "~7.2.0",
     "eslint-plugin-react": "~7.20.0",
@@ -52,6 +54,8 @@
     "@hot-loader/react-dom": "~16.13.0",
     "@nivo/bar": "~0.62.0",
     "@nivo/line": "~0.62.0",
+    "@types/react-bootstrap": "~1.0.1",
+    "@types/react-dates": "~17.1.12",
     "@typescript-eslint/eslint-plugin": "~2.34.0",
     "@typescript-eslint/parser": "~2.34.0",
     "axios": "~0.19.2",

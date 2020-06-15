@@ -8,11 +8,12 @@ import {connect} from 'react-redux'
 import {ACTION_ENABLE_MOBILE_MENU, ACTION_ENABLE_MOBILE_MENU_SMALL} from '../../global/constants'
 import {action} from '../../global/util'
 
-interface MobileMenuComponentI {
-  [any: string]: any;
+interface MobileMenuComponentProps {
+  enableMobileMenu: boolean;
+  enableMobileMenuSmall: boolean;
 }
 
-class MobileMenuComponent extends Component<MobileMenuComponentI> {
+class MobileMenuComponent extends Component<MobileMenuComponentProps> {
   render() {
     const {enableMobileMenu, enableMobileMenuSmall} = this.props
 
@@ -33,7 +34,7 @@ class MobileMenuComponent extends Component<MobileMenuComponentI> {
             onClick={() => action(ACTION_ENABLE_MOBILE_MENU_SMALL, {enableMobileMenuSmall: !enableMobileMenuSmall})}
           >
             <div className="btn-icon-wrapper">
-              <FontAwesomeIcon icon={faEllipsisV} />
+              <FontAwesomeIcon icon={faEllipsisV}/>
             </div>
           </Button>
         </div>

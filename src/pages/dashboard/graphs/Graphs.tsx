@@ -38,7 +38,7 @@ export const colors = [
 ]
 
 interface GraphsComponentI extends WithTranslation {
-  [any: string]: any;
+
 }
 
 class GraphsComponent extends Component<GraphsComponentI, any> {

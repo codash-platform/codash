@@ -20,7 +20,7 @@ interface MainLayoutComponentProps extends WithTranslation {
   enableFixedSidebar: string;
   enableFixedFooter: string;
   closedSidebar: string;
-  closedSmallerSidebar: string;
+  closedSmallerSidebar?: string;
   enableMobileMenu: string;
 }
 

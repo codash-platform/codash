@@ -17,12 +17,11 @@ class NotificationBoxComponent extends Component<NotificationBoxComponentProps> 
     const variant = overview.notification?.variant || 'info'
     const showSpinner = overview.notification?.showSpinner || false
 
-    // @ts-ignore
     return (
       <Row>
         <Col xs={12}>
           {message && (
-            <Alert variant={variant}>
+            <Alert variant={variant as any}>
               {t(message)}
               {showSpinner && (
                 <>

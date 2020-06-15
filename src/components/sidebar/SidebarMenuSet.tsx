@@ -10,7 +10,7 @@ import {MenuDataT, SidebarAction} from '../../global/typeUtils'
 
 export interface SidebarMenuSetComponentProps extends WithTranslation {
   menuData: MenuDataT;
-  activeKeys: number[];
+  activeKeys: string[];
   sidebar: Record<string, SidebarAction>;
 }
 
@@ -51,7 +51,7 @@ class SidebarMenuSetComponent extends Component<SidebarMenuSetComponentProps> {
               <a
                 className={classNames({
                   'sidebar-menu-link': true,
-                  active: activeKeys.includes(subMenuData.key as number),
+                  active: activeKeys.includes(subMenuData.key as string),
                 })}
                 title={t(subMenuData.labelPlaceholder)}
                 href="#"

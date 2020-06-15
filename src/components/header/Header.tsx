@@ -32,9 +32,8 @@ const MenuButton: React.FC<MenuButtonProps> = props => {
   const variant = props.variant || 'codash-translucent'
   const disabled = props.disabled || false
 
-  // @ts-ignore
   return (
-    <Button size="sm" className={className} disabled={disabled} variant={variant} onClick={props.action}>
+    <Button size="sm" className={className} disabled={disabled} variant={variant as any} onClick={props.action}>
       {props.icon && <FontAwesomeIcon className="mr-2" size={'sm'} icon={props.icon} />}
       {props.title}
     </Button>

@@ -7,13 +7,14 @@ import {getTableData} from '../../../global/dataParsing'
 import {action} from '../../../global/util'
 import {colors} from '../graphs/Graphs'
 import {CustomTable} from './CustomTable'
+import {ColumnEntry, Overview, TableOverview} from '../../../global/typeUtils'
 
-interface TableComponentI extends WithTranslation {
-  overview: Record<string, any>;
-  tableOverview: Record<string, any>;
+interface TableComponentProps extends WithTranslation {
+  overview: Overview;
+  tableOverview: TableOverview;
 }
 
-class TableComponent extends Component<TableComponentI, any> {
+class TableComponent extends Component<TableComponentProps> {
   perCapitaCellFormatter = cell => {
     if (!cell || isNaN(cell) || !isFinite(cell)) {
       return '--'
@@ -43,7 +44,7 @@ class TableComponent extends Component<TableComponentI, any> {
     return cell.toLocaleString(LOCALE_DEFAULT)
   }
 
-  columns = [
+  columns: ColumnEntry[] = [
     {
       dataField: 'selected',
       textPlaceholder: 'table:column_selected',

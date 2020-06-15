@@ -25,9 +25,9 @@ interface MainLayoutComponentProps extends WithTranslation {
 }
 
 class MainLayoutComponent extends Component<MainLayoutComponentProps> {
-  isDeviceDesktop = width => width >= 1250
+  isDeviceDesktop = (width: number) => width >= 1250
 
-  onResize = width => {
+  onResize = (width: number) => {
     const isDeviceDesktop = this.isDeviceDesktop(width)
 
     if (this.props.isDeviceDesktop !== isDeviceDesktop) {

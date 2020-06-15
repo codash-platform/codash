@@ -1,4 +1,4 @@
 import {store} from './store'
 
 // general action dispatcher
-export const action = (type, params?: any) => store.dispatch({type, ...params})
+export const action = (type: string, params?: Record<string, any>) => store.dispatch({type, ...params})

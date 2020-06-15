@@ -6,11 +6,11 @@ import {withTranslation, WithTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import {Overview} from '../global/typeUtils'
 
-interface NotificationBoxComponentI extends WithTranslation {
-  overview:Overview
+interface NotificationBoxComponentProps extends WithTranslation {
+  overview: Overview
 }
 
-class NotificationBoxComponent extends Component<NotificationBoxComponentI> {
+class NotificationBoxComponent extends Component<NotificationBoxComponentProps> {
   render() {
     const {t, overview} = this.props
     const message = overview.notification?.message
@@ -27,7 +27,7 @@ class NotificationBoxComponent extends Component<NotificationBoxComponentI> {
               {showSpinner && (
                 <>
                   &nbsp;
-                  <FontAwesomeIcon icon={faSpinner} spin={true} />
+                  <FontAwesomeIcon icon={faSpinner} spin={true}/>
                 </>
               )}
             </Alert>

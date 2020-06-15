@@ -106,7 +106,7 @@ class SidebarMenusComponent extends Component<SidebarMenusComponentProps> {
     },
   ]
 
-  getActiveKeysForMenu(menuId: string) {
+  getActiveKeysForMenu(menuId: string): string[] {
     const {graphOverview, overview} = this.props
 
     switch (menuId) {

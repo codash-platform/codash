@@ -7,12 +7,13 @@ import {action} from '../../global/util'
 import {Graphs} from './graphs/Graphs'
 import {Tables} from './tables/Tables'
 import {Overview} from '../../global/typeUtils'
+import {RouteComponentProps} from 'react-router'
 
-interface DashboardComponentI extends WithTranslation {
-  overview:Overview
+interface DashboardComponentProps extends WithTranslation, RouteComponentProps {
+  overview: Overview
 }
 
-class DashboardComponent extends Component<DashboardComponentI> {
+class DashboardComponent extends Component<DashboardComponentProps> {
   componentDidMount() {
     const {match, overview} = this.props
 
@@ -28,9 +29,9 @@ class DashboardComponent extends Component<DashboardComponentI> {
   render() {
     return (
       <>
-        <FeatureTour />
-        <Graphs />
-        <Tables />
+        <FeatureTour/>
+        <Graphs/>
+        <Tables/>
       </>
     )
   }

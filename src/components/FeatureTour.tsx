@@ -71,7 +71,7 @@ const steps = [
 ]
 
 interface FeatureTourComponentProps extends WithTranslation {
-  overview:Overview
+  overview: Overview
 }
 
 class FeatureTourComponent extends Component<FeatureTourComponentProps> {

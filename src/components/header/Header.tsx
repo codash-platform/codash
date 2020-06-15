@@ -4,7 +4,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import classNames from 'classnames'
 import React, {Component} from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
-import {Button, Dropdown} from 'react-bootstrap'
+import {Button, ButtonProps, Dropdown} from 'react-bootstrap'
 import {withTranslation, WithTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import {
@@ -18,9 +18,16 @@ import {action} from '../../global/util'
 import {isProduction} from '../../global/variables'
 import {DateFilter} from '../DateFilter'
 import {HeaderLogo} from './HeaderLogo'
-import {MenuButtonProps, Overview} from '../../global/typeUtils'
+import {Overview} from '../../global/typeUtils'
+import {IconProp} from '@fortawesome/fontawesome-svg-core'
 
-const MenuButton:React.FC<MenuButtonProps> = props => {
+// @ts-ignore
+export interface MenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, ButtonProps {
+  icon: IconProp
+  action: () => void
+}
+
+const MenuButton: React.FC<MenuButtonProps> = props => {
   const className = props.className || 'mx-1'
   const variant = props.variant || 'codash-translucent'
   const disabled = props.disabled || false

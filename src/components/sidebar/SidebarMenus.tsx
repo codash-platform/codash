@@ -137,20 +137,20 @@ class SidebarMenusComponent extends Component<SidebarMenusComponentProps> {
         <div className="sidebar-menu vertical-nav-menu">
           <ul className="sidebar-menu-container">
             <h5 className="app-sidebar__heading">{t('sidebar:header_time')}</h5>
-            <SidebarMenuSet menuData={intervalsMenu} activeKeys={this.getActiveKeysForMenu(intervalsMenu.id)}/>
+            <SidebarMenuSet menuData={intervalsMenu} activeKeys={this.getActiveKeysForMenu(intervalsMenu.id)} />
 
             <h5 className="app-sidebar__heading">{t('sidebar:header_view')}</h5>
-            <SidebarMenuSet menuData={viewModeMenu} activeKeys={this.getActiveKeysForMenu(viewModeMenu.id)}/>
+            <SidebarMenuSet menuData={viewModeMenu} activeKeys={this.getActiveKeysForMenu(viewModeMenu.id)} />
 
             <h5 className="app-sidebar__heading">{t('sidebar:header_graph')}</h5>
-            <SidebarMenuSet menuData={graphMetricsMenu} activeKeys={this.getActiveKeysForMenu(graphMetricsMenu.id)}/>
-            <SidebarMenuSet menuData={graphModeMenu} activeKeys={this.getActiveKeysForMenu(graphModeMenu.id)}/>
-            <SidebarMenuSet menuData={graphScaleMenu} activeKeys={this.getActiveKeysForMenu(graphScaleMenu.id)}/>
+            <SidebarMenuSet menuData={graphMetricsMenu} activeKeys={this.getActiveKeysForMenu(graphMetricsMenu.id)} />
+            <SidebarMenuSet menuData={graphModeMenu} activeKeys={this.getActiveKeysForMenu(graphModeMenu.id)} />
+            <SidebarMenuSet menuData={graphScaleMenu} activeKeys={this.getActiveKeysForMenu(graphScaleMenu.id)} />
 
             <h5 className="app-sidebar__heading">{t('sidebar:header_project')}</h5>
             <li className="sidebar-menu-item">
               <a className="sidebar-menu-link" target="_blank" href="https://github.com/codash-platform/codash">
-                <FontAwesomeIcon className="sidebar-menu-icon" icon={faAddressCard}/>
+                <FontAwesomeIcon className="sidebar-menu-icon" icon={faAddressCard} />
                 {t('sidebar:menu_about')}
               </a>
             </li>

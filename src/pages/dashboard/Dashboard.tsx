@@ -10,7 +10,7 @@ import {Overview} from '../../global/typeUtils'
 import {RouteComponentProps} from 'react-router'
 
 interface DashboardComponentProps extends WithTranslation, RouteComponentProps {
-  overview: Overview
+  overview: Overview;
 }
 
 class DashboardComponent extends Component<DashboardComponentProps> {
@@ -29,9 +29,9 @@ class DashboardComponent extends Component<DashboardComponentProps> {
   render() {
     return (
       <>
-        <FeatureTour/>
-        <Graphs/>
-        <Tables/>
+        <FeatureTour />
+        <Graphs />
+        <Tables />
       </>
     )
   }

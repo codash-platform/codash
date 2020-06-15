@@ -34,7 +34,7 @@ class MobileMenuComponent extends Component<MobileMenuComponentProps> {
             onClick={() => action(ACTION_ENABLE_MOBILE_MENU_SMALL, {enableMobileMenuSmall: !enableMobileMenuSmall})}
           >
             <div className="btn-icon-wrapper">
-              <FontAwesomeIcon icon={faEllipsisV}/>
+              <FontAwesomeIcon icon={faEllipsisV} />
             </div>
           </Button>
         </div>

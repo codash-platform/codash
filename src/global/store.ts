@@ -88,8 +88,8 @@ const composeEnhancers =
 const enhancer = composeEnhancers(
   applyMiddleware(
     sagaMiddleware,
-    localStorageMiddleware, // save the store to localStorage on update
-  ),
+    localStorageMiddleware // save the store to localStorage on update
+  )
   // other store enhancers if any
 )
 

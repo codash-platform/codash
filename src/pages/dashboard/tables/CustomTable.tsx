@@ -24,16 +24,16 @@ interface CustomTableProps extends Partial<WithTranslation> {
 }
 
 export const CustomTable: FC<CustomTableProps> = ({
-                                                    sizePerPage,
-                                                    count,
-                                                    t,
-                                                    data,
-                                                    columns,
-                                                    headerFormatter,
-                                                    tableType,
-                                                    defaultSorted,
-                                                    smallPagination,
-                                                  }) => {
+  sizePerPage,
+  count,
+  t,
+  data,
+  columns,
+  headerFormatter,
+  tableType,
+  defaultSorted,
+  smallPagination,
+}) => {
   const {SearchBar} = Search
 
   const paginationOptions = {
@@ -88,7 +88,7 @@ export const CustomTable: FC<CustomTableProps> = ({
               <>
                 <Card.Header className="justify-content-between">
                   {title}
-                  <SearchBar {...searchProps} placeholder={t('table:search_placeholder')} tableId={tableType}/>
+                  <SearchBar {...searchProps} placeholder={t('table:search_placeholder')} tableId={tableType} />
                 </Card.Header>
                 <Card.Body>
                   <div className="table-container">

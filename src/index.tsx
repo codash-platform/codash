@@ -10,10 +10,10 @@ import {store} from './global/store'
 const CombinedApp = () => (
   <Provider store={store}>
     <I18nextProvider i18n={i18n}>
-      <MainLayout/>
+      <MainLayout />
     </I18nextProvider>
   </Provider>
 )
 
-const render = Component => ReactDOM.render(<Component/>, document.getElementById('root'))
+const render = Component => ReactDOM.render(<Component />, document.getElementById('root'))
 render(hot(CombinedApp))

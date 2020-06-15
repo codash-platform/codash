@@ -26,10 +26,10 @@ class SidebarComponent extends Component<SidebarComponentProps> {
           transitionEnter={false}
           transitionLeave={false}
         >
-          <HeaderLogo/>
+          <HeaderLogo />
           <PerfectScrollbar>
             <div className="app-sidebar__inner">
-              <SidebarMenus/>
+              <SidebarMenus />
             </div>
           </PerfectScrollbar>
         </ReactCSSTransitionGroup>

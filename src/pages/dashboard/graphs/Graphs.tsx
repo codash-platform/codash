@@ -39,8 +39,8 @@ export const colors = [
 ]
 
 interface GraphsComponentProps extends WithTranslation {
-  overview: Overview
-  graphOverview: GraphOverviewT
+  overview: Overview;
+  graphOverview: GraphOverviewT;
 }
 
 class GraphsComponent extends Component<GraphsComponentProps> {
@@ -119,7 +119,7 @@ class GraphsComponent extends Component<GraphsComponentProps> {
           metricName,
           lineGraphVisible,
           barGraphVisible,
-          graphScale,
+          graphScale
         )
 
         if (lineGraphVisible) {
@@ -133,7 +133,7 @@ class GraphsComponent extends Component<GraphsComponentProps> {
                 getColorForDataSet={this.getColorForDataSet}
                 animationsEnabled={animationsEnabled}
               />
-            </Card>,
+            </Card>
           )
         }
 
@@ -150,7 +150,7 @@ class GraphsComponent extends Component<GraphsComponentProps> {
                   animationsEnabled={animationsEnabled}
                 />
               </Card.Body>
-            </Card>,
+            </Card>
           )
         }
       })
@@ -227,26 +227,26 @@ export const BarGraph = ({data, keys, getColorForDataSet, getColorForTooltip, an
                 <div className="font-weight-bold text-center">{data.indexValue}</div>
                 <table style={{width: '100%', borderCollapse: 'collapse'}}>
                   <tbody>
-                  {Object.entries(data.data)
-                    .filter(([name, value]) => !['date', 'nameToGeoId'].includes(name))
-                    .sort((a, b) => (b?.[1] as any) - (a?.[1] as any))
-                    .map(([name, value]) => (
-                      <tr key={name}>
-                        <td style={{padding: '3px 5px'}}>
-                          <div
-                            style={{
-                              width: '12px',
-                              height: '12px',
-                              backgroundColor: getColorForTooltip(data.data.nameToGeoId[name]),
-                            }}
-                          />
-                        </td>
-                        <td style={{padding: '3px 5px'}}>{name}</td>
-                        <td className="font-weight-bold text-right" style={{padding: '3px 5px'}}>
-                          {value.toLocaleString(LOCALE_DEFAULT)}
-                        </td>
-                      </tr>
-                    ))}
+                    {Object.entries(data.data)
+                      .filter(([name, value]) => !['date', 'nameToGeoId'].includes(name))
+                      .sort((a, b) => (b?.[1] as any) - (a?.[1] as any))
+                      .map(([name, value]) => (
+                        <tr key={name}>
+                          <td style={{padding: '3px 5px'}}>
+                            <div
+                              style={{
+                                width: '12px',
+                                height: '12px',
+                                backgroundColor: getColorForTooltip(data.data.nameToGeoId[name]),
+                              }}
+                            />
+                          </td>
+                          <td style={{padding: '3px 5px'}}>{name}</td>
+                          <td className="font-weight-bold text-right" style={{padding: '3px 5px'}}>
+                            {value.toLocaleString(LOCALE_DEFAULT)}
+                          </td>
+                        </tr>
+                      ))}
                   </tbody>
                 </table>
               </>
@@ -359,25 +359,25 @@ export const LineGraph = ({data, scale, logarithmParams, getColorForDataSet, ani
                   <div className="font-weight-bold text-center">{slice.points[0].data.xFormatted}</div>
                   <table style={{width: '100%', borderCollapse: 'collapse'}}>
                     <tbody>
-                    {slice.points
-                      .sort((a, b) => (b?.data?.yFormatted as any) - (a?.data?.yFormatted as any))
-                      .map(point => (
-                        <tr key={point.id}>
-                          <td style={{padding: '3px 5px'}}>
-                            <div
-                              style={{
-                                width: '12px',
-                                height: '12px',
-                                backgroundColor: point.serieColor,
-                              }}
-                            />
-                          </td>
-                          <td style={{padding: '3px 5px'}}>{point.serieId}</td>
-                          <td className="font-weight-bold text-right" style={{padding: '3px 5px'}}>
-                            {point.data.yFormatted.toLocaleString(LOCALE_DEFAULT)}
-                          </td>
-                        </tr>
-                      ))}
+                      {slice.points
+                        .sort((a, b) => (b?.data?.yFormatted as any) - (a?.data?.yFormatted as any))
+                        .map(point => (
+                          <tr key={point.id}>
+                            <td style={{padding: '3px 5px'}}>
+                              <div
+                                style={{
+                                  width: '12px',
+                                  height: '12px',
+                                  backgroundColor: point.serieColor,
+                                }}
+                              />
+                            </td>
+                            <td style={{padding: '3px 5px'}}>{point.serieId}</td>
+                            <td className="font-weight-bold text-right" style={{padding: '3px 5px'}}>
+                              {point.data.yFormatted.toLocaleString(LOCALE_DEFAULT)}
+                            </td>
+                          </tr>
+                        ))}
                     </tbody>
                   </table>
                 </div>

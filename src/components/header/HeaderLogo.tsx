@@ -10,11 +10,10 @@ interface HeaderLogoComponentProps {
 }
 
 const HeaderLogoComponent: React.FC<HeaderLogoComponentProps> = ({closedSidebar}) => {
-
   return (
     <>
       <div className="app-header__logo">
-        <div className="logo-src"/>
+        <div className="logo-src" />
         <div className="header__pane ml-auto">
           <Hamburger
             active={closedSidebar}
@@ -23,7 +22,7 @@ const HeaderLogoComponent: React.FC<HeaderLogoComponentProps> = ({closedSidebar}
           />
         </div>
       </div>
-      <MobileMenu/>
+      <MobileMenu />
     </>
   )
 }

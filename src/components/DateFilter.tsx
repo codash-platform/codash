@@ -10,7 +10,7 @@ interface DateFilterComponentProps extends React.HTMLProps<{}> {
   overview: Overview;
 }
 
-const DateFilterComponent: React.FC<DateFilterComponentProps> = (props) => {
+const DateFilterComponent: React.FC<DateFilterComponentProps> = props => {
   const {overview, className, id} = props
   const {dateFilter} = overview
   const startDate = dateFilter.startDate || null
@@ -69,7 +69,6 @@ const DateFilterComponent: React.FC<DateFilterComponentProps> = (props) => {
       />
     </div>
   )
-
 }
 
 const stateToProps = state => ({

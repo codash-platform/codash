@@ -23,8 +23,8 @@ import {IconProp} from '@fortawesome/fontawesome-svg-core'
 
 // @ts-ignore
 export interface MenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, ButtonProps {
-  icon: IconProp
-  action: () => void
+  icon: IconProp;
+  action: () => void;
 }
 
 const MenuButton: React.FC<MenuButtonProps> = props => {
@@ -35,7 +35,7 @@ const MenuButton: React.FC<MenuButtonProps> = props => {
   // @ts-ignore
   return (
     <Button size="sm" className={className} disabled={disabled} variant={variant} onClick={props.action}>
-      {props.icon && <FontAwesomeIcon className="mr-2" size={'sm'} icon={props.icon}/>}
+      {props.icon && <FontAwesomeIcon className="mr-2" size={'sm'} icon={props.icon} />}
       {props.title}
     </Button>
   )
@@ -73,7 +73,7 @@ class HeaderComponent extends Component<HeaderComponentProps> {
         transitionEnter={false}
         transitionLeave={false}
       >
-        <HeaderLogo/>
+        <HeaderLogo />
 
         <div
           className={classNames('app-header__content', headerBackgroundColor, {
@@ -81,7 +81,7 @@ class HeaderComponent extends Component<HeaderComponentProps> {
           })}
         >
           <div className="app-header-left">
-            <DateFilter className="m-1" id={'date-picker'}/>
+            <DateFilter className="m-1" id={'date-picker'} />
           </div>
 
           <div className="app-header-right">
@@ -101,12 +101,12 @@ class HeaderComponent extends Component<HeaderComponentProps> {
               icon={faRedo}
             />
             {!isProduction && (
-              <MenuButton icon={faCalculator} action={() => action(ACTION_REPARSE_DATA)} title={t('menu:reparse')}/>
+              <MenuButton icon={faCalculator} action={() => action(ACTION_REPARSE_DATA)} title={t('menu:reparse')} />
             )}
             <Dropdown className="m-1 d-inline-block" onSelect={language => i18n.changeLanguage(language)}>
               {/* @ts-ignore */}
               <Dropdown.Toggle id={'language-dropdown'} size="sm" variant="codash-translucent" className="text-white">
-                <img src={`/images/i18n/${currentLanguage}.svg`} alt={currentLanguage} className="flag"/>
+                <img src={`/images/i18n/${currentLanguage}.svg`} alt={currentLanguage} className="flag" />
                 &nbsp;
                 <span>{t('global:language_iso_code', {lng: currentLanguage}).toUpperCase()}</span>
               </Dropdown.Toggle>
@@ -123,7 +123,7 @@ class HeaderComponent extends Component<HeaderComponentProps> {
                         'bg-primary': isLanguageActive,
                       })}
                     >
-                      <img src={`/images/i18n/${language}.svg`} alt={language} className="flag"/>
+                      <img src={`/images/i18n/${language}.svg`} alt={language} className="flag" />
                       &nbsp;
                       <span>{t('global:language_iso_code', {lng: language}).toUpperCase()}</span>
                     </Dropdown.Item>
@@ -138,7 +138,7 @@ class HeaderComponent extends Component<HeaderComponentProps> {
   }
 }
 
-const stateToProps = (state) => ({
+const stateToProps = state => ({
   overview: state.overview,
   tableOverview: state.tableOverview,
   graphOverview: state.graphOverview,

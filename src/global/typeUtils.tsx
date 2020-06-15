@@ -5,7 +5,7 @@ import {ButtonProps} from 'react-bootstrap'
 import {FocusedInputShape} from 'react-dates'
 import {ColumnDescription, HeaderFormatter} from 'react-bootstrap-table-next'
 
-export type ValueOf<T> = T[keyof T];
+export type ValueOf<T> = T[keyof T]
 
 export type SubMenuT = {
   labelPlaceholder: string;
@@ -32,119 +32,117 @@ export type GraphOverviewT = {
   graphScale: string;
   graphMode: string;
   metricsVisible: string[];
-  barGraphVisible: boolean
-  lineGraphVisible: boolean
+  barGraphVisible: boolean;
+  lineGraphVisible: boolean;
 }
 
 export interface DateFilter {
-  startDate: string
-  endDate: string
-  mode: string
-  focusedInput: FocusedInputShape
+  startDate: string;
+  endDate: string;
+  mode: string;
+  focusedInput: FocusedInputShape;
 }
 
 export interface Data {
-  rawData: RawData[]
-  startDate: string | null
-  endDate: string | null
-  datesAvailable: string[]
-  geoIds: string[]
-  geoIdToNameMapping: Record<string, string>
-  perDateData: Record<string, InitialDataEntry[]>
+  rawData: RawData[];
+  startDate: string | null;
+  endDate: string | null;
+  datesAvailable: string[];
+  geoIds: string[];
+  geoIdToNameMapping: Record<string, string>;
+  perDateData: Record<string, InitialDataEntry[]>;
 }
 
 export interface Notification {
-  message: string
-  variant: string
-  showSpinner: boolean
+  message: string;
+  variant: string;
+  showSpinner: boolean;
 }
 
 export interface Overview {
-  tourEnabled: boolean
-  tourCompleted: boolean
-  loadingStatus: keyof typeof ASYNC_STATUS
-  viewMode?: string
-  dateFilter?: DateFilter
-  selectedGeoIds: Record<string, string>
-  data?: Data
-  notification: Notification
-  tableVisible: boolean
-  rankingsVisible: boolean
-  graphsVisible: boolean
+  tourEnabled: boolean;
+  tourCompleted: boolean;
+  loadingStatus: keyof typeof ASYNC_STATUS;
+  viewMode?: string;
+  dateFilter?: DateFilter;
+  selectedGeoIds: Record<string, string>;
+  data?: Data;
+  notification: Notification;
+  tableVisible: boolean;
+  rankingsVisible: boolean;
+  graphsVisible: boolean;
 }
 
-export interface TableOverview {
-
-}
+export interface TableOverview {}
 
 export type RawData = {
-  cases: string
-  deaths: string
-  popData2018: string
-  dateRep: string
-  countriesAndTerritories: string
-  geoId: string
+  cases: string;
+  deaths: string;
+  popData2018: string;
+  dateRep: string;
+  countriesAndTerritories: string;
+  geoId: string;
 }
 
 export interface DataEntry extends InitialDataEntry {
-  cases_per_capita: number
-  deaths_per_capita: number
-  mortality_percentage: number
+  cases_per_capita: number;
+  deaths_per_capita: number;
+  mortality_percentage: number;
 }
 
 export interface PartialDataEntry extends InitialDataEntry {
-  selected: boolean
-  maxSelectionReached: boolean
+  selected: boolean;
+  maxSelectionReached: boolean;
 }
 
 export interface InitialDataEntry {
-  name: string
-  geoId: string
-  population: number
+  name: string;
+  geoId: string;
+  population: number;
   // cases_new:number TODO Fix this bug
   // deaths_new:number
-  [x: string]: any
+  [x: string]: any;
 }
 
 export interface LineGraphData {
-  lineData: LineData[]
-  logarithmParams: LogarithmParams
+  lineData: LineData[];
+  logarithmParams: LogarithmParams;
 }
 
 export type LogarithmParams = {
-  min: number
-  max: number
+  min: number;
+  max: number;
 }
 
 export type LineParsedData = {
-  x: string
-  y: string
+  x: string;
+  y: string;
 }
 
 export type LineData = {
-  id: string
-  geoId: string,
-  data: LineParsedData[]
+  id: string;
+  geoId: string;
+  data: LineParsedData[];
 }
 
 export interface GraphData extends LineGraphData {
-  barData: BarGraphData
+  barData: BarGraphData;
 }
 
 export type BarGraphData = {
-  keys: string[]
-  data: BarGraphEntryData[]
+  keys: string[];
+  data: BarGraphEntryData[];
 }
 
 export type BarGraphEntryData = {
-  date: string
-  nameToGeoId: Record<string, string>
-  [x: string]: any
+  date: string;
+  nameToGeoId: Record<string, string>;
+  [x: string]: any;
 }
 
 export interface ColumnEntry extends Partial<ColumnDescription> {
-  text?: string
-  textPlaceholder?: string
-  headerFormatter?: HeaderFormatter
-  unitPlaceholder?: string
+  text?: string;
+  textPlaceholder?: string;
+  headerFormatter?: HeaderFormatter;
+  unitPlaceholder?: string;
 }

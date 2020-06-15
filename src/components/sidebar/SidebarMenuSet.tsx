@@ -29,7 +29,7 @@ class SidebarMenuSetComponent extends Component<SidebarMenuSetComponentProps> {
             action(ACTION_TOGGLE_SIDEBAR_MENU, {menuId: menuData.id, expanded: !expanded})
           }}
         >
-          <FontAwesomeIcon className="sidebar-menu-icon" icon={menuData.icon}/>
+          <FontAwesomeIcon className="sidebar-menu-icon" icon={menuData.icon} />
 
           {t(menuData.labelPlaceholder)}
           <FontAwesomeIcon

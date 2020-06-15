@@ -7,7 +7,7 @@ import {connect} from 'react-redux'
 import {Overview} from '../global/typeUtils'
 
 interface NotificationBoxComponentProps extends WithTranslation {
-  overview: Overview
+  overview: Overview;
 }
 
 class NotificationBoxComponent extends Component<NotificationBoxComponentProps> {
@@ -27,7 +27,7 @@ class NotificationBoxComponent extends Component<NotificationBoxComponentProps> 
               {showSpinner && (
                 <>
                   &nbsp;
-                  <FontAwesomeIcon icon={faSpinner} spin={true}/>
+                  <FontAwesomeIcon icon={faSpinner} spin={true} />
                 </>
               )}
             </Alert>

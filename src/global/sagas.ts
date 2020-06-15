@@ -85,7 +85,7 @@ function* changeUrl() {
 
   const route = Object.entries(urlParams).reduce(
     (parsedRoute, [paramName, paramValue]) => parsedRoute.replace(`:${paramName}?`, paramValue as string),
-    ROUTE_DASHBOARD,
+    ROUTE_DASHBOARD
   )
 
   if (history.location.pathname !== route) {
@@ -97,6 +97,6 @@ export function* generalSaga() {
   yield takeLatest(ACTION_GET_DATA_START, getData)
   yield takeLatest(routingActions, changeUrl)
   yield takeLatest([ACTION_GET_DATA_SUCCESS, ACTION_REPARSE_DATA], () =>
-    action(ACTION_CHANGE_DATE_FILTER_MODE, {filterMode: DATE_FILTER.LAST_14_DAYS}),
+    action(ACTION_CHANGE_DATE_FILTER_MODE, {filterMode: DATE_FILTER.LAST_14_DAYS})
   )
 }

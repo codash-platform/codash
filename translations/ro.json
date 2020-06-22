@@ -100,5 +100,6 @@
     "tour:button_next": "Următorul Pas",
     "tour:button_skip": "Anulează Turul",
     "sidebar:header_project": "Proiect",
-    "sidebar:menu_about": "Despre"
+    "sidebar:menu_about": "Despre",
+    "error.data_unavailable": "Sursa de informații este temporar indisponibilă."
 }

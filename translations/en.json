@@ -100,5 +100,6 @@
     "tour:button_next": "Next",
     "tour:button_skip": "Cancel Tour",
     "sidebar:header_project": "Project",
-    "sidebar:menu_about": "About"
+    "sidebar:menu_about": "About",
+    "error.data_unavailable": "Data source is temporarily unavailable."
 }

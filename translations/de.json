@@ -100,5 +100,6 @@
     "tour:button_next": "Nächste",
     "tour:button_skip": "Tour abbrechen",
     "sidebar:header_project": "Projekt",
-    "sidebar:menu_about": "Über"
+    "sidebar:menu_about": "Über",
+    "error.data_unavailable": "Datenquelle ist vorübergehend nicht verfügbar."
 }

@@ -15,7 +15,7 @@ export const parseRawData = rawData => {
   rawData.map(record => {
     const cases = parseInt(record.cases)
     const deaths = parseInt(record.deaths)
-    const population = parseInt(record.popData2018) || getMissingPopulation(record)
+    const population = parseInt(record.popData2019) || parseInt(record.popData2018) || getMissingPopulation(record)
     const name = record.countriesAndTerritories.split('_').join(' ')
     const dateKey = moment(record.dateRep, DATE_FORMAT_ECDC).format(DATE_FORMAT_APP)
 
@@ -68,8 +68,6 @@ const getSortedDates = datesSet => {
 
 const calculateRatesData = data => {
   return data.map(element => {
-    // if (element.geoId === 'JPG11668') debugger
-
     element[METRICS.CASES_PER_CAPITA] = calculateRate(element[METRICS.CASES_NEW], element.population, 1000000)
     element[METRICS.DEATHS_PER_CAPITA] = calculateRate(element[METRICS.DEATHS_NEW], element.population, 1000000)
     element[METRICS.MORTALITY_PERCENTAGE] = calculateRate(element[METRICS.DEATHS_NEW], element[METRICS.CASES_NEW], 100)
@@ -198,6 +196,7 @@ const hardcodedPopulationData = {
   ER: 3452786,
   EH: 567402,
   FK: 3234,
+  JPG11668: 3711, // Diamond Princess cruise ship
 }
 
 const getMissingPopulation = element => {

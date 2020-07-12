@@ -252,7 +252,7 @@ const addSelectionColumn = (
   maxSelectionReached: boolean
 ): PartialDataEntry[] => {
   return tableData.map(entry => {
-    entry.selected = selectedGeoIds[entry.geoId] || false
+    entry.selected = selectedGeoIds[entry.geoId] ?? false
     entry.maxSelectionReached = maxSelectionReached
 
     return entry
@@ -382,7 +382,7 @@ const getLineGraphData = (
     .reverse()
     .map(geoId => {
       result.push({
-        id: geoIdToNameMapping[geoId] || geoId,
+        id: geoIdToNameMapping[geoId] ?? geoId,
         geoId: geoId,
         data: sortArrayByDateProperty(parsedData[geoId], 'x'),
       })

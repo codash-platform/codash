@@ -14,8 +14,8 @@ class NotificationBoxComponent extends Component<NotificationBoxComponentProps> 
   render() {
     const {t, overview} = this.props
     const message = overview.notification?.message
-    const variant = overview.notification?.variant || 'info'
-    const showSpinner = overview.notification?.showSpinner || false
+    const variant = overview.notification?.variant ?? 'info'
+    const showSpinner = overview.notification?.showSpinner ?? false
 
     return (
       <Row>

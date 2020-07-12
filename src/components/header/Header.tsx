@@ -28,9 +28,9 @@ export interface MenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEl
 }
 
 const MenuButton: React.FC<MenuButtonProps> = props => {
-  const className = props.className || 'mx-1'
-  const variant = props.variant || 'codash-translucent'
-  const disabled = props.disabled || false
+  const className = props.className ?? 'mx-1'
+  const variant = props.variant ?? 'codash-translucent'
+  const disabled = props.disabled ?? false
 
   return (
     <Button size="sm" className={className} disabled={disabled} variant={variant as any} onClick={props.action}>

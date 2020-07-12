@@ -61,12 +61,12 @@ function* getData() {
 function* changeUrl() {
   const urlParams = yield select(state => {
     const result: Record<string, any> = {
-      viewMode: state.overview?.viewMode || ROUTE_EMPTY_PARAM,
-      startDate: state.overview?.dateFilter?.startDate || ROUTE_EMPTY_PARAM,
-      endDate: state.overview?.dateFilter?.endDate || ROUTE_EMPTY_PARAM,
-      graphMode: state.graphOverview?.graphMode || ROUTE_EMPTY_PARAM,
-      graphScale: state.graphOverview?.graphScale || ROUTE_EMPTY_PARAM,
-      metricsVisible: state.graphOverview?.metricsVisible?.join(URL_ELEMENT_SEPARATOR) || ROUTE_EMPTY_PARAM,
+      viewMode: state.overview?.viewMode ?? ROUTE_EMPTY_PARAM,
+      startDate: state.overview?.dateFilter?.startDate ?? ROUTE_EMPTY_PARAM,
+      endDate: state.overview?.dateFilter?.endDate ?? ROUTE_EMPTY_PARAM,
+      graphMode: state.graphOverview?.graphMode ?? ROUTE_EMPTY_PARAM,
+      graphScale: state.graphOverview?.graphScale ?? ROUTE_EMPTY_PARAM,
+      metricsVisible: state.graphOverview?.metricsVisible?.join(URL_ELEMENT_SEPARATOR) ?? ROUTE_EMPTY_PARAM,
     }
 
     if (state.overview?.selectedGeoIds) {
@@ -75,7 +75,7 @@ function* changeUrl() {
           .filter(([geoId, active]) => active)
           .map(([geoId, active]) => geoId)
           .sort()
-          .join(URL_ELEMENT_SEPARATOR) || ROUTE_EMPTY_PARAM
+          .join(URL_ELEMENT_SEPARATOR) ?? ROUTE_EMPTY_PARAM
     } else {
       result.selectedGeoIds = ROUTE_EMPTY_PARAM
     }

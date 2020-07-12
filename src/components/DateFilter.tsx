@@ -13,8 +13,8 @@ interface DateFilterComponentProps extends React.HTMLProps<{}> {
 const DateFilterComponent: React.FC<DateFilterComponentProps> = props => {
   const {overview, className, id} = props
   const {dateFilter} = overview
-  const startDate = dateFilter.startDate || null
-  const endDate = dateFilter.endDate || null
+  const startDate = dateFilter.startDate ?? null
+  const endDate = dateFilter.endDate ?? null
   let startDateObj = null
   let endDateObj = null
 
@@ -32,13 +32,13 @@ const DateFilterComponent: React.FC<DateFilterComponentProps> = props => {
         initialVisibleMonth={() => moment().subtract(1, 'month')}
         disabled={!overview.data?.datesAvailable}
         startDate={startDateObj}
-        startDateId={(startDate || 'no-start-date') + id + 'start'}
+        startDateId={(startDate ?? 'no-start-date') + id + 'start'}
         endDate={endDateObj}
-        endDateId={(endDate || 'no-end-date') + id + 'end'}
+        endDateId={(endDate ?? 'no-end-date') + id + 'end'}
         onDatesChange={({startDate, endDate}) =>
           action(ACTION_CHANGE_DATE_FILTER_INTERVAL, {
-            startDate: startDate?.format(DATE_FORMAT_APP) || null,
-            endDate: endDate?.format(DATE_FORMAT_APP) || null,
+            startDate: startDate?.format(DATE_FORMAT_APP) ?? null,
+            endDate: endDate?.format(DATE_FORMAT_APP) ?? null,
           })
         }
         focusedInput={dateFilter.focusedInput}

@@ -173,7 +173,7 @@ export const BarGraph = ({data, keys, getColorForDataSet, getColorForTooltip, an
           <Bar
             height={500}
             width={width}
-            data={data || []}
+            data={data ?? []}
             keys={keys}
             animate={animationsEnabled}
             margin={{top: 50, right: 120, bottom: 70, left: 70}}
@@ -287,8 +287,8 @@ export const LineGraph = ({data, scale, logarithmParams, getColorForDataSet, ani
     const LogYScale: Scale = {
       type: 'log',
       base: 10,
-      min: logarithmParams.min || 'auto',
-      max: logarithmParams.max || 'auto',
+      min: logarithmParams.min ?? 'auto',
+      max: logarithmParams.max ?? 'auto',
     }
     yScaleConfig = {
       ...yScaleConfig,
@@ -310,7 +310,7 @@ export const LineGraph = ({data, scale, logarithmParams, getColorForDataSet, ani
       {({width}) => (
         <div style={{width: width + 'px'}}>
           <Line
-            data={data || []}
+            data={data ?? []}
             height={500}
             width={width}
             animate={animationsEnabled}

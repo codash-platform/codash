@@ -52,8 +52,8 @@ export const overview = (state = initialState, action: Record<string, any> = {})
         notification: {
           ...state.notification,
           message: action.message,
-          variant: action.variant || 'info',
-          showSpinner: action.showSpinner || false,
+          variant: action.variant ?? 'info',
+          showSpinner: action.showSpinner ?? false,
         },
       }
 

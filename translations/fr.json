@@ -100,5 +100,6 @@
     "tour:button_next": "Suivant",
     "tour:button_skip": "Annuler le tour guidé",
     "sidebar:header_project": "Projet",
-    "sidebar:menu_about": "A propos"
+    "sidebar:menu_about": "A propos",
+    "error.data_unavailable": "La source de données est temporairement indisponible."
 }

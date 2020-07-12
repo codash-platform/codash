@@ -1,5 +1,5 @@
 const webpack = require('webpack')
-const merge = require('webpack-merge')
+const {mergeWithCustomize, customizeObject} = require('webpack-merge')
 const TerserPlugin = require('terser-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -176,7 +176,7 @@ if (isProd) {
     ],
   }
 
-  combinedConfig = merge.strategy(mergeStrategy)(baseConfig, prodConfig)
+  combinedConfig = mergeWithCustomize({customizeObject: customizeObject(mergeStrategy)})(baseConfig, prodConfig)
 } else {
   // development specific settings
   const devConfig = {
@@ -212,7 +212,7 @@ if (isProd) {
     },
   }
 
-  combinedConfig = merge.strategy(mergeStrategy)(baseConfig, devConfig)
+  combinedConfig = mergeWithCustomize({customizeObject: customizeObject(mergeStrategy)})(baseConfig, devConfig)
 }
 
 module.exports = combinedConfig

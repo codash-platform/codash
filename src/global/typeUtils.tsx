@@ -78,7 +78,8 @@ export interface TableOverview {}
 export type RawData = {
   cases: string;
   deaths: string;
-  popData2019: string;
+  popData2019?: string;
+  popData2018?: string;
   dateRep: string;
   countriesAndTerritories: string;
   geoId: string;

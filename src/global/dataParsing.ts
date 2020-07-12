@@ -29,7 +29,7 @@ export const parseRawData = (rawData: Array<RawData>): Data => {
   rawData.map(record => {
     const cases = parseInt(record.cases)
     const deaths = parseInt(record.deaths)
-    const population = parseInt(record.popData2019) || parseInt(record.popData2018) || getMissingPopulation(record)
+    const population = parseInt(record.popData2019) || parseInt(record.popData2019) || getMissingPopulation(record)
     const name = record.countriesAndTerritories.split('_').join(' ')
     const dateKey = moment(record.dateRep, DATE_FORMAT_ECDC).format(DATE_FORMAT_APP)
 

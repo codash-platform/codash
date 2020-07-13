@@ -13,7 +13,7 @@ export interface SidebarComponentProps {
 
 class SidebarComponent extends Component<SidebarComponentProps> {
   render() {
-    let {backgroundColor, enableSidebarShadow} = this.props
+    const {backgroundColor, enableSidebarShadow} = this.props
 
     return (
       <>

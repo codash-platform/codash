@@ -148,7 +148,7 @@ export const overview = (state = initialState, action: Record<string, any> = {})
         }
       }
 
-      let selectedGeoIds = {}
+      const selectedGeoIds = {}
       if (Object.keys(state.selectedGeoIds).length === 0 && parsedData.geoIds) {
         parsedData.geoIds.map((geoId: string) => {
           selectedGeoIds[geoId] = preselectedGeoIds.includes(geoId)

@@ -149,7 +149,12 @@ class SidebarMenusComponent extends Component<SidebarMenusComponentProps> {
 
             <h5 className="app-sidebar__heading">{t('sidebar:header_project')}</h5>
             <li className="sidebar-menu-item">
-              <a className="sidebar-menu-link" target="_blank" href="https://github.com/codash-platform/codash">
+              <a
+                className="sidebar-menu-link"
+                target="_blank"
+                rel="noreferrer"
+                href="https://github.com/codash-platform/codash"
+              >
                 <FontAwesomeIcon className="sidebar-menu-icon" icon={faAddressCard} />
                 {t('sidebar:menu_about')}
               </a>

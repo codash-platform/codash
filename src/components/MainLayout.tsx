@@ -36,7 +36,7 @@ class MainLayoutComponent extends Component<MainLayoutComponentProps> {
   }
 
   render() {
-    let {
+    const {
       colorScheme,
       enableFixedHeader,
       enableFixedSidebar,

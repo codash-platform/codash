@@ -15,5 +15,5 @@ const CombinedApp = () => (
   </Provider>
 )
 
-const render = Component => ReactDOM.render(<Component />, document.getElementById('root'))
-render(hot(CombinedApp))
+const HotCombinedApp = hot(CombinedApp)
+ReactDOM.render(<HotCombinedApp />, document.getElementById('root'))

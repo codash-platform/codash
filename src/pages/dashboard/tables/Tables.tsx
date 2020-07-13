@@ -7,11 +7,11 @@ import {getTableData} from '../../../global/dataParsing'
 import {action} from '../../../global/util'
 import {colors} from '../graphs/Graphs'
 import {CustomTable} from './CustomTable'
-import {ColumnEntry, Overview, TableOverview} from '../../../global/typeUtils'
+import {ColumnEntry, Overview} from '../../../global/typeUtils'
 
 interface TableComponentProps extends WithTranslation {
   overview: Overview;
-  tableOverview: TableOverview;
+  tableOverview: {};
 }
 
 class TableComponent extends Component<TableComponentProps> {

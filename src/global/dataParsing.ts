@@ -61,7 +61,7 @@ export const parseRawData = (rawData: Array<RawData>): Data => {
     globalPerDay[dateKey][METRICS.DEATHS_NEW] += deaths
     globalPerDay[dateKey].population += population
   })
-  for (let dateKey of Object.keys(initialPerDateData)) {
+  for (const dateKey of Object.keys(initialPerDateData)) {
     initialPerDateData[dateKey].push(globalPerDay[dateKey])
     ratesPerDateData[dateKey] = calculateRatesData(initialPerDateData[dateKey])
   }
@@ -98,7 +98,7 @@ const calculateAccumulatedData = (
   perDateData: Record<string, InitialDataEntry[]>,
   sortedDates: string[]
 ): Record<string, DataEntry[]> => {
-  let perGeoIdAccumulatedData: Record<string, Partial<AccumulatedDataEntry>> = {}
+  const perGeoIdAccumulatedData: Record<string, Partial<AccumulatedDataEntry>> = {}
 
   for (const dateKey of sortedDates) {
     perDateData[dateKey].forEach(entry => {
@@ -143,7 +143,7 @@ const parseSectionData = (
 ): DataEntry[] => {
   const perGeoIdData = {}
 
-  for (let [dateKey, entriesForDate] of Object.entries(perDateData)) {
+  for (const [dateKey, entriesForDate] of Object.entries(perDateData)) {
     if (startDate && moment(dateKey, DATE_FORMAT_APP).isBefore(startDate, 'day')) {
       continue
     }
@@ -152,7 +152,7 @@ const parseSectionData = (
       continue
     }
 
-    for (let entry of entriesForDate) {
+    for (const entry of entriesForDate) {
       if (!perGeoIdData[entry.geoId]) {
         perGeoIdData[entry.geoId] = createInitialEntryPerCountry(entry.name, entry.geoId, entry.population)
       }
@@ -174,7 +174,7 @@ const parseSectionData = (
       entry[METRICS.MORTALITY_PERCENTAGE_ACCUMULATED]
   })
 
-  let resultData: InitialDataEntry[] = Object.values(perGeoIdData)
+  const resultData: InitialDataEntry[] = Object.values(perGeoIdData)
 
   return calculateRatesData(resultData)
 }
@@ -233,8 +233,8 @@ export const getTableData = (
   selectedGeoIds: Record<string, string>,
   maxSelectionReached: boolean
 ): PartialDataEntry[] => {
-  let startDate = moment(dateFilter.startDate, DATE_FORMAT_APP)
-  let endDate = moment(dateFilter.endDate, DATE_FORMAT_APP)
+  const startDate = moment(dateFilter.startDate, DATE_FORMAT_APP)
+  const endDate = moment(dateFilter.endDate, DATE_FORMAT_APP)
 
   const sectionData = parseSectionData(data?.perDateData, startDate, endDate)
 
@@ -274,7 +274,7 @@ export const getGraphData = (
   const endDate = moment(dateFilter.endDate, DATE_FORMAT_APP)
   const cleanedData: Record<string, DataEntry[]> = {}
 
-  for (let [dateKey, entriesForDate] of Object.entries(data.perDateData)) {
+  for (const [dateKey, entriesForDate] of Object.entries(data.perDateData)) {
     const dateObj = moment(dateKey, DATE_FORMAT_APP)
 
     if (startDate.isValid() && dateObj.isBefore(startDate, 'day')) {
@@ -309,7 +309,7 @@ const getBarGraphData = (
 ): BarData => {
   const parsedData: BarEntryData[] = []
 
-  for (let [dateKey, entriesForDate] of Object.entries(cleanedData)) {
+  for (const [dateKey, entriesForDate] of Object.entries(cleanedData)) {
     const newEntry = {date: dateKey, nameToGeoId: {}}
     entriesForDate.forEach(entry => {
       newEntry[geoIdToNameMapping[entry.geoId]] = entry[propertyName]
@@ -338,18 +338,18 @@ const getLineGraphData = (
   graphScale: string
 ): LineGraphData => {
   const result: LineData[] = []
-  let parsedData: Record<string, LineParsedData[]> = {}
+  const parsedData: Record<string, LineParsedData[]> = {}
   const logarithmParams = {
     min: null,
     max: null,
   }
 
-  for (let [dateKey, entriesForDate] of Object.entries(cleanedData)) {
+  for (const [dateKey, entriesForDate] of Object.entries(cleanedData)) {
     entriesForDate.map(entry => {
       if (!parsedData[entry.geoId]) {
         parsedData[entry.geoId] = []
       }
-      let dateValue = entry[propertyName]
+      const dateValue = entry[propertyName]
 
       if (graphScale === GRAPH_SCALE.LOGARITHMIC) {
         if (dateValue <= 0) {

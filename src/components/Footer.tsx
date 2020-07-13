@@ -36,6 +36,7 @@ class FooterComponent extends Component<FooterComponentProps> {
             {t('footer:data_source')}
             <a
               target="_blank"
+              rel="noreferrer"
               className="font-weight-bold"
               href="https://www.ecdc.europa.eu/en/publications-data/download-todays-data-geographic-distribution-covid-19-cases-worldwide"
             >

@@ -21,9 +21,9 @@ const localStorageMiddleware = ({getState}) => {
     const newState = {}
 
     // skip data objects since they take too much space/processing
-    for (let [key, value] of Object.entries(state)) {
+    for (const [key, value] of Object.entries(state)) {
       const newReducer = {}
-      for (let [subKey, subValue] of Object.entries(value)) {
+      for (const [subKey, subValue] of Object.entries(value)) {
         if (subKey === 'data' && key === 'overview' && subValue) {
           continue
         }

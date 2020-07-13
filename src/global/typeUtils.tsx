@@ -71,8 +71,6 @@ export interface Overview {
   graphsVisible: boolean;
 }
 
-export interface TableOverview {}
-
 export type RawData = {
   cases: string;
   deaths: string;

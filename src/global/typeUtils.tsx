@@ -1,11 +1,9 @@
-import {IconDefinition, IconProp} from '@fortawesome/fontawesome-svg-core'
-import {ACTION_EXPAND_ONLY_SIDEBAR_MENU, ACTION_TOGGLE_SIDEBAR_MENU, ASYNC_STATUS} from './constants'
+import {IconDefinition} from '@fortawesome/fontawesome-svg-core'
+import {ACTION_EXPAND_ONLY_SIDEBAR_MENU, ACTION_TOGGLE_SIDEBAR_MENU, ASYNC_STATUS, METRICS} from './constants'
 import React from 'react'
-import {ButtonProps} from 'react-bootstrap'
 import {FocusedInputShape} from 'react-dates'
 import {ColumnDescription, HeaderFormatter} from 'react-bootstrap-table-next'
-
-export type ValueOf<T> = T[keyof T]
+import {Variant} from 'react-bootstrap/esm/types'
 
 export type SubMenuT = {
   labelPlaceholder: string;
@@ -50,19 +48,19 @@ export interface Data {
   datesAvailable: string[];
   geoIds: string[];
   geoIdToNameMapping: Record<string, string>;
-  perDateData: Record<string, InitialDataEntry[]>;
+  perDateData: Record<string, DataEntry[]>;
 }
 
 export interface Notification {
   message: string;
-  variant: string;
+  variant: Variant;
   showSpinner: boolean;
 }
 
 export interface Overview {
   tourEnabled: boolean;
   tourCompleted: boolean;
-  loadingStatus: keyof typeof ASYNC_STATUS;
+  loadingStatus: ASYNC_STATUS;
   viewMode?: string;
   dateFilter?: DateFilter;
   selectedGeoIds: Record<string, string>;
@@ -85,24 +83,34 @@ export type RawData = {
   geoId: string;
 }
 
-export interface DataEntry extends InitialDataEntry {
-  cases_per_capita: number;
-  deaths_per_capita: number;
-  mortality_percentage: number;
-}
+export interface DataEntry extends InitialDataEntry, AccumulatedDataEntry, RatesEntry {}
+export interface RatesDataEntry extends InitialDataEntry, RatesEntry {}
 
 export interface PartialDataEntry extends InitialDataEntry {
   selected: boolean;
   maxSelectionReached: boolean;
 }
 
+export interface AccumulatedDataEntry {
+  [METRICS.CASES_ACCUMULATED]: number;
+  [METRICS.CASES_PER_CAPITA_ACCUMULATED]: number;
+  [METRICS.DEATHS_ACCUMULATED]: number;
+  [METRICS.DEATHS_PER_CAPITA_ACCUMULATED]: number;
+  [METRICS.MORTALITY_PERCENTAGE_ACCUMULATED]: number;
+}
+
+export interface RatesEntry {
+  [METRICS.CASES_PER_CAPITA]: number;
+  [METRICS.DEATHS_PER_CAPITA]: number;
+  [METRICS.MORTALITY_PERCENTAGE]: number;
+}
+
 export interface InitialDataEntry {
   name: string;
   geoId: string;
   population: number;
-  // cases_new:number TODO Fix this bug
-  // deaths_new:number
-  [x: string]: any;
+  [METRICS.CASES_NEW]: number;
+  [METRICS.DEATHS_NEW]: number;
 }
 
 export interface LineGraphData {
@@ -126,19 +134,20 @@ export type LineData = {
   data: LineParsedData[];
 }
 
-export interface GraphData extends LineGraphData {
-  barData: BarGraphData;
-}
+export interface GraphData extends LineGraphData, BarGraphData {}
 
 export type BarGraphData = {
-  keys: string[];
-  data: BarGraphEntryData[];
+  barData: BarData;
 }
 
-export type BarGraphEntryData = {
+export type BarData = {
+  keys: string[];
+  data: BarEntryData[];
+}
+
+export type BarEntryData = {
   date: string;
   nameToGeoId: Record<string, string>;
-  [x: string]: any;
 }
 
 export interface ColumnEntry extends Partial<ColumnDescription> {

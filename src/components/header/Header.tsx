@@ -21,8 +21,7 @@ import {HeaderLogo} from './HeaderLogo'
 import {Overview} from '../../global/typeUtils'
 import {IconProp} from '@fortawesome/fontawesome-svg-core'
 
-// @ts-ignore
-export interface MenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, ButtonProps {
+export interface MenuButtonProps extends ButtonProps {
   icon: IconProp;
   action: () => void;
 }
@@ -33,7 +32,7 @@ const MenuButton: React.FC<MenuButtonProps> = props => {
   const disabled = props.disabled ?? false
 
   return (
-    <Button size="sm" className={className} disabled={disabled} variant={variant as any} onClick={props.action}>
+    <Button size="sm" className={className} disabled={disabled} variant={variant} onClick={props.action}>
       {props.icon && <FontAwesomeIcon className="mr-2" size={'sm'} icon={props.icon} />}
       {props.title}
     </Button>
@@ -103,7 +102,6 @@ class HeaderComponent extends Component<HeaderComponentProps> {
               <MenuButton icon={faCalculator} action={() => action(ACTION_REPARSE_DATA)} title={t('menu:reparse')} />
             )}
             <Dropdown className="m-1 d-inline-block" onSelect={language => i18n.changeLanguage(language)}>
-              {/* @ts-ignore */}
               <Dropdown.Toggle id={'language-dropdown'} size="sm" variant="codash-translucent" className="text-white">
                 <img src={`/images/i18n/${currentLanguage}.svg`} alt={currentLanguage} className="flag" />
                 &nbsp;

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {withTranslation, WithTranslation} from 'react-i18next'
-import Joyride, {EVENTS, STATUS} from 'react-joyride'
+import Joyride, {EVENTS, STATUS, Step, CallBackProps} from 'react-joyride'
 import {connect} from 'react-redux'
 import {
   ACTION_CHANGE_METRIC_GRAPH_VISIBILITY,
@@ -27,7 +27,11 @@ const tourStepOrder = {
   tourButton: 7,
 }
 
-const steps = [
+interface StepWithTranslation extends Partial<Step> {
+  contentPlaceholder: string;
+}
+
+const steps: Array<StepWithTranslation> = [
   {
     target: '.DateRangePicker_1',
     contentPlaceholder: 'tour:step_date_filter',
@@ -79,7 +83,7 @@ class FeatureTourComponent extends Component<FeatureTourComponentProps> {
     const {overview, t} = this.props
     const {tourEnabled} = overview
 
-    const translatedSteps = steps.map((step: Record<string, any>) => {
+    const translatedSteps = steps.map(step => {
       step.content = t(step.contentPlaceholder)
       return step
     })
@@ -88,8 +92,7 @@ class FeatureTourComponent extends Component<FeatureTourComponentProps> {
       <Joyride
         run={tourEnabled}
         disableOverlayClose={true}
-        //@ts-ignore
-        steps={translatedSteps}
+        steps={translatedSteps as Step[]}
         showSkipButton={true}
         locale={{
           back: t('tour:button_back'),
@@ -98,7 +101,7 @@ class FeatureTourComponent extends Component<FeatureTourComponentProps> {
           next: t('tour:button_next'),
           skip: t('tour:button_skip'),
         }}
-        callback={(data: Record<string, any>) => {
+        callback={(data: CallBackProps) => {
           if (data.type === EVENTS.BEACON) {
             switch (data.index) {
               case tourStepOrder.dateFilter:
@@ -137,9 +140,9 @@ class FeatureTourComponent extends Component<FeatureTourComponentProps> {
                 break
             }
           }
-
           // Need to set our running state to false, so we can restart if we click start again.
-          if ([STATUS.FINISHED, STATUS.SKIPPED].includes(data.status)) {
+          const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED]
+          if (finishedStatuses.includes(data.status)) {
             action(ACTION_CHANGE_TOUR_STATE, {enabled: false})
             action(ACTION_CHANGE_TOUR_COMPLETION, {completed: true})
           }

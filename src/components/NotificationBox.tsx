@@ -21,7 +21,7 @@ class NotificationBoxComponent extends Component<NotificationBoxComponentProps> 
       <Row>
         <Col xs={12}>
           {message && (
-            <Alert variant={variant as any}>
+            <Alert variant={variant}>
               {t(message)}
               {showSpinner && (
                 <>

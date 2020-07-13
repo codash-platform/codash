@@ -1,71 +1,62 @@
-export const ASYNC_STATUS = {
-  IDLE: 'idle',
-  PENDING: 'pending',
-  SUCCESS: 'success',
-  FAIL: 'fail',
+export enum ASYNC_STATUS {
+  IDLE = 'idle',
+  PENDING = 'pending',
+  SUCCESS = 'success',
+  FAIL = 'fail',
 }
 
-export const DATE_FILTER = {
-  TOTAL: 'total',
-  LAST_DAY: 1,
-  LAST_7_DAYS: 7,
-  LAST_14_DAYS: 14,
-  LAST_30_DAYS: 30,
-  LAST_60_DAYS: 60,
-  LAST_90_DAYS: 90,
+export enum DATE_FILTER {
+  TOTAL = 'total',
+  LAST_DAY = '1',
+  LAST_7_DAYS = '7',
+  LAST_14_DAYS = '14',
+  LAST_30_DAYS = '30',
+  LAST_60_DAYS = '60',
+  LAST_90_DAYS = '90',
 }
 
-export const VIEW_MODE = {
-  COMBO: 'combo',
-  TABLE: 'table',
-  RANKINGS: 'rankings',
-  GRAPHS: 'graphs',
+export enum VIEW_MODE {
+  COMBO = 'combo',
+  TABLE = 'table',
+  RANKINGS = 'rankings',
+  GRAPHS = 'graphs',
 }
 
-export const GRAPH_MODE = {
-  COMBO: 'combo',
-  LINE: 'line',
-  BAR: 'bar',
+export enum GRAPH_MODE {
+  COMBO = 'combo',
+  LINE = 'line',
+  BAR = 'bar',
 }
 
-export const GRAPH_SCALE = {
-  LINEAR: 'linear',
-  LOGARITHMIC: 'logarithmic',
+export enum GRAPH_SCALE {
+  LINEAR = 'linear',
+  LOGARITHMIC = 'logarithmic',
 }
 
-export const METRICS = {
-  CASES_NEW: 'cases_new',
-  CASES_ACCUMULATED: 'cases_accumulated',
-  CASES_PER_CAPITA: 'cases_per_capita',
-  CASES_PER_CAPITA_ACCUMULATED: 'cases_per_capita_accumulated',
-  DEATHS_NEW: 'deaths_new',
-  DEATHS_ACCUMULATED: 'deaths_accumulated',
-  DEATHS_PER_CAPITA: 'deaths_per_capita',
-  DEATHS_PER_CAPITA_ACCUMULATED: 'deaths_per_capita_accumulated',
-  MORTALITY_PERCENTAGE: 'mortality_percentage',
-  MORTALITY_PERCENTAGE_ACCUMULATED: 'mortality_percentage_accumulated',
+export enum METRICS {
+  CASES_NEW = 'cases_new',
+  CASES_ACCUMULATED = 'cases_accumulated',
+  CASES_PER_CAPITA = 'cases_per_capita',
+  CASES_PER_CAPITA_ACCUMULATED = 'cases_per_capita_accumulated',
+  DEATHS_NEW = 'deaths_new',
+  DEATHS_ACCUMULATED = 'deaths_accumulated',
+  DEATHS_PER_CAPITA = 'deaths_per_capita',
+  DEATHS_PER_CAPITA_ACCUMULATED = 'deaths_per_capita_accumulated',
+  MORTALITY_PERCENTAGE = 'mortality_percentage',
+  MORTALITY_PERCENTAGE_ACCUMULATED = 'mortality_percentage_accumulated',
 }
 
 export const TABLE_TYPE = {
   MAIN: 'main',
-  CASES_NEW: METRICS.CASES_NEW,
-  CASES_ACCUMULATED: METRICS.CASES_ACCUMULATED,
-  CASES_PER_CAPITA: METRICS.CASES_PER_CAPITA,
-  CASES_PER_CAPITA_ACCUMULATED: METRICS.CASES_PER_CAPITA_ACCUMULATED,
-  DEATHS_NEW: METRICS.DEATHS_NEW,
-  DEATHS_ACCUMULATED: METRICS.DEATHS_ACCUMULATED,
-  DEATHS_PER_CAPITA: METRICS.DEATHS_PER_CAPITA,
-  DEATHS_PER_CAPITA_ACCUMULATED: METRICS.DEATHS_PER_CAPITA_ACCUMULATED,
-  MORTALITY_PERCENTAGE: METRICS.MORTALITY_PERCENTAGE,
-  MORTALITY_PERCENTAGE_ACCUMULATED: METRICS.MORTALITY_PERCENTAGE_ACCUMULATED,
+  ...METRICS,
 }
 
-export const SIDEBAR_MENUS = {
-  INTERVALS_MENU: 'intervalsMenu',
-  VIEW_MODE_MENU: 'viewModeMenu',
-  GRAPH_MODE_MENU: 'graphModeMenu',
-  GRAPH_SCALE_MENU: 'graphScaleMenu',
-  GRAPH_METRICS_MENU: 'graphMetricsMenu',
+export enum SIDEBAR_MENUS {
+  INTERVALS_MENU = 'intervalsMenu',
+  VIEW_MODE_MENU = 'viewModeMenu',
+  GRAPH_MODE_MENU = 'graphModeMenu',
+  GRAPH_SCALE_MENU = 'graphScaleMenu',
+  GRAPH_METRICS_MENU = 'graphMetricsMenu',
 }
 
 // the expiry time of the local storage used for the redux store in minutes

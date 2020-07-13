@@ -281,10 +281,9 @@ const processDateFilterMode = (dateFilterMode, dataStartDate, dataEndDate) => {
     case DATE_FILTER.TOTAL:
       break
     default:
-      const daysCount = parseInt(dateFilterMode)
-      if (dataEndDate && Object.values(DATE_FILTER).includes(daysCount)) {
+      if (dataEndDate && Object.values(DATE_FILTER).includes(dateFilterMode)) {
         dateFilter.startDate = moment(dataEndDate, DATE_FORMAT_APP)
-          .subtract(daysCount - 1, 'days')
+          .subtract(parseInt(dateFilterMode) - 1, 'days')
           .format(DATE_FORMAT_APP)
       }
       break

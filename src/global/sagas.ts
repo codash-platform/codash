@@ -60,7 +60,7 @@ function* getData() {
 
 function* changeUrl() {
   const urlParams = yield select(state => {
-    const result: Record<string, any> = {
+    const result: Record<string, string> = {
       viewMode: state.overview?.viewMode ?? ROUTE_EMPTY_PARAM,
       startDate: state.overview?.dateFilter?.startDate ?? ROUTE_EMPTY_PARAM,
       endDate: state.overview?.dateFilter?.endDate ?? ROUTE_EMPTY_PARAM,

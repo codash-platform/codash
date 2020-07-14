@@ -6,21 +6,21 @@ import {Card} from 'react-bootstrap'
 import {withTranslation, WithTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import AutoSizer from 'react-virtualized-auto-sizer'
-import {GRAPH_SCALE, LOCALE_DEFAULT, METRICS} from '../../../global/constants'
+import {GRAPH_SCALE, LOCALE_DEFAULT, METRIC} from '../../../global/constants'
 import {getGraphData} from '../../../global/dataParsing'
 import {GraphOverviewT, Overview} from '../../../global/typeUtils'
 
 export const graphMetricsOrder = [
-  METRICS.CASES_NEW,
-  METRICS.CASES_PER_CAPITA,
-  METRICS.CASES_ACCUMULATED,
-  METRICS.CASES_PER_CAPITA_ACCUMULATED,
-  METRICS.DEATHS_NEW,
-  METRICS.DEATHS_PER_CAPITA,
-  METRICS.DEATHS_ACCUMULATED,
-  METRICS.DEATHS_PER_CAPITA_ACCUMULATED,
-  METRICS.MORTALITY_PERCENTAGE,
-  METRICS.MORTALITY_PERCENTAGE_ACCUMULATED,
+  METRIC.CASES_NEW,
+  METRIC.CASES_PER_CAPITA,
+  METRIC.CASES_ACCUMULATED,
+  METRIC.CASES_PER_CAPITA_ACCUMULATED,
+  METRIC.DEATHS_NEW,
+  METRIC.DEATHS_PER_CAPITA,
+  METRIC.DEATHS_ACCUMULATED,
+  METRIC.DEATHS_PER_CAPITA_ACCUMULATED,
+  METRIC.MORTALITY_PERCENTAGE,
+  METRIC.MORTALITY_PERCENTAGE_ACCUMULATED,
 ]
 
 export const colors = [

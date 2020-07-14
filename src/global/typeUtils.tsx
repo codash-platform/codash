@@ -1,5 +1,11 @@
 import {IconDefinition} from '@fortawesome/fontawesome-svg-core'
-import {ACTION_EXPAND_ONLY_SIDEBAR_MENU, ACTION_TOGGLE_SIDEBAR_MENU, ASYNC_STATUS, METRICS} from './constants'
+import {
+  ACTION_EXPAND_ONLY_SIDEBAR_MENU,
+  ACTION_TOGGLE_SIDEBAR_MENU,
+  ASYNC_STATUS,
+  METRIC,
+  TABLE_TYPE,
+} from './constants'
 import React from 'react'
 import {FocusedInputShape} from 'react-dates'
 import {ColumnDescription, HeaderFormatter} from 'react-bootstrap-table-next'
@@ -71,6 +77,24 @@ export interface Overview {
   graphsVisible: boolean;
 }
 
+export interface TableOverview {
+  [TABLE_TYPE.CASES_NEW]: CustomTableEntry;
+  [TABLE_TYPE.CASES_ACCUMULATED]: CustomTableEntry;
+  [TABLE_TYPE.CASES_PER_CAPITA]: CustomTableEntry;
+  [TABLE_TYPE.CASES_PER_CAPITA_ACCUMULATED]: CustomTableEntry;
+  [TABLE_TYPE.DEATHS_NEW]: CustomTableEntry;
+  [TABLE_TYPE.DEATHS_ACCUMULATED]: CustomTableEntry;
+  [TABLE_TYPE.DEATHS_PER_CAPITA]: CustomTableEntry;
+  [TABLE_TYPE.DEATHS_PER_CAPITA_ACCUMULATED]: CustomTableEntry;
+  [TABLE_TYPE.MORTALITY_PERCENTAGE]: CustomTableEntry;
+  [TABLE_TYPE.MORTALITY_PERCENTAGE_ACCUMULATED]: CustomTableEntry;
+  [TABLE_TYPE.MAIN]: CustomTableEntry;
+}
+
+export interface CustomTableEntry {
+  sizePerPage: number;
+}
+
 export type RawData = {
   cases: string;
   deaths: string;
@@ -82,6 +106,7 @@ export type RawData = {
 }
 
 export interface DataEntry extends InitialDataEntry, AccumulatedDataEntry, RatesEntry {}
+
 export interface RatesDataEntry extends InitialDataEntry, RatesEntry {}
 
 export interface PartialDataEntry extends InitialDataEntry {
@@ -90,25 +115,25 @@ export interface PartialDataEntry extends InitialDataEntry {
 }
 
 export interface AccumulatedDataEntry {
-  [METRICS.CASES_ACCUMULATED]: number;
-  [METRICS.CASES_PER_CAPITA_ACCUMULATED]: number;
-  [METRICS.DEATHS_ACCUMULATED]: number;
-  [METRICS.DEATHS_PER_CAPITA_ACCUMULATED]: number;
-  [METRICS.MORTALITY_PERCENTAGE_ACCUMULATED]: number;
+  [METRIC.CASES_ACCUMULATED]: number;
+  [METRIC.CASES_PER_CAPITA_ACCUMULATED]: number;
+  [METRIC.DEATHS_ACCUMULATED]: number;
+  [METRIC.DEATHS_PER_CAPITA_ACCUMULATED]: number;
+  [METRIC.MORTALITY_PERCENTAGE_ACCUMULATED]: number;
 }
 
 export interface RatesEntry {
-  [METRICS.CASES_PER_CAPITA]: number;
-  [METRICS.DEATHS_PER_CAPITA]: number;
-  [METRICS.MORTALITY_PERCENTAGE]: number;
+  [METRIC.CASES_PER_CAPITA]: number;
+  [METRIC.DEATHS_PER_CAPITA]: number;
+  [METRIC.MORTALITY_PERCENTAGE]: number;
 }
 
 export interface InitialDataEntry {
   name: string;
   geoId: string;
   population: number;
-  [METRICS.CASES_NEW]: number;
-  [METRICS.DEATHS_NEW]: number;
+  [METRIC.CASES_NEW]: number;
+  [METRIC.DEATHS_NEW]: number;
 }
 
 export interface LineGraphData {

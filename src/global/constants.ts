@@ -33,7 +33,7 @@ export enum GRAPH_SCALE {
   LOGARITHMIC = 'logarithmic',
 }
 
-export enum METRICS {
+export enum METRIC {
   CASES_NEW = 'cases_new',
   CASES_ACCUMULATED = 'cases_accumulated',
   CASES_PER_CAPITA = 'cases_per_capita',
@@ -46,9 +46,13 @@ export enum METRICS {
   MORTALITY_PERCENTAGE_ACCUMULATED = 'mortality_percentage_accumulated',
 }
 
+export enum GENERAL_TABLE_TYPE {
+  MAIN = 'main',
+}
+
 export const TABLE_TYPE = {
-  MAIN: 'main',
-  ...METRICS,
+  ...GENERAL_TABLE_TYPE,
+  ...METRIC,
 }
 
 export enum SIDEBAR_MENUS {

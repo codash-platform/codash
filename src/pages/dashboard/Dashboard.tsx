@@ -1,13 +1,19 @@
 import React, {Component} from 'react'
-import {withTranslation} from 'react-i18next'
+import {withTranslation, WithTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import {FeatureTour} from '../../components/FeatureTour'
 import {ACTION_GET_DATA_START, ACTION_PARSE_URL_PARAMS} from '../../global/constants'
 import {action} from '../../global/util'
 import {Graphs} from './graphs/Graphs'
 import {Tables} from './tables/Tables'
+import {Overview} from '../../global/typeUtils'
+import {RouteComponentProps} from 'react-router'
 
-class DashboardComponent extends Component {
+interface DashboardComponentProps extends WithTranslation, RouteComponentProps {
+  overview: Overview;
+}
+
+class DashboardComponent extends Component<DashboardComponentProps> {
   componentDidMount() {
     const {match, overview} = this.props
 

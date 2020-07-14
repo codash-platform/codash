@@ -8,7 +8,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import React, {Component} from 'react'
-import {withTranslation} from 'react-i18next'
+import {WithTranslation, withTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import {
   ACTION_CHANGE_DATE_FILTER_MODE,
@@ -25,9 +25,15 @@ import {
 import {action} from '../../global/util'
 import {graphMetricsOrder} from '../../pages/dashboard/graphs/Graphs'
 import {SidebarMenuSet} from './SidebarMenuSet'
+import {GraphOverviewT, MenuDataT, Overview} from '../../global/typeUtils'
 
-class SidebarMenusComponent extends Component {
-  menus = [
+export interface SidebarMenusComponentProps extends WithTranslation {
+  graphOverview: GraphOverviewT;
+  overview: Overview;
+}
+
+class SidebarMenusComponent extends Component<SidebarMenusComponentProps> {
+  menus: MenuDataT[] = [
     {
       id: SIDEBAR_MENUS.VIEW_MODE_MENU,
       labelPlaceholder: 'menu:view_mode_label',
@@ -100,7 +106,7 @@ class SidebarMenusComponent extends Component {
     },
   ]
 
-  getActiveKeysForMenu(menuId) {
+  getActiveKeysForMenu(menuId: string): string[] {
     const {graphOverview, overview} = this.props
 
     switch (menuId) {
@@ -143,7 +149,12 @@ class SidebarMenusComponent extends Component {
 
             <h5 className="app-sidebar__heading">{t('sidebar:header_project')}</h5>
             <li className="sidebar-menu-item">
-              <a className="sidebar-menu-link" target="_blank" href="https://github.com/codash-platform/codash">
+              <a
+                className="sidebar-menu-link"
+                target="_blank"
+                rel="noreferrer"
+                href="https://github.com/codash-platform/codash"
+              >
                 <FontAwesomeIcon className="sidebar-menu-icon" icon={faAddressCard} />
                 {t('sidebar:menu_about')}
               </a>

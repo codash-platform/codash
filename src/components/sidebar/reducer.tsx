@@ -1,4 +1,5 @@
 import {ACTION_EXPAND_ONLY_SIDEBAR_MENU, ACTION_TOGGLE_SIDEBAR_MENU, SIDEBAR_MENUS} from '../../global/constants'
+import {SidebarAction} from '../../global/typeUtils'
 
 const initialState = {
   [SIDEBAR_MENUS.GRAPH_SCALE_MENU]: {
@@ -18,7 +19,7 @@ const initialState = {
   },
 }
 
-export const sidebar = (state = initialState, action = {}) => {
+export const sidebar = (state: typeof initialState = initialState, action: SidebarAction = {}) => {
   switch (action.type) {
     case ACTION_TOGGLE_SIDEBAR_MENU:
       return {

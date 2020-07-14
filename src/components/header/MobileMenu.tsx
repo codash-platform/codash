@@ -8,7 +8,12 @@ import {connect} from 'react-redux'
 import {ACTION_ENABLE_MOBILE_MENU, ACTION_ENABLE_MOBILE_MENU_SMALL} from '../../global/constants'
 import {action} from '../../global/util'
 
-class MobileMenuComponent extends Component {
+interface MobileMenuComponentProps {
+  enableMobileMenu: boolean;
+  enableMobileMenuSmall: boolean;
+}
+
+class MobileMenuComponent extends Component<MobileMenuComponentProps> {
   render() {
     const {enableMobileMenu, enableMobileMenuSmall} = this.props
 

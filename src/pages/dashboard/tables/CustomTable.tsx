@@ -1,6 +1,6 @@
-import React from 'react'
+import React, {FC} from 'react'
 import {Card, Col, Dropdown, DropdownButton, Row} from 'react-bootstrap'
-import BootstrapTable from 'react-bootstrap-table-next'
+import BootstrapTable, {ColumnDescription} from 'react-bootstrap-table-next'
 import paginationFactory, {
   PaginationListStandalone,
   PaginationProvider,
@@ -9,8 +9,21 @@ import paginationFactory, {
 import ToolkitProvider, {Search} from 'react-bootstrap-table2-toolkit'
 import {ACTION_CHANGE_SIZE_PER_PAGE, TABLE_TYPE} from '../../../global/constants'
 import {action} from '../../../global/util'
+import {WithTranslation} from 'react-i18next'
+import {ColumnEntry, PartialDataEntry} from '../../../global/typeUtils'
 
-export const CustomTable = ({
+interface CustomTableProps extends Partial<WithTranslation> {
+  sizePerPage: number;
+  count: number;
+  data: PartialDataEntry[];
+  columns: ColumnEntry[];
+  headerFormatter: Function;
+  tableType: string;
+  defaultSorted?: string;
+  smallPagination?: boolean;
+}
+
+export const CustomTable: FC<CustomTableProps> = ({
   sizePerPage,
   count,
   t,
@@ -54,7 +67,7 @@ export const CustomTable = ({
   const hasPredefinedSizePerPage = paginationOptions.sizePerPageList.some(size => parseInt(size.text) === sizePerPage)
   const sizePerPageButtonText = hasPredefinedSizePerPage ? sizePerPage : t('table:pagination_all')
   columns.forEach(columnEntry => {
-    columnEntry.text = t(columnEntry?.textPlaceholder)
+    columnEntry.text = t(columnEntry.textPlaceholder)
     columnEntry.headerFormatter = (column, colIndex, components) =>
       headerFormatter(column, colIndex, components, t(columnEntry.unitPlaceholder))
   })
@@ -70,7 +83,7 @@ export const CustomTable = ({
     <Card className="mb-3">
       <PaginationProvider pagination={paginationFactory(paginationOptions)}>
         {({paginationProps, paginationTableProps}) => (
-          <ToolkitProvider keyField="geoId" data={data} columns={columns} bootstrap4 search>
+          <ToolkitProvider keyField="geoId" data={data} columns={columns as ColumnDescription[]} bootstrap4 search>
             {({searchProps, baseProps}) => (
               <>
                 <Card.Header className="justify-content-between">
@@ -84,7 +97,14 @@ export const CustomTable = ({
                       hover
                       condensed
                       striped
-                      defaultSorted={defaultSorted && [{dataField: defaultSorted, order: 'desc'}]}
+                      defaultSorted={
+                        defaultSorted && [
+                          {
+                            dataField: defaultSorted,
+                            order: 'desc',
+                          },
+                        ]
+                      }
                       {...paginationTableProps}
                       {...baseProps}
                     />
@@ -95,7 +115,10 @@ export const CustomTable = ({
                           id={`pageDropDown${tableType}`}
                           drop={'up'}
                           onSelect={value =>
-                            action(ACTION_CHANGE_SIZE_PER_PAGE, {sizePerPage: parseInt(value), tableType: tableType})
+                            action(ACTION_CHANGE_SIZE_PER_PAGE, {
+                              sizePerPage: parseInt(value),
+                              tableType: tableType,
+                            })
                           }
                           variant="secondary"
                           title={sizePerPageButtonText}

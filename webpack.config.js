@@ -7,6 +7,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const GoogleFontsPlugin = require('google-fonts-plugin')
 const DotenvWebpack = require('dotenv-webpack')
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 
 // use absolute paths to avoid build errors and other surprises
 const path = require('path')
@@ -16,6 +17,7 @@ const distPath = path.join(rootPath, './dist')
 const staticPath = path.join(rootPath, './static')
 const stylePath = path.join(rootPath, './style')
 const libPath = path.join(rootPath, './node_modules')
+const tsConfigPath = path.join(rootPath, './tsconfig.json')
 
 // load vars for current config file
 require('dotenv-safe').config({
@@ -53,7 +55,7 @@ const baseConfig = {
     js: [
       path.join(libPath, 'react-dates/initialize.js'),
       path.join(libPath, 'react-dates/lib/css/_datepicker.css'),
-      path.join(sourcePath, 'index.js'),
+      path.join(sourcePath, 'index.tsx'),
       path.join(stylePath, 'app.scss'),
     ],
   },
@@ -70,9 +72,15 @@ const baseConfig = {
         },
       },
       {
-        test: /\.(js|jsx)$/,
+        test: /\.[tj]sx?$/,
         exclude: /node_modules/,
-        use: ['babel-loader'],
+        use: {
+          loader: 'babel-loader',
+          options: {
+            cacheDirectory: true,
+            cacheCompression: false,
+          },
+        },
       },
       {
         test: /.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
@@ -103,6 +111,12 @@ const baseConfig = {
       template: path.join(staticPath, 'index.ejs'),
       inject: 'body',
     }),
+    new ForkTsCheckerWebpackPlugin({
+      async: false,
+      eslint: true,
+      ignoreLintWarnings: true,
+      tsconfig: tsConfigPath,
+    }),
     // downloads fonts directly from google fonts
     new GoogleFontsPlugin({
       fonts: [
@@ -117,7 +131,7 @@ const baseConfig = {
     }),
   ],
   resolve: {
-    extensions: ['.js', '.jsx', '.scss', '.css'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.scss', '.css'],
     modules: [sourcePath, 'node_modules'],
   },
 }
@@ -170,7 +184,7 @@ if (isProd) {
       compress: false,
       hot: true,
     },
-    devtool: process.env.DEV_TOOL_MODE,
+    devtool: 'source-map',
     module: {
       rules: [
         {

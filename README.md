@@ -40,4 +40,4 @@ Theme inspired from [ArchitectUI Bootstrap 4 ReactJS Theme FREE](https://github.
 
 Logo - [Alex Nae](mailto:naealexandrunicolae@gmail.com) - check out his [game](https://www.theundergroundkinggame.com/)
 
-Development & Testing - [Marius Popa](mailto:contact@popa-marius.com) 
+Development & Testing - See [contributors list](https://github.com/codash-platform/codash/graphs/contributors).

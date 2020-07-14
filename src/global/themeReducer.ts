@@ -33,7 +33,7 @@ const initialState = {
   isDeviceDesktop: null,
 }
 
-export function theme(state = initialState, action) {
+export function theme(state = initialState, action: Record<string, any>) {
   switch (action.type) {
     case ACTION_ENABLE_FIXED_HEADER:
       return {

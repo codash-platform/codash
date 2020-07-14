@@ -1,14 +1,20 @@
 import React, {Component} from 'react'
 import {Col, Form, Row} from 'react-bootstrap'
-import {withTranslation} from 'react-i18next'
+import {withTranslation, WithTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
-import {ACTION_CHANGE_GEOID_SELECTION, LOCALE_DEFAULT, METRICS, TABLE_TYPE} from '../../../global/constants'
+import {ACTION_CHANGE_GEOID_SELECTION, LOCALE_DEFAULT, METRIC, TABLE_TYPE} from '../../../global/constants'
 import {getTableData} from '../../../global/dataParsing'
 import {action} from '../../../global/util'
 import {colors} from '../graphs/Graphs'
 import {CustomTable} from './CustomTable'
+import {ColumnEntry, Overview, TableOverview} from '../../../global/typeUtils'
 
-class TableComponent extends Component {
+interface TableComponentProps extends WithTranslation {
+  overview: Overview;
+  tableOverview: TableOverview;
+}
+
+class TableComponent extends Component<TableComponentProps> {
   perCapitaCellFormatter = cell => {
     if (!cell || isNaN(cell) || !isFinite(cell)) {
       return '--'
@@ -38,7 +44,7 @@ class TableComponent extends Component {
     return cell.toLocaleString(LOCALE_DEFAULT)
   }
 
-  columns = [
+  columns: ColumnEntry[] = [
     {
       dataField: 'selected',
       textPlaceholder: 'table:column_selected',
@@ -59,7 +65,12 @@ class TableComponent extends Component {
             value={row.geoId}
             label=""
             disabled={!cell && row.maxSelectionReached}
-            onChange={e => action(ACTION_CHANGE_GEOID_SELECTION, {geoId: e.target.value, selected: e.target.checked})}
+            onChange={e =>
+              action(ACTION_CHANGE_GEOID_SELECTION, {
+                geoId: e.target.value,
+                selected: e.target.checked,
+              })
+            }
             checked={cell}
           />
         )
@@ -71,71 +82,71 @@ class TableComponent extends Component {
       sort: true,
     },
     {
-      dataField: METRICS.CASES_NEW,
-      textPlaceholder: `table:column_${METRICS.CASES_NEW}`,
+      dataField: METRIC.CASES_NEW,
+      textPlaceholder: `table:column_${METRIC.CASES_NEW}`,
       unitPlaceholder: 'table:unit_period',
       sort: true,
       formatter: this.normalCellFormatter,
     },
     {
-      dataField: METRICS.CASES_ACCUMULATED,
-      textPlaceholder: `table:column_${METRICS.CASES_ACCUMULATED}`,
+      dataField: METRIC.CASES_ACCUMULATED,
+      textPlaceholder: `table:column_${METRIC.CASES_ACCUMULATED}`,
       unitPlaceholder: 'table:unit_cumulated',
       sort: true,
       formatter: this.normalCellFormatter,
     },
     {
-      dataField: METRICS.CASES_PER_CAPITA,
-      textPlaceholder: `table:column_${METRICS.CASES_PER_CAPITA}`,
+      dataField: METRIC.CASES_PER_CAPITA,
+      textPlaceholder: `table:column_${METRIC.CASES_PER_CAPITA}`,
       unitPlaceholder: 'table:unit_per_capita',
       sort: true,
       formatter: this.perCapitaCellFormatter,
     },
     {
-      dataField: METRICS.CASES_PER_CAPITA_ACCUMULATED,
-      textPlaceholder: `table:column_${METRICS.CASES_PER_CAPITA_ACCUMULATED}`,
+      dataField: METRIC.CASES_PER_CAPITA_ACCUMULATED,
+      textPlaceholder: `table:column_${METRIC.CASES_PER_CAPITA_ACCUMULATED}`,
       unitPlaceholder: 'table:unit_per_capita_accumulated',
       sort: true,
       formatter: this.perCapitaCellFormatter,
     },
     {
-      dataField: METRICS.DEATHS_NEW,
-      textPlaceholder: `table:column_${METRICS.DEATHS_NEW}`,
+      dataField: METRIC.DEATHS_NEW,
+      textPlaceholder: `table:column_${METRIC.DEATHS_NEW}`,
       unitPlaceholder: 'table:unit_period',
       sort: true,
       formatter: this.normalCellFormatter,
     },
     {
-      dataField: METRICS.DEATHS_ACCUMULATED,
-      textPlaceholder: `table:column_${METRICS.DEATHS_ACCUMULATED}`,
+      dataField: METRIC.DEATHS_ACCUMULATED,
+      textPlaceholder: `table:column_${METRIC.DEATHS_ACCUMULATED}`,
       unitPlaceholder: 'table:unit_cumulated',
       sort: true,
       formatter: this.normalCellFormatter,
     },
     {
-      dataField: METRICS.DEATHS_PER_CAPITA,
-      textPlaceholder: `table:column_${METRICS.DEATHS_PER_CAPITA}`,
+      dataField: METRIC.DEATHS_PER_CAPITA,
+      textPlaceholder: `table:column_${METRIC.DEATHS_PER_CAPITA}`,
       unitPlaceholder: 'table:unit_per_capita',
       sort: true,
       formatter: this.perCapitaCellFormatter,
     },
     {
-      dataField: METRICS.DEATHS_PER_CAPITA_ACCUMULATED,
-      textPlaceholder: `table:column_${METRICS.DEATHS_PER_CAPITA_ACCUMULATED}`,
+      dataField: METRIC.DEATHS_PER_CAPITA_ACCUMULATED,
+      textPlaceholder: `table:column_${METRIC.DEATHS_PER_CAPITA_ACCUMULATED}`,
       unitPlaceholder: 'table:unit_per_capita_accumulated',
       sort: true,
       formatter: this.perCapitaCellFormatter,
     },
     {
-      dataField: METRICS.MORTALITY_PERCENTAGE,
-      textPlaceholder: `table:column_${METRICS.MORTALITY_PERCENTAGE}`,
+      dataField: METRIC.MORTALITY_PERCENTAGE,
+      textPlaceholder: `table:column_${METRIC.MORTALITY_PERCENTAGE}`,
       unitPlaceholder: 'table:unit_percentage',
       sort: true,
       formatter: this.normalCellFormatter,
     },
     {
-      dataField: METRICS.MORTALITY_PERCENTAGE_ACCUMULATED,
-      textPlaceholder: `table:column_${METRICS.MORTALITY_PERCENTAGE_ACCUMULATED}`,
+      dataField: METRIC.MORTALITY_PERCENTAGE_ACCUMULATED,
+      textPlaceholder: `table:column_${METRIC.MORTALITY_PERCENTAGE_ACCUMULATED}`,
       unitPlaceholder: 'table:unit_percentage_accumulated',
       sort: true,
       formatter: this.normalCellFormatter,
@@ -163,7 +174,7 @@ class TableComponent extends Component {
     return (
       <>
         <Row>
-          {Object.values(TABLE_TYPE).map(tableType => {
+          {Object.values(TABLE_TYPE).map((tableType: string) => {
             if (tableType === TABLE_TYPE.MAIN) {
               if (!tableVisible) {
                 return

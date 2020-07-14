@@ -43,7 +43,7 @@ const initialState = {
 
 const preselectedGeoIds = ['US', 'CN', 'DE', 'FR', 'ES', 'IT', 'CH']
 
-export const overview = (state = initialState, action = {}) => {
+export const overview = (state = initialState, action: Record<string, any> = {}) => {
   // noinspection FallThroughInSwitchStatementJS
   switch (action.type) {
     case ACTION_SET_NOTIFICATION:
@@ -52,8 +52,8 @@ export const overview = (state = initialState, action = {}) => {
         notification: {
           ...state.notification,
           message: action.message,
-          variant: action.variant || 'info',
-          showSpinner: action.showSpinner || false,
+          variant: action.variant ?? 'info',
+          showSpinner: action.showSpinner ?? false,
         },
       }
 
@@ -148,9 +148,9 @@ export const overview = (state = initialState, action = {}) => {
         }
       }
 
-      let selectedGeoIds = {}
+      const selectedGeoIds = {}
       if (Object.keys(state.selectedGeoIds).length === 0 && parsedData.geoIds) {
-        parsedData.geoIds.map(geoId => {
+        parsedData.geoIds.map((geoId: string) => {
           selectedGeoIds[geoId] = preselectedGeoIds.includes(geoId)
         })
       }
@@ -281,10 +281,9 @@ const processDateFilterMode = (dateFilterMode, dataStartDate, dataEndDate) => {
     case DATE_FILTER.TOTAL:
       break
     default:
-      const daysCount = parseInt(dateFilterMode)
-      if (dataEndDate && Object.values(DATE_FILTER).includes(daysCount)) {
+      if (dataEndDate && Object.values(DATE_FILTER).includes(dateFilterMode)) {
         dateFilter.startDate = moment(dataEndDate, DATE_FORMAT_APP)
-          .subtract(daysCount - 1, 'days')
+          .subtract(parseInt(dateFilterMode) - 1, 'days')
           .format(DATE_FORMAT_APP)
       }
       break
@@ -294,7 +293,7 @@ const processDateFilterMode = (dateFilterMode, dataStartDate, dataEndDate) => {
 }
 
 const processDateFilterChange = (startDate, endDate) => {
-  const newDateFilterState = {}
+  const newDateFilterState: Record<string, any> = {}
   if (startDate) {
     newDateFilterState.startDate = startDate
     newDateFilterState.mode = null

@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import React, {Component} from 'react'
-import {withTranslation} from 'react-i18next'
+import {withTranslation, WithTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import ResizeDetector from 'react-resize-detector'
 import {Router} from 'react-router-dom'
@@ -13,10 +13,21 @@ import {Header} from './header/Header'
 import {NotificationBox} from './NotificationBox'
 import {Sidebar} from './sidebar/Sidebar'
 
-class MainLayoutComponent extends Component {
-  isDeviceDesktop = width => width >= 1250
+interface MainLayoutComponentProps extends WithTranslation {
+  isDeviceDesktop: boolean;
+  colorScheme: string;
+  enableFixedHeader: string;
+  enableFixedSidebar: string;
+  enableFixedFooter: string;
+  closedSidebar: string;
+  closedSmallerSidebar?: string;
+  enableMobileMenu: string;
+}
 
-  onResize = width => {
+class MainLayoutComponent extends Component<MainLayoutComponentProps> {
+  isDeviceDesktop = (width: number) => width >= 1250
+
+  onResize = (width: number) => {
     const isDeviceDesktop = this.isDeviceDesktop(width)
 
     if (this.props.isDeviceDesktop !== isDeviceDesktop) {
@@ -25,7 +36,7 @@ class MainLayoutComponent extends Component {
   }
 
   render() {
-    let {
+    const {
       colorScheme,
       enableFixedHeader,
       enableFixedSidebar,

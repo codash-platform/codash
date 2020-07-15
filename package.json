@@ -6,7 +6,7 @@
     "email": "contact@popa-marius.com",
     "name": "Marius Popa"
   },
-  "license": "MIT",
+  "license": "GNU Affero General Public License v3.0",
   "scripts": {
     "prepare": "cp -n .env.example .env || true",
     "start": "npm run start:dev",

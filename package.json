@@ -21,6 +21,7 @@
     "url": "https://github.com/codash-platform/codash.git"
   },
   "devDependencies": {
+    "@popa-marius/pushstate-server": "~3.1.2",
     "@types/react": "~16.9.36",
     "@types/react-bootstrap-table2-toolkit": "~2.1.2",
     "@types/react-dates": "~17.1.13",
@@ -33,7 +34,6 @@
     "indent-string": "~4.0.0",
     "prettier-eslint": "~11.0.0",
     "prettier-eslint-cli": "~5.0.0",
-    "pushstate-server": "~3.1.0",
     "source-map-loader": "~1.0.1",
     "style-loader": "~1.2.1",
     "ts-loader": "~7.0.5",

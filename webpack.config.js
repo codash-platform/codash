@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const webpack = require('webpack')
 const {mergeWithCustomize, customizeObject} = require('webpack-merge')
 const TerserPlugin = require('terser-webpack-plugin')

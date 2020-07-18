@@ -79,6 +79,14 @@ $theme-colors: map-merge(
   $theme-colors
 );
 
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+);
+
 /* override variables from node_modules/bootstrap/scss/_variables.scss */
 $enable-rounded: true;
 $btn-focus-box-shadow: none !important;

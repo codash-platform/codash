@@ -8,10 +8,11 @@ import {Overview} from '../global/typeUtils'
 
 interface DateFilterComponentProps extends React.HTMLProps<{}> {
   overview: Overview;
+  isDeviceDesktop: boolean;
 }
 
 const DateFilterComponent: React.FC<DateFilterComponentProps> = props => {
-  const {overview, className, id} = props
+  const {overview, className, id, isDeviceDesktop} = props
   const {dateFilter} = overview
   const startDate = dateFilter.startDate ?? null
   const endDate = dateFilter.endDate ?? null
@@ -29,7 +30,7 @@ const DateFilterComponent: React.FC<DateFilterComponentProps> = props => {
   return (
     <div className={'d-inline-block ' + className}>
       <DateRangePicker
-        initialVisibleMonth={() => moment().subtract(1, 'month')}
+        initialVisibleMonth={() => moment().subtract(isDeviceDesktop ? 1 : 0, 'month')}
         disabled={!overview.data?.datesAvailable}
         startDate={startDateObj}
         startDateId={(startDate ?? 'no-start-date') + id + 'start'}
@@ -60,6 +61,7 @@ const DateFilterComponent: React.FC<DateFilterComponentProps> = props => {
 
           return false
         }}
+        numberOfMonths={isDeviceDesktop ? 2 : 1}
         minimumNights={0}
         firstDayOfWeek={1}
         displayFormat={DATE_FORMAT_APP}
@@ -73,6 +75,7 @@ const DateFilterComponent: React.FC<DateFilterComponentProps> = props => {
 
 const stateToProps = state => ({
   overview: state.overview,
+  isDeviceDesktop: state.theme.isDeviceDesktop,
 })
 
 const dispatchToProps = {}

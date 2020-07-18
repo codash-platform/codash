@@ -4,7 +4,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import classNames from 'classnames'
 import React, {Component} from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
-import {Button, ButtonProps, Dropdown} from 'react-bootstrap'
+import {Button, ButtonProps, Dropdown, Row, Col} from 'react-bootstrap'
 import {withTranslation, WithTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import {
@@ -73,16 +73,17 @@ class HeaderComponent extends Component<HeaderComponentProps> {
       >
         <HeaderLogo />
 
-        <div
+        <Row
+          noGutters
           className={classNames('app-header__content', headerBackgroundColor, {
             'header-mobile-open': enableMobileMenuSmall,
           })}
         >
-          <div className="app-header-left">
+          <Col className="app-header-left" xs={12} sm={'auto'}>
             <DateFilter className="m-1" id={'date-picker'} />
-          </div>
+          </Col>
 
-          <div className="app-header-right">
+          <Col className="app-header-right" xs={12} sm={'auto'}>
             {isDeviceDesktop && (
               <MenuButton
                 className="tour-button mx-1"
@@ -128,8 +129,8 @@ class HeaderComponent extends Component<HeaderComponentProps> {
                 })}
               </Dropdown.Menu>
             </Dropdown>
-          </div>
-        </div>
+          </Col>
+        </Row>
       </ReactCSSTransitionGroup>
     )
   }

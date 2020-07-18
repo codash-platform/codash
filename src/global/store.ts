@@ -82,7 +82,6 @@ const composeEnhancers =
   !isProduction && typeof window === 'object' && (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     : compose
-// Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
 
 // mixes the optional redux development extension with other middleware
 const enhancer = composeEnhancers(

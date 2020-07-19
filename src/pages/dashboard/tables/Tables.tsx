@@ -8,11 +8,23 @@ import {action} from '../../../global/util'
 import {colors} from '../graphs/Graphs'
 import {CustomTable} from './CustomTable'
 import {ColumnEntry, Overview, TableOverview} from '../../../global/typeUtils'
+import {ColumnDescription} from 'react-bootstrap-table-next'
+import {InfoHover} from '../../../components/InfoHover'
 
 interface TableComponentProps extends WithTranslation {
   overview: Overview;
   tableOverview: TableOverview;
 }
+
+export type CustomHeaderFormatter<T extends object = any> = (
+  column: ColumnDescription<T>,
+  colIndex: number,
+  components: {
+    sortElement: React.ReactNode;
+    filterElement: React.ReactNode;
+  },
+  infoPlaceholder?: string
+) => React.ReactNode
 
 class TableComponent extends Component<TableComponentProps> {
   perCapitaCellFormatter = cell => {
@@ -23,12 +35,12 @@ class TableComponent extends Component<TableComponentProps> {
     return cell.toLocaleString(LOCALE_DEFAULT)
   }
 
-  headerFormatter = (column, colIndex, components, subHeader) => {
+  headerFormatter: CustomHeaderFormatter = (column, colIndex, components, infoPlaceholder) => {
     return (
       <>
         <div>{column.text}</div>
         <div>
-          {subHeader}
+          {infoPlaceholder && <InfoHover messagePlaceholder={infoPlaceholder} className="mr-2 text-codash-primary" />}
           {components.sortElement}
           {components.filterElement}
         </div>
@@ -48,11 +60,11 @@ class TableComponent extends Component<TableComponentProps> {
     {
       dataField: 'selected',
       textPlaceholder: 'table:column_selected',
+      infoPlaceholder: 'table:column_info_selected',
       sort: true,
       headerStyle: {width: '90px'},
       style: {textAlign: 'center'},
       formatter: (cell, row) => {
-        // TODO inspect table bug
         if (!row) {
           return
         }
@@ -83,77 +95,78 @@ class TableComponent extends Component<TableComponentProps> {
     },
     {
       dataField: METRIC.CASES_NEW,
-      textPlaceholder: `table:column_${METRIC.CASES_NEW}`,
-      unitPlaceholder: 'table:unit_period',
+      textPlaceholder: `general:metrics_${METRIC.CASES_NEW}`,
+      infoPlaceholder: `table:metric_info_${METRIC.CASES_NEW}`,
       sort: true,
       formatter: this.normalCellFormatter,
     },
     {
       dataField: METRIC.CASES_ACCUMULATED,
-      textPlaceholder: `table:column_${METRIC.CASES_ACCUMULATED}`,
-      unitPlaceholder: 'table:unit_cumulated',
+      textPlaceholder: `general:metrics_${METRIC.CASES_ACCUMULATED}`,
+      infoPlaceholder: `table:metric_info_${METRIC.CASES_ACCUMULATED}`,
       sort: true,
       formatter: this.normalCellFormatter,
     },
     {
       dataField: METRIC.CASES_PER_CAPITA,
-      textPlaceholder: `table:column_${METRIC.CASES_PER_CAPITA}`,
-      unitPlaceholder: 'table:unit_per_capita',
+      textPlaceholder: `general:metrics_${METRIC.CASES_PER_CAPITA}`,
+      infoPlaceholder: `table:metric_info_${METRIC.CASES_PER_CAPITA}`,
       sort: true,
       formatter: this.perCapitaCellFormatter,
     },
     {
       dataField: METRIC.CASES_PER_CAPITA_ACCUMULATED,
-      textPlaceholder: `table:column_${METRIC.CASES_PER_CAPITA_ACCUMULATED}`,
-      unitPlaceholder: 'table:unit_per_capita_accumulated',
+      textPlaceholder: `general:metrics_${METRIC.CASES_PER_CAPITA_ACCUMULATED}`,
+      infoPlaceholder: `table:metric_info_${METRIC.CASES_PER_CAPITA_ACCUMULATED}`,
       sort: true,
       formatter: this.perCapitaCellFormatter,
     },
     {
       dataField: METRIC.DEATHS_NEW,
-      textPlaceholder: `table:column_${METRIC.DEATHS_NEW}`,
-      unitPlaceholder: 'table:unit_period',
+      textPlaceholder: `general:metrics_${METRIC.DEATHS_NEW}`,
+      infoPlaceholder: `table:metric_info_${METRIC.DEATHS_NEW}`,
       sort: true,
       formatter: this.normalCellFormatter,
     },
     {
       dataField: METRIC.DEATHS_ACCUMULATED,
-      textPlaceholder: `table:column_${METRIC.DEATHS_ACCUMULATED}`,
-      unitPlaceholder: 'table:unit_cumulated',
+      textPlaceholder: `general:metrics_${METRIC.DEATHS_ACCUMULATED}`,
+      infoPlaceholder: `table:metric_info_${METRIC.DEATHS_ACCUMULATED}`,
       sort: true,
       formatter: this.normalCellFormatter,
     },
     {
       dataField: METRIC.DEATHS_PER_CAPITA,
-      textPlaceholder: `table:column_${METRIC.DEATHS_PER_CAPITA}`,
-      unitPlaceholder: 'table:unit_per_capita',
+      textPlaceholder: `general:metrics_${METRIC.DEATHS_PER_CAPITA}`,
+      infoPlaceholder: `table:metric_info_${METRIC.DEATHS_PER_CAPITA}`,
       sort: true,
       formatter: this.perCapitaCellFormatter,
     },
     {
       dataField: METRIC.DEATHS_PER_CAPITA_ACCUMULATED,
-      textPlaceholder: `table:column_${METRIC.DEATHS_PER_CAPITA_ACCUMULATED}`,
-      unitPlaceholder: 'table:unit_per_capita_accumulated',
+      textPlaceholder: `general:metrics_${METRIC.DEATHS_PER_CAPITA_ACCUMULATED}`,
+      infoPlaceholder: `table:metric_info_${METRIC.DEATHS_PER_CAPITA_ACCUMULATED}`,
       sort: true,
       formatter: this.perCapitaCellFormatter,
     },
     {
       dataField: METRIC.MORTALITY_PERCENTAGE,
-      textPlaceholder: `table:column_${METRIC.MORTALITY_PERCENTAGE}`,
-      unitPlaceholder: 'table:unit_percentage',
+      textPlaceholder: `general:metrics_${METRIC.MORTALITY_PERCENTAGE}`,
+      infoPlaceholder: `table:metric_info_${METRIC.MORTALITY_PERCENTAGE}`,
       sort: true,
       formatter: this.normalCellFormatter,
     },
     {
       dataField: METRIC.MORTALITY_PERCENTAGE_ACCUMULATED,
-      textPlaceholder: `table:column_${METRIC.MORTALITY_PERCENTAGE_ACCUMULATED}`,
-      unitPlaceholder: 'table:unit_percentage_accumulated',
+      textPlaceholder: `general:metrics_${METRIC.MORTALITY_PERCENTAGE_ACCUMULATED}`,
+      infoPlaceholder: `table:metric_info_${METRIC.MORTALITY_PERCENTAGE_ACCUMULATED}`,
       sort: true,
       formatter: this.normalCellFormatter,
     },
     {
       dataField: 'population',
       textPlaceholder: 'table:column_population',
+      infoPlaceholder: 'table:metric_info_population',
       sort: true,
       formatter: this.normalCellFormatter,
     },

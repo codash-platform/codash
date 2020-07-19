@@ -177,5 +177,5 @@ export interface ColumnEntry extends Partial<ColumnDescription> {
   text?: string;
   textPlaceholder?: string;
   headerFormatter?: HeaderFormatter;
-  unitPlaceholder?: string;
+  infoPlaceholder?: string;
 }

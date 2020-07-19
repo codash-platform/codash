@@ -9,6 +9,7 @@ import AutoSizer from 'react-virtualized-auto-sizer'
 import {GRAPH_SCALE, LOCALE_DEFAULT, METRIC} from '../../../global/constants'
 import {getGraphData} from '../../../global/dataParsing'
 import {GraphOverviewT, Overview} from '../../../global/typeUtils'
+import {InfoHover} from '../../../components/InfoHover'
 
 export const graphMetricsOrder = [
   METRIC.CASES_NEW,
@@ -111,7 +112,8 @@ class GraphsComponent extends Component<GraphsComponentProps> {
     graphMetricsOrder
       .filter(metric => metricsVisible.includes(metric))
       .map(metricName => {
-        const metricLabel = t(`graph:metrics_${metricName}`)
+        const metricLabel = t(`general:metrics_${metricName}`)
+        const metricInfoPlaceholder = `graph:metric_info_${metricName}`
         const processedData = getGraphData(
           data,
           dateFilter,
@@ -125,7 +127,9 @@ class GraphsComponent extends Component<GraphsComponentProps> {
         if (lineGraphVisible) {
           graphs.push(
             <Card key={`line-${metricName}`} className="mb-3">
-              <Card.Header>{metricLabel}</Card.Header>
+              <Card.Header>
+                {metricLabel} <InfoHover messagePlaceholder={metricInfoPlaceholder} />
+              </Card.Header>
               <LineGraph
                 data={processedData.lineData}
                 scale={graphScale}
@@ -140,7 +144,9 @@ class GraphsComponent extends Component<GraphsComponentProps> {
         if (barGraphVisible) {
           graphs.push(
             <Card key={`bar-${metricName}`} className="mb-3">
-              <Card.Header>{metricLabel}</Card.Header>
+              <Card.Header>
+                {metricLabel} <InfoHover messagePlaceholder={metricInfoPlaceholder} />
+              </Card.Header>
               <Card.Body>
                 <BarGraph
                   data={processedData.barData?.data}

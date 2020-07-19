@@ -69,7 +69,7 @@ export const CustomTable: FC<CustomTableProps> = ({
   columns.forEach(columnEntry => {
     columnEntry.text = t(columnEntry.textPlaceholder)
     columnEntry.headerFormatter = (column, colIndex, components) =>
-      headerFormatter(column, colIndex, components, t(columnEntry.unitPlaceholder))
+      headerFormatter(column, colIndex, components, columnEntry.infoPlaceholder)
   })
 
   let title

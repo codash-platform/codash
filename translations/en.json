@@ -107,5 +107,6 @@
     "table:metric_info_deaths_per_capita_accumulated": "Total deaths per million inhabitants on the last date of the selected interval",
     "table:metric_info_mortality_percentage": "Percentage of new deaths out of the new cases in the selected date interval (new deaths divided by new cases)",
     "table:metric_info_mortality_percentage_accumulated": "Accumulated case fatality on the last selected date  of the selected interval (all deaths until that date divided by all cases until the same date)",
-    "table:metric_info_population": "Based on population data from 2018 (or closest year available)"
+    "table:metric_info_population": "Based on population data from 2018 (or closest year available)",
+    "graph:no_element_selected": "No country has been selected to show on the graphs.\nPlease use the checkbox from the first column of the tables in order to select countries."
 }

@@ -10,6 +10,7 @@ import {GRAPH_SCALE, LOCALE_DEFAULT, METRIC} from '../../../global/constants'
 import {getGraphData} from '../../../global/dataParsing'
 import {GraphOverviewT, Overview} from '../../../global/typeUtils'
 import {InfoHover} from '../../../components/InfoHover'
+import {NotificationBoxElement} from '../../../components/NotificationBox'
 
 export const graphMetricsOrder = [
   METRIC.CASES_NEW,
@@ -105,9 +106,14 @@ class GraphsComponent extends Component<GraphsComponentProps> {
       return graphs
     }
 
+    const selectedGeoIdCount = Object.values(selectedGeoIds).filter(selected => selected).length
+
+    if (selectedGeoIdCount === 0) {
+      return <NotificationBoxElement messagePlaceholder={t('graph:no_element_selected')} variant="warning" />
+    }
+
     // disable animations when too much data causes UI lagging
-    const animationsEnabled =
-      metricsVisible.length < 5 && Object.values(selectedGeoIds).filter(selected => selected).length < 5
+    const animationsEnabled = metricsVisible.length < 5 && selectedGeoIdCount < 5
 
     graphMetricsOrder
       .filter(metric => metricsVisible.includes(metric))

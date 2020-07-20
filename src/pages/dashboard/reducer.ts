@@ -102,7 +102,11 @@ export const overview = (state = initialState, action: Record<string, any> = {})
         const selectedGeoIds = {}
 
         Object.keys(state.selectedGeoIds).map(geoId => (selectedGeoIds[geoId] = false))
-        params.selectedGeoIds.split(URL_ELEMENT_SEPARATOR).map(geoId => (selectedGeoIds[geoId] = true))
+        params.selectedGeoIds.split(URL_ELEMENT_SEPARATOR).map(geoId => {
+          if (geoId) {
+            selectedGeoIds[geoId] = true
+          }
+        })
 
         newStateParams = {
           ...newStateParams,
@@ -200,7 +204,9 @@ export const overview = (state = initialState, action: Record<string, any> = {})
 
     case ACTION_CHANGE_GEOID_SELECTION:
       const newSelectedGeoIds = {...state.selectedGeoIds}
-      newSelectedGeoIds[action.geoId] = action.selected
+      if (action.geoId) {
+        newSelectedGeoIds[action.geoId] = action.selected
+      }
 
       return {
         ...state,

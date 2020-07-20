@@ -69,13 +69,14 @@ function* changeUrl() {
       metricsVisible: state.graphOverview?.metricsVisible?.join(URL_ELEMENT_SEPARATOR) ?? ROUTE_EMPTY_PARAM,
     }
 
-    if (state.overview?.selectedGeoIds) {
+    // check if we have at least one selected geoId
+    if (state.overview?.selectedGeoIds && Object.values(state.overview.selectedGeoIds).some(selected => !!selected)) {
       result.selectedGeoIds =
         Object.entries(state.overview.selectedGeoIds)
           .filter(([geoId, active]) => active)
           .map(([geoId, active]) => geoId)
           .sort()
-          .join(URL_ELEMENT_SEPARATOR) ?? ROUTE_EMPTY_PARAM
+          .join(URL_ELEMENT_SEPARATOR) || ROUTE_EMPTY_PARAM
     } else {
       result.selectedGeoIds = ROUTE_EMPTY_PARAM
     }

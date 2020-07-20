@@ -107,5 +107,6 @@
     "table:metric_info_deaths_per_capita_accumulated": "",
     "table:metric_info_mortality_percentage": "",
     "table:metric_info_mortality_percentage_accumulated": "",
-    "table:metric_info_population": ""
+    "table:metric_info_population": "",
+    "graph:no_element_selected": ""
 }

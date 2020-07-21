@@ -108,5 +108,7 @@
     "table:metric_info_mortality_percentage": "Procent de noi decese din noile cazuri perntru perioada selectată (decese noi divizate la cazuri noi)",
     "table:metric_info_mortality_percentage_accumulated": "Mortalitatea cazurilor acumulată în ultima zi din perioada selectată (toate decesele până în acea zi divizate la toate cazurile până în aceași zi)",
     "table:metric_info_population": "Pe baza datelor din anul 2018 (sau cel mai apropiat an disponibil)",
-    "graph:no_element_selected": "Nicio țară nu a fost selectată pentru a fi afișată în grafice.\nSe poate folosi prima coloană din tabele pentru a selecta țări."
+    "graph:no_element_selected": "Nicio țară nu a fost selectată pentru a fi afișată în grafice. Se poate folosi prima coloană din tabele pentru a selecta țări.",
+    "table:column_rank": "Poziție clasament",
+    "table:metric_info_rank": "Poziția in clasamentul bazat pe metrica corespunzătoare. Rânduri cu valori egale vor avea aceeași poziție."
 }

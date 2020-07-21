@@ -7,7 +7,7 @@ import {getTableData} from '../../../global/dataParsing'
 import {action} from '../../../global/util'
 import {colors} from '../graphs/Graphs'
 import {CustomTable} from './CustomTable'
-import {ColumnEntry, Overview, TableOverview} from '../../../global/typeUtils'
+import {ColumnEntry, Overview, RankedTableDataEntry, TableOverview} from '../../../global/typeUtils'
 import {ColumnDescription} from 'react-bootstrap-table-next'
 import {InfoHover} from '../../../components/InfoHover'
 
@@ -210,18 +210,51 @@ class TableComponent extends Component<TableComponentProps> {
                 return
               }
               const geoIdData = processedData.filter(entry => entry.geoId !== 'WW')
+              const rankColumns = this.columns.filter(column =>
+                ['selected', 'name', tableType].includes(column.dataField)
+              )
+
+              // insert the rank column as the second one in the table
+              rankColumns.splice(1, 0, {
+                dataField: 'rank',
+                textPlaceholder: 'table:column_rank',
+                infoPlaceholder: 'table:metric_info_rank',
+                sort: true,
+                formatter: this.normalCellFormatter,
+              })
+
+              // build rankings by sorting the entries and adding the same rank to equal value entries
+              let lastEntryValue
+              let lastEntryRank
+              const rankData: RankedTableDataEntry[] = geoIdData
+                .sort((a, b) => b[tableType] - a[tableType])
+                .map(entry => {
+                  let rank = lastEntryRank ?? 0
+                  if (entry[tableType] !== lastEntryValue || rank === 0) {
+                    rank++
+                  }
+                  const result = {
+                    ...entry,
+                    rank: rank,
+                  }
+
+                  lastEntryValue = result[tableType]
+                  lastEntryRank = result.rank
+
+                  return result
+                })
 
               return (
                 <Col key={tableType} lg={6} xs={12}>
                   <CustomTable
                     t={t}
                     sizePerPage={tableOverview[tableType].sizePerPage}
-                    data={geoIdData}
-                    count={geoIdData.length}
-                    columns={this.columns.filter(column => ['selected', 'name', tableType].includes(column.dataField))}
+                    data={rankData}
+                    count={rankData.length}
+                    columns={rankColumns}
                     headerFormatter={this.headerFormatter}
                     tableType={tableType}
-                    defaultSorted={tableType}
+                    defaultSorted={'rank'}
                     smallPagination={true}
                   />
                 </Col>

@@ -114,6 +114,10 @@ export interface TableDataEntry extends DataEntry {
   maxSelectionReached: boolean;
 }
 
+export interface RankedTableDataEntry extends TableDataEntry {
+  rank: number;
+}
+
 export interface AccumulatedDataEntry {
   [METRIC.CASES_ACCUMULATED]: number;
   [METRIC.CASES_PER_CAPITA_ACCUMULATED]: number;

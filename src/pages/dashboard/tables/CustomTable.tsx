@@ -101,7 +101,7 @@ export const CustomTable: FC<CustomTableProps> = ({
                         defaultSorted && [
                           {
                             dataField: defaultSorted,
-                            order: 'desc',
+                            order: 'asc',
                           },
                         ]
                       }

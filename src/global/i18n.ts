@@ -12,10 +12,9 @@ languageOrder.map(lang => {
   }
 })
 
-i18next
-  .use(LanguageDetector)
-  .use(initReactI18next) // passes i18n down to react-i18next
-  .on('initialized', () => moment.locale(i18next.language.substring(0, 2)))
+i18next.use(LanguageDetector)
+i18next.use(initReactI18next) // passes i18n down to react-i18next
+i18next.on('initialized', () => moment.locale(i18next.language.substring(0, 2)))
 i18next.on('languageChanged', language => moment.locale(language.substring(0, 2)))
 i18next.init({
   interpolation: {
@@ -40,7 +39,7 @@ i18next.init({
   react: {
     wait: false,
     bindI18n: 'languageChanged loaded',
-    bindStore: 'added removed',
+    bindI18nStore: 'added removed',
     nsMode: 'default',
   },
 })

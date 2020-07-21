@@ -10,12 +10,12 @@ import ToolkitProvider, {Search} from 'react-bootstrap-table2-toolkit'
 import {ACTION_CHANGE_SIZE_PER_PAGE, TABLE_TYPE} from '../../../global/constants'
 import {action} from '../../../global/util'
 import {WithTranslation} from 'react-i18next'
-import {ColumnEntry, PartialDataEntry} from '../../../global/typeUtils'
+import {ColumnEntry, TableDataEntry} from '../../../global/typeUtils'
 
 interface CustomTableProps extends Partial<WithTranslation> {
   sizePerPage: number;
   count: number;
-  data: PartialDataEntry[];
+  data: TableDataEntry[];
   columns: ColumnEntry[];
   headerFormatter: Function;
   tableType: string;

@@ -109,7 +109,7 @@ export interface DataEntry extends InitialDataEntry, AccumulatedDataEntry, Rates
 
 export interface RatesDataEntry extends InitialDataEntry, RatesEntry {}
 
-export interface PartialDataEntry extends InitialDataEntry {
+export interface TableDataEntry extends DataEntry {
   selected: boolean;
   maxSelectionReached: boolean;
 }

@@ -12,7 +12,7 @@ import {
   LineData,
   LineGraphData,
   LineParsedData,
-  PartialDataEntry,
+  TableDataEntry,
   RatesDataEntry,
   RawData,
 } from './typeUtils'
@@ -231,7 +231,7 @@ export const getTableData = (
   dateFilter: DateFilter,
   selectedGeoIds: Record<string, string>,
   maxSelectionReached: boolean
-): PartialDataEntry[] => {
+): TableDataEntry[] => {
   const startDate = moment(dateFilter.startDate, DATE_FORMAT_APP)
   const endDate = moment(dateFilter.endDate, DATE_FORMAT_APP)
 
@@ -241,10 +241,10 @@ export const getTableData = (
 }
 
 const addSelectionColumn = (
-  tableData: InitialDataEntry[],
+  tableData: DataEntry[],
   selectedGeoIds: Record<string, string>,
   maxSelectionReached: boolean
-): PartialDataEntry[] => {
+): TableDataEntry[] => {
   return tableData.map(entry => {
     return {
       ...entry,

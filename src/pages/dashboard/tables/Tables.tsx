@@ -182,7 +182,6 @@ class TableComponent extends Component<TableComponentProps> {
 
     const maxSelectionReached = Object.values(selectedGeoIds).filter(value => value).length >= colors.length
     const processedData = getTableData(data, dateFilter, selectedGeoIds, maxSelectionReached)
-    const geoIdData = processedData.filter(entry => entry.geoId !== 'WW')
 
     return (
       <>
@@ -210,6 +209,7 @@ class TableComponent extends Component<TableComponentProps> {
               if (!rankingsVisible) {
                 return
               }
+              const geoIdData = processedData.filter(entry => entry.geoId !== 'WW')
 
               return (
                 <Col key={tableType} lg={6} xs={12}>

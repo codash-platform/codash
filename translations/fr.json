@@ -108,5 +108,7 @@
     "table:metric_info_mortality_percentage": "",
     "table:metric_info_mortality_percentage_accumulated": "",
     "table:metric_info_population": "",
-    "graph:no_element_selected": ""
+    "graph:no_element_selected": "",
+    "table:column_rank": "",
+    "table:metric_info_rank": ""
 }

@@ -110,5 +110,16 @@
     "table:metric_info_population": "Based on population data from 2018 (or closest year available)",
     "graph:no_element_selected": "No country has been selected to show on the graphs. Please use the checkbox from the first column of the tables in order to select countries.",
     "table:column_rank": "Rank",
-    "table:metric_info_rank": "Ranking position based on the given metric. Entries with equal values will have the same rank."
+    "table:metric_info_rank": "Ranking position based on the given metric. Entries with equal values will have the same rank.",
+    "sidebar:header_filters": "Filters",
+    "menu:filters_continent_label": "Continents",
+    "general:filter_continent_all": "All",
+    "general:filter_continent_none": "None",
+    "general:filter_continent_asia": "Asia",
+    "general:filter_continent_europe": "Europe",
+    "general:filter_continent_north_america": "North America",
+    "general:filter_continent_south_america": "South America",
+    "general:filter_continent_australia": "Australia",
+    "general:filter_continent_africa": "Africa",
+    "general:filter_continent_antarctica": "Antarctica"
 }

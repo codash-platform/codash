@@ -110,5 +110,16 @@
     "table:metric_info_population": "Pe baza datelor din anul 2018 (sau cel mai apropiat an disponibil)",
     "graph:no_element_selected": "Nicio țară nu a fost selectată pentru a fi afișată în grafice. Se poate folosi prima coloană din tabele pentru a selecta țări.",
     "table:column_rank": "Poziție clasament",
-    "table:metric_info_rank": "Poziția in clasamentul bazat pe metrica corespunzătoare. Rânduri cu valori egale vor avea aceeași poziție."
+    "table:metric_info_rank": "Poziția in clasamentul bazat pe metrica corespunzătoare. Rânduri cu valori egale vor avea aceeași poziție.",
+    "sidebar:header_filters": "Filtre",
+    "menu:filters_continent_label": "Continente",
+    "general:filter_continent_all": "Toate",
+    "general:filter_continent_none": "Niciunul",
+    "general:filter_continent_asia": "Asia",
+    "general:filter_continent_europe": "Europa",
+    "general:filter_continent_north_america": "America de Nord",
+    "general:filter_continent_south_america": "America de Sud",
+    "general:filter_continent_australia": "Australia",
+    "general:filter_continent_africa": "Africa",
+    "general:filter_continent_antarctica": "Antarctica"
 }

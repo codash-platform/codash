@@ -6,7 +6,7 @@
     "email": "contact@popa-marius.com",
     "name": "Marius Popa"
   },
-  "license": "GNU Affero General Public License v3.0",
+  "license": "AGPL-3.0-or-later",
   "scripts": {
     "prepare": "cp -n .env.example .env || true",
     "start": "npm run start:dev",

@@ -132,13 +132,13 @@ class SidebarMenusComponent extends Component<SidebarMenusComponentProps> {
       case SIDEBAR_MENUS.VIEW_MODE_MENU:
         return [overview.viewMode]
       case SIDEBAR_MENUS.FILTERS_CONTINENT_MENU:
-        return [...overview.filters.continent]
+        return overview.filters?.continent || []
       case SIDEBAR_MENUS.GRAPH_SCALE_MENU:
         return [graphOverview.graphScale]
       case SIDEBAR_MENUS.GRAPH_MODE_MENU:
         return [graphOverview.graphMode]
       case SIDEBAR_MENUS.GRAPH_METRICS_MENU:
-        return [...graphOverview.metricsVisible]
+        return graphOverview.metricsVisible || []
     }
   }
 

@@ -17,7 +17,7 @@ export interface SidebarMenuSetComponentProps extends WithTranslation {
 class SidebarMenuSetComponent extends Component<SidebarMenuSetComponentProps> {
   render() {
     const {t, menuData, activeKeys, sidebar} = this.props
-    const expanded = sidebar[menuData.id].expanded
+    const expanded = sidebar[menuData.id]?.expanded ?? false
 
     return (
       <li className="sidebar-menu-item" {...menuData.extraProps}>

@@ -195,8 +195,8 @@ export const overview = (state = initialState, action: Record<string, any> = {})
         })
       }
 
-      let selectedFiltersContinent = state.filters.continent
-      if (state.filters.continent.length === 0) {
+      let selectedFiltersContinent = state.filters?.continent || []
+      if (selectedFiltersContinent.length === 0) {
         selectedFiltersContinent = preselectedContinents
       }
 

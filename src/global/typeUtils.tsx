@@ -3,6 +3,7 @@ import {
   ACTION_EXPAND_ONLY_SIDEBAR_MENU,
   ACTION_TOGGLE_SIDEBAR_MENU,
   ASYNC_STATUS,
+  CONTINENT,
   METRIC,
   TABLE_TYPE,
 } from './constants'
@@ -52,7 +53,8 @@ export interface Data {
   startDate: string | null;
   endDate: string | null;
   datesAvailable: string[];
-  geoIds: string[];
+  visibleGeoIds: Record<string, boolean>;
+  allGeoIds: string[];
   geoIdToNameMapping: Record<string, string>;
   perDateData: Record<string, DataEntry[]>;
 }
@@ -68,13 +70,19 @@ export interface Overview {
   tourCompleted: boolean;
   loadingStatus: ASYNC_STATUS;
   viewMode?: string;
+  filters: Filters;
   dateFilter?: DateFilter;
-  selectedGeoIds: Record<string, string>;
+  allGeoIds: string[];
+  selectedGeoIds: Record<string, boolean>;
   data?: Data;
   notification: Notification;
   tableVisible: boolean;
   rankingsVisible: boolean;
   graphsVisible: boolean;
+}
+
+export interface Filters {
+  continent: CONTINENT[];
 }
 
 export interface TableOverview {

@@ -2,10 +2,15 @@ import React, {Component} from 'react'
 import {Col, Form, Row} from 'react-bootstrap'
 import {withTranslation, WithTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
-import {ACTION_CHANGE_GEOID_SELECTION, LOCALE_DEFAULT, METRIC, TABLE_TYPE} from '../../../global/constants'
+import {
+  ACTION_CHANGE_GEOID_SELECTION,
+  GEOID_WORLD_WIDE_COMBINED,
+  LOCALE_DEFAULT,
+  METRIC,
+  TABLE_TYPE,
+} from '../../../global/constants'
 import {getTableData} from '../../../global/dataParsing'
 import {action} from '../../../global/util'
-import {colors} from '../graphs/Graphs'
 import {CustomTable} from './CustomTable'
 import {ColumnEntry, Overview, RankedTableDataEntry, TableOverview} from '../../../global/typeUtils'
 import {ColumnDescription} from 'react-bootstrap-table-next'
@@ -209,7 +214,7 @@ class TableComponent extends Component<TableComponentProps> {
               if (!rankingsVisible) {
                 return
               }
-              const geoIdData = processedData.filter(entry => entry.geoId !== 'WW')
+              const geoIdData = processedData.filter(entry => entry.geoId !== GEOID_WORLD_WIDE_COMBINED)
               const rankColumns = this.columns.filter(column =>
                 ['selected', 'name', tableType].includes(column.dataField)
               )

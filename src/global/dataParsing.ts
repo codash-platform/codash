@@ -1,5 +1,5 @@
 import moment from 'moment'
-import {DATE_FORMAT_APP, DATE_FORMAT_ECDC, GRAPH_SCALE, METRIC} from './constants'
+import {DATE_FORMAT_APP, DATE_FORMAT_ECDC, GEOID_WORLD_WIDE_COMBINED, GRAPH_SCALE, METRIC} from './constants'
 import {
   AccumulatedDataEntry,
   BarData,
@@ -12,9 +12,9 @@ import {
   LineData,
   LineGraphData,
   LineParsedData,
-  TableDataEntry,
   RatesDataEntry,
   RawData,
+  TableDataEntry,
 } from './typeUtils'
 
 export const parseRawData = (rawData: Array<RawData>): Data => {
@@ -53,8 +53,8 @@ export const parseRawData = (rawData: Array<RawData>): Data => {
     })
 
     if (!globalPerDay[dateKey]) {
-      globalPerDay[dateKey] = createInitialEntryPerCountry('Combined Data', 'WW', 0)
-      geoIdToNameMapping.WW = 'Combined Data'
+      globalPerDay[dateKey] = createInitialEntryPerCountry('Combined Data', GEOID_WORLD_WIDE_COMBINED, 0)
+      geoIdToNameMapping[GEOID_WORLD_WIDE_COMBINED] = 'Combined Data'
     }
 
     globalPerDay[dateKey][METRIC.CASES_NEW] += cases
@@ -68,12 +68,19 @@ export const parseRawData = (rawData: Array<RawData>): Data => {
   const sortedDates = getSortedDates(datesAvailable)
   const perDateData = calculateAccumulatedData(ratesPerDateData, sortedDates)
 
+  const allGeoIds = [...geoIds].sort()
+  const visibleGeoIds = {}
+  allGeoIds.map(geoId => {
+    visibleGeoIds[geoId] = true
+  })
+
   return {
     rawData: rawData,
     startDate: sortedDates[0] ?? null,
     endDate: sortedDates[sortedDates.length - 1] ?? null,
     datesAvailable: sortedDates,
-    geoIds: [...geoIds].sort(),
+    visibleGeoIds: visibleGeoIds,
+    allGeoIds: allGeoIds,
     geoIdToNameMapping: geoIdToNameMapping,
     perDateData: perDateData,
   }
@@ -139,7 +146,8 @@ const calculateAccumulatedData = (
 const parseSectionData = (
   perDateData: Record<string, InitialDataEntry[]> = {},
   startDate: moment.Moment,
-  endDate: moment.Moment
+  endDate: moment.Moment,
+  visibleGeoIds: Record<string, boolean>
 ): DataEntry[] => {
   const perGeoIdData = {}
 
@@ -153,6 +161,10 @@ const parseSectionData = (
     }
 
     for (const entry of entriesForDate) {
+      if (!visibleGeoIds[entry.geoId] && entry.geoId !== GEOID_WORLD_WIDE_COMBINED) {
+        continue
+      }
+
       if (!perGeoIdData[entry.geoId]) {
         perGeoIdData[entry.geoId] = createInitialEntryPerCountry(entry.name, entry.geoId, entry.population)
       }
@@ -163,6 +175,10 @@ const parseSectionData = (
 
   const endDateKey = endDate.format(DATE_FORMAT_APP)
   perDateData?.[endDateKey]?.map(entry => {
+    if (!visibleGeoIds[entry.geoId] && entry.geoId !== GEOID_WORLD_WIDE_COMBINED) {
+      return
+    }
+
     if (!perGeoIdData[entry.geoId]) {
       perGeoIdData[entry.geoId] = createInitialEntryPerCountry(entry.name, entry.geoId, entry.population)
     }
@@ -235,7 +251,7 @@ export const getTableData = (
   const startDate = moment(dateFilter.startDate, DATE_FORMAT_APP)
   const endDate = moment(dateFilter.endDate, DATE_FORMAT_APP)
 
-  const sectionData = parseSectionData(data?.perDateData, startDate, endDate)
+  const sectionData = parseSectionData(data?.perDateData, startDate, endDate, data?.visibleGeoIds)
 
   return addSelectionColumn(sectionData, selectedGeoIds, maxSelectionReached)
 }
@@ -284,7 +300,9 @@ export const getGraphData = (
       continue
     }
 
-    cleanedData[dateKey] = entriesForDate.filter(entry => !!selectedGeoIds[entry.geoId])
+    cleanedData[dateKey] = entriesForDate.filter(
+      entry => selectedGeoIds[entry.geoId] && data.visibleGeoIds[entry.geoId]
+    )
   }
 
   if (lineGraphVisible) {

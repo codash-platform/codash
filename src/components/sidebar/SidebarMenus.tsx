@@ -1,10 +1,11 @@
 import {
   faAddressCard,
+  faBalanceScale,
   faChartBar,
   faClock,
+  faGlobe,
   faLayerGroup,
   faRulerCombined,
-  faTasks,
 } from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import React, {Component} from 'react'
@@ -12,10 +13,12 @@ import {WithTranslation, withTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import {
   ACTION_CHANGE_DATE_FILTER_MODE,
+  ACTION_CHANGE_FILTERS_CONTINENT,
   ACTION_CHANGE_GRAPH_MODE,
   ACTION_CHANGE_GRAPH_SCALE,
   ACTION_CHANGE_METRIC_GRAPH_VISIBILITY,
   ACTION_CHANGE_VIEW_MODE,
+  CONTINENT,
   DATE_FILTER,
   GRAPH_MODE,
   GRAPH_SCALE,
@@ -46,6 +49,20 @@ class SidebarMenusComponent extends Component<SidebarMenusComponentProps> {
       })),
       extraProps: {
         'data-feature-tour': 'view-mode',
+      },
+    },
+    {
+      id: SIDEBAR_MENUS.FILTERS_CONTINENT_MENU,
+      labelPlaceholder: 'menu:filters_continent_label',
+      icon: faGlobe,
+      activeKeys: [],
+      subMenu: ['all', 'none', ...Object.values(CONTINENT)].map(key => ({
+        labelPlaceholder: `general:filter_continent_${key}`,
+        key: key,
+        action: () => action(ACTION_CHANGE_FILTERS_CONTINENT, {continent: key}),
+      })),
+      extraProps: {
+        'data-feature-tour': 'filters-continent',
       },
     },
     {
@@ -93,7 +110,7 @@ class SidebarMenusComponent extends Component<SidebarMenusComponentProps> {
     {
       id: SIDEBAR_MENUS.GRAPH_METRICS_MENU,
       labelPlaceholder: 'menu:graph_metrics_label',
-      icon: faTasks,
+      icon: faBalanceScale,
       activeKeys: [],
       subMenu: ['all', 'none', ...graphMetricsOrder].map(key => ({
         labelPlaceholder: `general:metrics_${key}`,
@@ -114,6 +131,8 @@ class SidebarMenusComponent extends Component<SidebarMenusComponentProps> {
         return [overview.dateFilter.mode]
       case SIDEBAR_MENUS.VIEW_MODE_MENU:
         return [overview.viewMode]
+      case SIDEBAR_MENUS.FILTERS_CONTINENT_MENU:
+        return [...overview.filters.continent]
       case SIDEBAR_MENUS.GRAPH_SCALE_MENU:
         return [graphOverview.graphScale]
       case SIDEBAR_MENUS.GRAPH_MODE_MENU:
@@ -128,6 +147,7 @@ class SidebarMenusComponent extends Component<SidebarMenusComponentProps> {
 
     const intervalsMenu = this.menus.find(menuData => menuData.id === SIDEBAR_MENUS.INTERVALS_MENU)
     const viewModeMenu = this.menus.find(menuData => menuData.id === SIDEBAR_MENUS.VIEW_MODE_MENU)
+    const filtersContinentMenu = this.menus.find(menuData => menuData.id === SIDEBAR_MENUS.FILTERS_CONTINENT_MENU)
     const graphModeMenu = this.menus.find(menuData => menuData.id === SIDEBAR_MENUS.GRAPH_MODE_MENU)
     const graphScaleMenu = this.menus.find(menuData => menuData.id === SIDEBAR_MENUS.GRAPH_SCALE_MENU)
     const graphMetricsMenu = this.menus.find(menuData => menuData.id === SIDEBAR_MENUS.GRAPH_METRICS_MENU)
@@ -138,6 +158,12 @@ class SidebarMenusComponent extends Component<SidebarMenusComponentProps> {
           <ul className="sidebar-menu-container">
             <h5 className="app-sidebar__heading">{t('sidebar:header_time')}</h5>
             <SidebarMenuSet menuData={intervalsMenu} activeKeys={this.getActiveKeysForMenu(intervalsMenu.id)} />
+
+            <h5 className="app-sidebar__heading">{t('sidebar:header_filters')}</h5>
+            <SidebarMenuSet
+              menuData={filtersContinentMenu}
+              activeKeys={this.getActiveKeysForMenu(filtersContinentMenu.id)}
+            />
 
             <h5 className="app-sidebar__heading">{t('sidebar:header_view')}</h5>
             <SidebarMenuSet menuData={viewModeMenu} activeKeys={this.getActiveKeysForMenu(viewModeMenu.id)} />

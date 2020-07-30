@@ -2,6 +2,7 @@ import moment from 'moment'
 import {
   ACTION_CHANGE_DATE_FILTER_INTERVAL,
   ACTION_CHANGE_DATE_FILTER_MODE,
+  ACTION_CHANGE_FILTERS_CONTINENT,
   ACTION_CHANGE_GEOID_SELECTION,
   ACTION_CHANGE_TOUR_COMPLETION,
   ACTION_CHANGE_TOUR_STATE,
@@ -14,16 +15,31 @@ import {
   ACTION_REPARSE_DATA,
   ACTION_SET_NOTIFICATION,
   ACTION_TOGGLE_DATE_FILTER,
+  ACTION_UPDATE_GEOID_VISIBILITY,
   ASYNC_STATUS,
+  CONTINENT,
+  CONTINENT_GEOID_MAP,
   DATE_FILTER,
   DATE_FORMAT_APP,
   URL_ELEMENT_SEPARATOR,
   VIEW_MODE,
 } from '../../global/constants'
 import {parseRawData} from '../../global/dataParsing'
+import {Overview} from '../../global/typeUtils'
 
-const initialState = {
-  notification: {},
+const preselectedGeoIds = ['US', 'CN', 'DE', 'FR', 'ES', 'IT', 'CH']
+const preselectedContinents = [
+  CONTINENT.ASIA,
+  CONTINENT.EUROPE,
+  CONTINENT.NORTH_AMERICA,
+  CONTINENT.SOUTH_AMERICA,
+  CONTINENT.AUSTRALIA,
+  CONTINENT.AFRICA,
+  CONTINENT.ANTARCTICA,
+]
+
+const initialState: Overview = {
+  notification: null,
   loadingStatus: ASYNC_STATUS.IDLE,
   data: null,
   viewMode: VIEW_MODE.COMBO,
@@ -36,12 +52,14 @@ const initialState = {
     mode: DATE_FILTER.TOTAL,
     focusedInput: null,
   },
+  filters: {
+    continent: [],
+  },
+  allGeoIds: [],
   selectedGeoIds: {},
   tourEnabled: false,
   tourCompleted: false,
 }
-
-const preselectedGeoIds = ['US', 'CN', 'DE', 'FR', 'ES', 'IT', 'CH']
 
 export const overview = (state = initialState, action: Record<string, any> = {}) => {
   // noinspection FallThroughInSwitchStatementJS
@@ -114,6 +132,24 @@ export const overview = (state = initialState, action: Record<string, any> = {})
         }
       }
 
+      if (params.filtersContinent) {
+        const continents = new Set() as Set<CONTINENT>
+
+        params.filtersContinent.split(URL_ELEMENT_SEPARATOR).map(continent => {
+          if (Object.values(CONTINENT).includes(continent)) {
+            continents.add(continent)
+          }
+        })
+
+        newStateParams = {
+          ...newStateParams,
+          filters: {
+            ...newStateParams.filters,
+            continent: [...continents],
+          },
+        }
+      }
+
       return newStateParams
 
     case ACTION_GET_DATA_START:
@@ -153,10 +189,15 @@ export const overview = (state = initialState, action: Record<string, any> = {})
       }
 
       const selectedGeoIds = {}
-      if (Object.keys(state.selectedGeoIds).length === 0 && parsedData.geoIds) {
-        parsedData.geoIds.map((geoId: string) => {
+      if (Object.keys(state.selectedGeoIds).length === 0 && parsedData.allGeoIds) {
+        parsedData.allGeoIds.map(geoId => {
           selectedGeoIds[geoId] = preselectedGeoIds.includes(geoId)
         })
+      }
+
+      let selectedFiltersContinent = state.filters.continent
+      if (state.filters.continent.length === 0) {
+        selectedFiltersContinent = preselectedContinents
       }
 
       return {
@@ -169,6 +210,10 @@ export const overview = (state = initialState, action: Record<string, any> = {})
         selectedGeoIds: {
           ...state.selectedGeoIds,
           ...selectedGeoIds,
+        },
+        filters: {
+          ...state.filters,
+          continent: selectedFiltersContinent,
         },
       }
 
@@ -211,6 +256,50 @@ export const overview = (state = initialState, action: Record<string, any> = {})
       return {
         ...state,
         selectedGeoIds: newSelectedGeoIds,
+      }
+
+    case ACTION_CHANGE_FILTERS_CONTINENT: {
+      let newContinents
+
+      switch (action.continent) {
+        default:
+          newContinents = new Set([...state.filters.continent])
+
+          if (newContinents.has(action.continent)) {
+            newContinents.delete(action.continent)
+          } else {
+            newContinents.add(action.continent)
+          }
+          break
+        case 'all':
+          newContinents = Object.values(CONTINENT)
+          break
+        case 'none':
+          newContinents = []
+          break
+      }
+
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          continent: [...newContinents],
+        },
+      }
+    }
+
+    case ACTION_UPDATE_GEOID_VISIBILITY:
+      const visibleGeoIds = {}
+      state.data.allGeoIds.map(geoId => {
+        visibleGeoIds[geoId] = state.filters.continent.some(continent => CONTINENT_GEOID_MAP[continent][geoId])
+      })
+
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          visibleGeoIds: visibleGeoIds,
+        },
       }
 
     case ACTION_CHANGE_VIEW_MODE:

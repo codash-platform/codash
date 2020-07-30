@@ -3,6 +3,7 @@ import {call, put, select, takeLatest} from 'redux-saga/effects'
 import {
   ACTION_CHANGE_DATE_FILTER_INTERVAL,
   ACTION_CHANGE_DATE_FILTER_MODE,
+  ACTION_CHANGE_FILTERS_CONTINENT,
   ACTION_CHANGE_GEOID_SELECTION,
   ACTION_CHANGE_GRAPH_MODE,
   ACTION_CHANGE_GRAPH_SCALE,
@@ -15,6 +16,7 @@ import {
   ACTION_GET_DATA_SUCCESS,
   ACTION_REPARSE_DATA,
   ACTION_SET_NOTIFICATION,
+  ACTION_UPDATE_GEOID_VISIBILITY,
   DATE_FILTER,
   ROUTE_DASHBOARD,
   ROUTE_EMPTY_PARAM,
@@ -31,6 +33,7 @@ const routingActions = [
   ACTION_CHANGE_GRAPH_MODE,
   ACTION_CHANGE_GRAPH_SCALE,
   ACTION_CHANGE_METRIC_GRAPH_VISIBILITY,
+  ACTION_CHANGE_FILTERS_CONTINENT,
 ]
 
 function* getData() {
@@ -61,12 +64,13 @@ function* getData() {
 function* changeUrl() {
   const urlParams = yield select(state => {
     const result: Record<string, string> = {
-      viewMode: state.overview?.viewMode ?? ROUTE_EMPTY_PARAM,
-      startDate: state.overview?.dateFilter?.startDate ?? ROUTE_EMPTY_PARAM,
-      endDate: state.overview?.dateFilter?.endDate ?? ROUTE_EMPTY_PARAM,
-      graphMode: state.graphOverview?.graphMode ?? ROUTE_EMPTY_PARAM,
-      graphScale: state.graphOverview?.graphScale ?? ROUTE_EMPTY_PARAM,
-      metricsVisible: state.graphOverview?.metricsVisible?.join(URL_ELEMENT_SEPARATOR) ?? ROUTE_EMPTY_PARAM,
+      viewMode: state.overview?.viewMode || ROUTE_EMPTY_PARAM,
+      startDate: state.overview?.dateFilter?.startDate || ROUTE_EMPTY_PARAM,
+      endDate: state.overview?.dateFilter?.endDate || ROUTE_EMPTY_PARAM,
+      filtersContinent: state.overview?.filters?.continent?.join(URL_ELEMENT_SEPARATOR) || ROUTE_EMPTY_PARAM,
+      graphMode: state.graphOverview?.graphMode || ROUTE_EMPTY_PARAM,
+      graphScale: state.graphOverview?.graphScale || ROUTE_EMPTY_PARAM,
+      metricsVisible: state.graphOverview?.metricsVisible?.join(URL_ELEMENT_SEPARATOR) || ROUTE_EMPTY_PARAM,
     }
 
     // check if we have at least one selected geoId
@@ -105,4 +109,5 @@ export function* generalSaga() {
   yield takeLatest([ACTION_GET_DATA_SUCCESS, ACTION_REPARSE_DATA], () =>
     action(ACTION_CHANGE_DATE_FILTER_MODE, {filterMode: DATE_FILTER.LAST_14_DAYS})
   )
+  yield takeLatest([ACTION_CHANGE_FILTERS_CONTINENT], () => action(ACTION_UPDATE_GEOID_VISIBILITY))
 }

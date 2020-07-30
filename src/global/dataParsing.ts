@@ -245,7 +245,7 @@ const getMissingPopulation = (element: RawData): number => {
 export const getTableData = (
   data: Data,
   dateFilter: DateFilter,
-  selectedGeoIds: Record<string, string>,
+  selectedGeoIds: Record<string, boolean>,
   maxSelectionReached: boolean
 ): TableDataEntry[] => {
   const startDate = moment(dateFilter.startDate, DATE_FORMAT_APP)
@@ -258,7 +258,7 @@ export const getTableData = (
 
 const addSelectionColumn = (
   tableData: DataEntry[],
-  selectedGeoIds: Record<string, string>,
+  selectedGeoIds: Record<string, boolean>,
   maxSelectionReached: boolean
 ): TableDataEntry[] => {
   return tableData.map(entry => {
@@ -273,16 +273,16 @@ const addSelectionColumn = (
 export const getGraphData = (
   data: Data,
   dateFilter: DateFilter,
-  selectedGeoIds: Record<string, string>,
+  selectedGeoIds: Record<string, boolean>,
   propertyName: string,
   lineGraphVisible: boolean,
   barGraphVisible: boolean,
   graphScale: string
-): GraphData => {
+): Partial<GraphData> => {
   const result: Partial<GraphData> = {}
 
   if (!data?.perDateData) {
-    return result as GraphData
+    return result
   }
 
   const startDate = moment(dateFilter.startDate, DATE_FORMAT_APP)
@@ -321,7 +321,7 @@ export const getGraphData = (
 const getBarGraphData = (
   cleanedData: Record<string, DataEntry[]>,
   geoIdToNameMapping: Record<string, string>,
-  selectedGeoIds: Record<string, string>,
+  selectedGeoIds: Record<string, boolean>,
   propertyName: string
 ): BarData => {
   const parsedData: BarEntryData[] = []

@@ -148,7 +148,7 @@ export interface InitialDataEntry {
   [METRIC.DEATHS_NEW]: number;
 }
 
-export interface LineGraphData {
+export type LineGraphData = {
   lineData: LineData[];
   logarithmParams: LogarithmParams;
 }
@@ -169,7 +169,7 @@ export type LineData = {
   data: LineParsedData[];
 }
 
-export interface GraphData extends LineGraphData, BarGraphData {}
+export type GraphData = LineGraphData & BarGraphData
 
 export type BarGraphData = {
   barData: BarData;

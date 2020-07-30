@@ -46,7 +46,7 @@ interface GraphsComponentProps extends WithTranslation {
 }
 
 class GraphsComponent extends Component<GraphsComponentProps> {
-  getColorForDataSet = databject => {
+  getColorForDataSet = dataObject => {
     const {selectedGeoIds, data} = this.props.overview
 
     if (!selectedGeoIds || !data?.geoIdToNameMapping) {
@@ -58,10 +58,10 @@ class GraphsComponent extends Component<GraphsComponentProps> {
       .map(([key, value]) => key)
       .sort()
 
-    let dataGeoId = databject.geoId
+    let dataGeoId = dataObject.geoId
     if (!dataGeoId) {
-      if (databject.data?.nameToGeoId?.[databject.id]) {
-        dataGeoId = databject.data.nameToGeoId[databject.id]
+      if (dataObject.data?.nameToGeoId?.[dataObject.id]) {
+        dataGeoId = dataObject.data.nameToGeoId[dataObject.id]
       } else {
         return colors[0]
       }

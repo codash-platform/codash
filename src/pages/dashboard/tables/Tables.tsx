@@ -185,7 +185,7 @@ class TableComponent extends Component<TableComponentProps> {
       return null
     }
 
-    const maxSelectionReached = Object.values(selectedGeoIds).filter(value => value).length >= colors.length
+    const maxSelectionReached = Object.values(selectedGeoIds).filter(value => value).length >= 30
     const processedData = getTableData(data, dateFilter, selectedGeoIds, maxSelectionReached)
 
     return (

@@ -39,7 +39,7 @@ const routingActions = [
 function* getData() {
   try {
     yield put({type: ACTION_SET_NOTIFICATION, message: 'global:notification_loading', showSpinner: true})
-    const result = yield call(axios.get, '//api.codash.io/download.php')
+    const result = yield call(axios.get, '//api.codash.io/download')
 
     if (!result?.data?.records) {
       throw new Error('error.data_unavailable')

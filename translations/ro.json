@@ -128,5 +128,6 @@
     "general:filter_population_small": "Mică 0 - 1M",
     "general:filter_population_medium": "Medie 1M - 10M",
     "general:filter_population_big": "Mare 10M - 100M",
-    "general:filter_population_huge": "Enormă 100M+"
+    "general:filter_population_huge": "Enormă 100M+",
+    "graph:no_element_visible": "Nicio țară nu se potivește criteriilor alese pentru a fi afișată în grafice. Se pot folosi prima coloană din tabele si filtrele din meniu pentru a permite afișarea țărilor."
 }

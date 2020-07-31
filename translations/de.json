@@ -128,5 +128,6 @@
     "general:filter_population_small": "",
     "general:filter_population_medium": "",
     "general:filter_population_big": "",
-    "general:filter_population_huge": ""
+    "general:filter_population_huge": "",
+    "graph:no_element_visible": ""
 }

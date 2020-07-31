@@ -1,3 +1,5 @@
+import {PopulationCategoryLimits} from './typeUtils'
+
 export enum ASYNC_STATUS {
   IDLE = 'idle',
   PENDING = 'pending',
@@ -56,6 +58,32 @@ export enum CONTINENT {
   ANTARCTICA = 'antarctica',
 }
 
+export enum POPULATION_CATEGORY {
+  SMALL = 'small',
+  MEDIUM = 'medium',
+  BIG = 'big',
+  HUGE = 'huge',
+}
+
+export const POPULATION_CATEGORY_LIMITS: Record<POPULATION_CATEGORY, PopulationCategoryLimits> = {
+  [POPULATION_CATEGORY.SMALL]: {
+    lowerLimit: 0,
+    upperLimit: 1000000,
+  },
+  [POPULATION_CATEGORY.MEDIUM]: {
+    lowerLimit: 1000000,
+    upperLimit: 10000000,
+  },
+  [POPULATION_CATEGORY.BIG]: {
+    lowerLimit: 10000000,
+    upperLimit: 100000000,
+  },
+  [POPULATION_CATEGORY.HUGE]: {
+    lowerLimit: 100000000,
+    upperLimit: null,
+  },
+}
+
 export enum GENERAL_TABLE_TYPE {
   MAIN = 'main',
 }
@@ -69,6 +97,7 @@ export enum SIDEBAR_MENUS {
   INTERVALS_MENU = 'intervalsMenu',
   VIEW_MODE_MENU = 'viewModeMenu',
   FILTERS_CONTINENT_MENU = 'filtersContinentMenu',
+  FILTERS_POPULATION_MENU = 'filtersPopulationMenu',
   GRAPH_MODE_MENU = 'graphModeMenu',
   GRAPH_SCALE_MENU = 'graphScaleMenu',
   GRAPH_METRICS_MENU = 'graphMetricsMenu',
@@ -84,7 +113,8 @@ export const URL_ELEMENT_SEPARATOR = '-'
 
 // route urls
 export const ROUTE_DASHBOARD =
-  '/:viewMode?/:startDate?/:endDate?/:graphMode?/:graphScale?/:selectedGeoIds?/:metricsVisible?/:filtersContinent?'
+  '/:viewMode?/:startDate?/:endDate?/:graphMode?/:graphScale?/:selectedGeoIds?/'
+  + ':metricsVisible?/:filtersContinent?/:filtersPopulation?'
 export const ROUTE_EMPTY_PARAM = '-'
 
 export const ACTION_PARSE_URL_PARAMS = 'ACTION_PARSE_URL_PARAMS'
@@ -101,6 +131,7 @@ export const ACTION_CHANGE_GRAPH_MODE = 'ACTION_CHANGE_GRAPH_MODE'
 export const ACTION_CHANGE_GRAPH_SCALE = 'ACTION_CHANGE_GRAPH_SCALE'
 export const ACTION_CHANGE_METRIC_GRAPH_VISIBILITY = 'ACTION_CHANGE_METRIC_GRAPH_VISIBILITY'
 export const ACTION_CHANGE_FILTERS_CONTINENT = 'ACTION_CHANGE_FILTERS_CONTINENT'
+export const ACTION_CHANGE_FILTERS_POPULATION = 'ACTION_CHANGE_FILTERS_POPULATION'
 export const ACTION_UPDATE_GEOID_VISIBILITY = 'ACTION_UPDATE_GEOID_VISIBILITY'
 export const ACTION_TOGGLE_SIDEBAR_MENU = 'ACTION_TOGGLE_SIDEBAR_MENU'
 export const ACTION_EXPAND_ONLY_SIDEBAR_MENU = 'ACTION_EXPAND_ONLY_SIDEBAR_MENU'

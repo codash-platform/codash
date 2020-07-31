@@ -17,6 +17,9 @@ const initialState = {
   [SIDEBAR_MENUS.FILTERS_CONTINENT_MENU]: {
     expanded: false,
   },
+  [SIDEBAR_MENUS.FILTERS_POPULATION_MENU]: {
+    expanded: false,
+  },
   [SIDEBAR_MENUS.INTERVALS_MENU]: {
     expanded: false,
   },

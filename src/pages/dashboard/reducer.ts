@@ -3,6 +3,7 @@ import {
   ACTION_CHANGE_DATE_FILTER_INTERVAL,
   ACTION_CHANGE_DATE_FILTER_MODE,
   ACTION_CHANGE_FILTERS_CONTINENT,
+  ACTION_CHANGE_FILTERS_POPULATION,
   ACTION_CHANGE_GEOID_SELECTION,
   ACTION_CHANGE_TOUR_COMPLETION,
   ACTION_CHANGE_TOUR_STATE,
@@ -21,6 +22,8 @@ import {
   CONTINENT_GEOID_MAP,
   DATE_FILTER,
   DATE_FORMAT_APP,
+  POPULATION_CATEGORY,
+  POPULATION_CATEGORY_LIMITS,
   URL_ELEMENT_SEPARATOR,
   VIEW_MODE,
 } from '../../global/constants'
@@ -28,15 +31,8 @@ import {parseRawData} from '../../global/dataParsing'
 import {Overview} from '../../global/typeUtils'
 
 const preselectedGeoIds = ['US', 'CN', 'DE', 'FR', 'ES', 'IT', 'CH']
-const preselectedContinents = [
-  CONTINENT.ASIA,
-  CONTINENT.EUROPE,
-  CONTINENT.NORTH_AMERICA,
-  CONTINENT.SOUTH_AMERICA,
-  CONTINENT.AUSTRALIA,
-  CONTINENT.AFRICA,
-  CONTINENT.ANTARCTICA,
-]
+const preselectedContinents = Object.values(CONTINENT)
+const preselectedPopulationCategories = Object.values(POPULATION_CATEGORY)
 
 const initialState: Overview = {
   notification: null,
@@ -54,11 +50,34 @@ const initialState: Overview = {
   },
   filters: {
     continent: [],
+    population: [],
   },
   allGeoIds: [],
   selectedGeoIds: {},
   tourEnabled: false,
   tourCompleted: false,
+}
+
+function processFiltersForGeoId(state: Overview, geoId: string): boolean {
+  const passesContinentFilter = state.filters.continent.some(continent => CONTINENT_GEOID_MAP[continent][geoId])
+  if (!passesContinentFilter) {
+    return false
+  }
+
+  const passesPopulationFilter = state.filters.population.some(populationCategory => {
+    const population = state.data.geoIdInfo[geoId].population
+    const fitsLowerLimit = POPULATION_CATEGORY_LIMITS[populationCategory].lowerLimit <= population
+    const fitsUpperLimit =
+      POPULATION_CATEGORY_LIMITS[populationCategory].upperLimit === null
+      || population < POPULATION_CATEGORY_LIMITS[populationCategory].upperLimit
+
+    return fitsLowerLimit && fitsUpperLimit
+  })
+  if (!passesPopulationFilter) {
+    return false
+  }
+
+  return true
 }
 
 export const overview = (state = initialState, action: Record<string, any> = {}) => {
@@ -150,6 +169,24 @@ export const overview = (state = initialState, action: Record<string, any> = {})
         }
       }
 
+      if (params.filtersPopulation) {
+        const populationCategories = new Set() as Set<POPULATION_CATEGORY>
+
+        params.filtersPopulation.split(URL_ELEMENT_SEPARATOR).map(populationCategory => {
+          if (Object.values(POPULATION_CATEGORY).includes(populationCategory)) {
+            populationCategories.add(populationCategory)
+          }
+        })
+
+        newStateParams = {
+          ...newStateParams,
+          filters: {
+            ...newStateParams.filters,
+            population: [...populationCategories],
+          },
+        }
+      }
+
       return newStateParams
 
     case ACTION_GET_DATA_START:
@@ -200,6 +237,11 @@ export const overview = (state = initialState, action: Record<string, any> = {})
         selectedFiltersContinent = preselectedContinents
       }
 
+      let selectedFiltersPopulation = state.filters?.population || []
+      if (selectedFiltersPopulation.length === 0) {
+        selectedFiltersPopulation = preselectedPopulationCategories
+      }
+
       return {
         ...state,
         loadingStatus: ASYNC_STATUS.SUCCESS,
@@ -214,6 +256,7 @@ export const overview = (state = initialState, action: Record<string, any> = {})
         filters: {
           ...state.filters,
           continent: selectedFiltersContinent,
+          population: selectedFiltersPopulation,
         },
       }
 
@@ -288,10 +331,40 @@ export const overview = (state = initialState, action: Record<string, any> = {})
       }
     }
 
+    case ACTION_CHANGE_FILTERS_POPULATION: {
+      let newPopulationCategories
+
+      switch (action.population) {
+        default:
+          newPopulationCategories = new Set([...state.filters.population])
+
+          if (newPopulationCategories.has(action.population)) {
+            newPopulationCategories.delete(action.population)
+          } else {
+            newPopulationCategories.add(action.population)
+          }
+          break
+        case 'all':
+          newPopulationCategories = Object.values(POPULATION_CATEGORY)
+          break
+        case 'none':
+          newPopulationCategories = []
+          break
+      }
+
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          population: [...newPopulationCategories],
+        },
+      }
+    }
+
     case ACTION_UPDATE_GEOID_VISIBILITY:
       const visibleGeoIds = {}
       state.data.allGeoIds.map(geoId => {
-        visibleGeoIds[geoId] = state.filters.continent.some(continent => CONTINENT_GEOID_MAP[continent][geoId])
+        visibleGeoIds[geoId] = processFiltersForGeoId(state, geoId)
       })
 
       return {

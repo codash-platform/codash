@@ -7,6 +7,7 @@ import {
   Data,
   DataEntry,
   DateFilter,
+  GeoIdInfo,
   GraphData,
   InitialDataEntry,
   LineData,
@@ -23,7 +24,7 @@ export const parseRawData = (rawData: Array<RawData>): Data => {
   const globalPerDay: Record<string, InitialDataEntry> = {}
   const datesAvailable = new Set<string>()
   const geoIds = new Set<string>()
-  const geoIdToNameMapping: Record<string, string> = {}
+  const geoIdInfo: GeoIdInfo = {}
 
   if (!rawData[0]?.dateRep) {
     return null
@@ -32,41 +33,52 @@ export const parseRawData = (rawData: Array<RawData>): Data => {
   rawData.map(record => {
     const cases = parseInt(record.cases)
     const deaths = parseInt(record.deaths)
-    const population = parseInt(record.popData2019) || parseInt(record.popData2018) || getMissingPopulation(record)
-    const name = record.countriesAndTerritories.split('_').join(' ')
+    const population =
+      geoIdInfo[record.geoId]?.population
+      ?? (parseInt(record.popData2019) || parseInt(record.popData2018) || getMissingPopulation(record))
+    const name = geoIdInfo[record.geoId]?.name ?? record.countriesAndTerritories.split('_').join(' ')
     const dateKey = moment(record.dateRep, DATE_FORMAT_ECDC).format(DATE_FORMAT_APP)
 
     datesAvailable.add(dateKey)
     geoIds.add(record.geoId)
-    geoIdToNameMapping[record.geoId] = name
+    geoIdInfo[record.geoId] = {
+      name: name,
+      population: population,
+    }
 
     if (!initialPerDateData[dateKey]) {
       initialPerDateData[dateKey] = []
     }
 
     initialPerDateData[dateKey].push({
-      name: name,
       [METRIC.CASES_NEW]: cases,
       [METRIC.DEATHS_NEW]: deaths,
       geoId: record.geoId,
-      population: population,
     })
 
     if (!globalPerDay[dateKey]) {
-      globalPerDay[dateKey] = createInitialEntryPerCountry('Combined Data', GEOID_WORLD_WIDE_COMBINED, 0)
-      geoIdToNameMapping[GEOID_WORLD_WIDE_COMBINED] = 'Combined Data'
+      globalPerDay[dateKey] = createInitialEntryPerCountry(GEOID_WORLD_WIDE_COMBINED)
     }
 
     globalPerDay[dateKey][METRIC.CASES_NEW] += cases
     globalPerDay[dateKey][METRIC.DEATHS_NEW] += deaths
-    globalPerDay[dateKey].population += population
   })
+
+  let globalPopulation = 0
+  Object.values(geoIdInfo).map(geoIdInfo => {
+    globalPopulation += geoIdInfo.population
+  })
+  geoIdInfo[GEOID_WORLD_WIDE_COMBINED] = {
+    name: 'Combined Data',
+    population: globalPopulation,
+  }
+
   for (const dateKey of Object.keys(initialPerDateData)) {
     initialPerDateData[dateKey].push(globalPerDay[dateKey])
-    ratesPerDateData[dateKey] = calculateRatesData(initialPerDateData[dateKey])
+    ratesPerDateData[dateKey] = calculateRatesData(initialPerDateData[dateKey], geoIdInfo)
   }
   const sortedDates = getSortedDates(datesAvailable)
-  const perDateData = calculateAccumulatedData(ratesPerDateData, sortedDates)
+  const perDateData = calculateAccumulatedData(ratesPerDateData, sortedDates, geoIdInfo)
 
   const allGeoIds = [...geoIds].sort()
   const visibleGeoIds = {}
@@ -81,7 +93,7 @@ export const parseRawData = (rawData: Array<RawData>): Data => {
     datesAvailable: sortedDates,
     visibleGeoIds: visibleGeoIds,
     allGeoIds: allGeoIds,
-    geoIdToNameMapping: geoIdToNameMapping,
+    geoIdInfo: geoIdInfo,
     perDateData: perDateData,
   }
 }
@@ -90,11 +102,14 @@ const getSortedDates = (datesSet: Set<string>): string[] => {
   return [...datesSet].sort((a, b) => moment(a, DATE_FORMAT_APP).unix() - moment(b, DATE_FORMAT_APP).unix())
 }
 
-const calculateRatesData = <T extends InitialDataEntry, U extends RatesDataEntry>(data: T[]): U[] => {
+const calculateRatesData = <T extends InitialDataEntry, U extends RatesDataEntry>(
+  data: T[],
+  geoIdInfo: GeoIdInfo
+): U[] => {
   const result: RatesDataEntry[] = data.map(element => ({
     ...element,
-    [METRIC.CASES_PER_CAPITA]: calculateRate(element[METRIC.CASES_NEW], element.population, 1000000),
-    [METRIC.DEATHS_PER_CAPITA]: calculateRate(element[METRIC.DEATHS_NEW], element.population, 1000000),
+    [METRIC.CASES_PER_CAPITA]: calculateRate(element[METRIC.CASES_NEW], geoIdInfo[element.geoId].population, 1000000),
+    [METRIC.DEATHS_PER_CAPITA]: calculateRate(element[METRIC.DEATHS_NEW], geoIdInfo[element.geoId].population, 1000000),
     [METRIC.MORTALITY_PERCENTAGE]: calculateRate(element[METRIC.DEATHS_NEW], element[METRIC.CASES_NEW], 100),
   }))
 
@@ -103,7 +118,8 @@ const calculateRatesData = <T extends InitialDataEntry, U extends RatesDataEntry
 
 const calculateAccumulatedData = (
   perDateData: Record<string, InitialDataEntry[]>,
-  sortedDates: string[]
+  sortedDates: string[],
+  geoIdInfo: GeoIdInfo
 ): Record<string, DataEntry[]> => {
   const perGeoIdAccumulatedData: Record<string, Partial<AccumulatedDataEntry>> = {}
 
@@ -124,12 +140,12 @@ const calculateAccumulatedData = (
 
       entry[METRIC.CASES_PER_CAPITA_ACCUMULATED] = calculateRate(
         perGeoIdAccumulatedData[entry.geoId][METRIC.CASES_ACCUMULATED],
-        entry.population,
+        geoIdInfo[entry.geoId].population,
         1000000
       )
       entry[METRIC.DEATHS_PER_CAPITA_ACCUMULATED] = calculateRate(
         perGeoIdAccumulatedData[entry.geoId][METRIC.DEATHS_ACCUMULATED],
-        entry.population,
+        geoIdInfo[entry.geoId].population,
         1000000
       )
       entry[METRIC.MORTALITY_PERCENTAGE_ACCUMULATED] = calculateRate(
@@ -147,7 +163,8 @@ const parseSectionData = (
   perDateData: Record<string, InitialDataEntry[]> = {},
   startDate: moment.Moment,
   endDate: moment.Moment,
-  visibleGeoIds: Record<string, boolean>
+  visibleGeoIds: Record<string, boolean>,
+  geoIdInfo: GeoIdInfo
 ): DataEntry[] => {
   const perGeoIdData = {}
 
@@ -166,7 +183,7 @@ const parseSectionData = (
       }
 
       if (!perGeoIdData[entry.geoId]) {
-        perGeoIdData[entry.geoId] = createInitialEntryPerCountry(entry.name, entry.geoId, entry.population)
+        perGeoIdData[entry.geoId] = createInitialEntryPerCountry(entry.geoId)
       }
       perGeoIdData[entry.geoId][METRIC.CASES_NEW] += entry[METRIC.CASES_NEW]
       perGeoIdData[entry.geoId][METRIC.DEATHS_NEW] += entry[METRIC.DEATHS_NEW]
@@ -180,7 +197,7 @@ const parseSectionData = (
     }
 
     if (!perGeoIdData[entry.geoId]) {
-      perGeoIdData[entry.geoId] = createInitialEntryPerCountry(entry.name, entry.geoId, entry.population)
+      perGeoIdData[entry.geoId] = createInitialEntryPerCountry(entry.geoId)
     }
     perGeoIdData[entry.geoId][METRIC.CASES_ACCUMULATED] = entry[METRIC.CASES_ACCUMULATED]
     perGeoIdData[entry.geoId][METRIC.DEATHS_ACCUMULATED] = entry[METRIC.DEATHS_ACCUMULATED]
@@ -191,7 +208,7 @@ const parseSectionData = (
 
   const resultData: InitialDataEntry[] = Object.values(perGeoIdData)
 
-  return calculateRatesData(resultData)
+  return calculateRatesData(resultData, geoIdInfo)
 }
 
 const calculateRate = (cases: number, total: number, referenceRate: number): number => {
@@ -210,13 +227,11 @@ const changePrecision = (number: number, precision: number): number => {
   return roundedTempNumber / factor
 }
 
-const createInitialEntryPerCountry = (name: string, geoId: string, population: number): InitialDataEntry => {
+const createInitialEntryPerCountry = (geoId: string): InitialDataEntry => {
   return {
     [METRIC.CASES_NEW]: 0,
     [METRIC.DEATHS_NEW]: 0,
-    name: name,
     geoId: geoId,
-    population: population,
   }
 }
 
@@ -251,21 +266,24 @@ export const getTableData = (
   const startDate = moment(dateFilter.startDate, DATE_FORMAT_APP)
   const endDate = moment(dateFilter.endDate, DATE_FORMAT_APP)
 
-  const sectionData = parseSectionData(data?.perDateData, startDate, endDate, data?.visibleGeoIds)
+  const sectionData = parseSectionData(data?.perDateData, startDate, endDate, data?.visibleGeoIds, data?.geoIdInfo)
 
-  return addSelectionColumn(sectionData, selectedGeoIds, maxSelectionReached)
+  return addExtraInfo(sectionData, selectedGeoIds, maxSelectionReached, data.geoIdInfo)
 }
 
-const addSelectionColumn = (
+const addExtraInfo = (
   tableData: DataEntry[],
   selectedGeoIds: Record<string, boolean>,
-  maxSelectionReached: boolean
+  maxSelectionReached: boolean,
+  geoIdInfo: GeoIdInfo
 ): TableDataEntry[] => {
   return tableData.map(entry => {
     return {
       ...entry,
       selected: !!selectedGeoIds[entry.geoId],
       maxSelectionReached: maxSelectionReached,
+      name: geoIdInfo[entry.geoId].name,
+      population: geoIdInfo[entry.geoId].population,
     }
   })
 }
@@ -306,13 +324,13 @@ export const getGraphData = (
   }
 
   if (lineGraphVisible) {
-    const {lineData, logarithmParams} = getLineGraphData(cleanedData, data.geoIdToNameMapping, propertyName, graphScale)
+    const {lineData, logarithmParams} = getLineGraphData(cleanedData, data.geoIdInfo, propertyName, graphScale)
     result.lineData = lineData
     result.logarithmParams = logarithmParams
   }
 
   if (barGraphVisible) {
-    result.barData = getBarGraphData(cleanedData, data.geoIdToNameMapping, selectedGeoIds, propertyName)
+    result.barData = getBarGraphData(cleanedData, data.geoIdInfo, selectedGeoIds, propertyName)
   }
 
   return result as GraphData
@@ -320,7 +338,7 @@ export const getGraphData = (
 
 const getBarGraphData = (
   cleanedData: Record<string, DataEntry[]>,
-  geoIdToNameMapping: Record<string, string>,
+  geoIdInfo: GeoIdInfo,
   selectedGeoIds: Record<string, boolean>,
   propertyName: string
 ): BarData => {
@@ -329,8 +347,8 @@ const getBarGraphData = (
   for (const [dateKey, entriesForDate] of Object.entries(cleanedData)) {
     const newEntry = {date: dateKey, nameToGeoId: {}}
     entriesForDate.forEach(entry => {
-      newEntry[geoIdToNameMapping[entry.geoId]] = entry[propertyName]
-      newEntry.nameToGeoId[geoIdToNameMapping[entry.geoId]] = entry.geoId
+      newEntry[geoIdInfo[entry.geoId].name] = entry[propertyName]
+      newEntry.nameToGeoId[geoIdInfo[entry.geoId].name] = entry.geoId
     })
     parsedData.push(newEntry)
   }
@@ -340,7 +358,7 @@ const getBarGraphData = (
     .map(([key, value]) => key)
     .sort()
 
-  const keys = geoIdList.map(geoId => geoIdToNameMapping[geoId])
+  const keys = geoIdList.map(geoId => geoIdInfo[geoId].name)
 
   return {
     keys: keys,
@@ -350,7 +368,7 @@ const getBarGraphData = (
 
 const getLineGraphData = (
   cleanedData: Record<string, DataEntry[]>,
-  geoIdToNameMapping: Record<string, string>,
+  geoIdInfo: GeoIdInfo,
   propertyName: string,
   graphScale: string
 ): LineGraphData => {
@@ -395,7 +413,7 @@ const getLineGraphData = (
     .reverse()
     .map(geoId => {
       result.push({
-        id: geoIdToNameMapping[geoId] ?? geoId,
+        id: geoIdInfo[geoId].name ?? geoId,
         geoId: geoId,
         data: sortArrayByDateProperty(parsedData[geoId], 'x'),
       })

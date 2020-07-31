@@ -5,6 +5,7 @@ import {
   ASYNC_STATUS,
   CONTINENT,
   METRIC,
+  POPULATION_CATEGORY,
   TABLE_TYPE,
 } from './constants'
 import React from 'react'
@@ -55,8 +56,15 @@ export interface Data {
   datesAvailable: string[];
   visibleGeoIds: Record<string, boolean>;
   allGeoIds: string[];
-  geoIdToNameMapping: Record<string, string>;
+  geoIdInfo: GeoIdInfo;
   perDateData: Record<string, DataEntry[]>;
+}
+
+export type GeoIdInfo = Record<string, GeoIdInfoEntry>
+
+export type GeoIdInfoEntry = {
+  name: string;
+  population: number;
 }
 
 export interface Notification {
@@ -83,6 +91,12 @@ export interface Overview {
 
 export interface Filters {
   continent: CONTINENT[];
+  population: POPULATION_CATEGORY[];
+}
+
+export type PopulationCategoryLimits = {
+  lowerLimit: number;
+  upperLimit?: number;
 }
 
 export interface TableOverview {
@@ -141,9 +155,7 @@ export interface RatesEntry {
 }
 
 export interface InitialDataEntry {
-  name: string;
   geoId: string;
-  population: number;
   [METRIC.CASES_NEW]: number;
   [METRIC.DEATHS_NEW]: number;
 }

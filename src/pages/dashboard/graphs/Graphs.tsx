@@ -49,7 +49,7 @@ class GraphsComponent extends Component<GraphsComponentProps> {
   getColorForDataSet = dataObject => {
     const {selectedGeoIds, data} = this.props.overview
 
-    if (!selectedGeoIds || !data?.geoIdToNameMapping) {
+    if (!selectedGeoIds || !data?.geoIdInfo) {
       return colors[0]
     }
 
@@ -78,7 +78,7 @@ class GraphsComponent extends Component<GraphsComponentProps> {
 
   getColorForTooltip = dataGeoId => {
     const {selectedGeoIds, data} = this.props.overview
-    if (!selectedGeoIds || !data?.geoIdToNameMapping) {
+    if (!selectedGeoIds || !data?.geoIdInfo) {
       return colors[0]
     }
 

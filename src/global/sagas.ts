@@ -4,6 +4,7 @@ import {
   ACTION_CHANGE_DATE_FILTER_INTERVAL,
   ACTION_CHANGE_DATE_FILTER_MODE,
   ACTION_CHANGE_FILTERS_CONTINENT,
+  ACTION_CHANGE_FILTERS_POPULATION,
   ACTION_CHANGE_GEOID_SELECTION,
   ACTION_CHANGE_GRAPH_MODE,
   ACTION_CHANGE_GRAPH_SCALE,
@@ -68,6 +69,7 @@ function* changeUrl() {
       startDate: state.overview?.dateFilter?.startDate || ROUTE_EMPTY_PARAM,
       endDate: state.overview?.dateFilter?.endDate || ROUTE_EMPTY_PARAM,
       filtersContinent: state.overview?.filters?.continent?.join(URL_ELEMENT_SEPARATOR) || ROUTE_EMPTY_PARAM,
+      filtersPopulation: state.overview?.filters?.population?.join(URL_ELEMENT_SEPARATOR) || ROUTE_EMPTY_PARAM,
       graphMode: state.graphOverview?.graphMode || ROUTE_EMPTY_PARAM,
       graphScale: state.graphOverview?.graphScale || ROUTE_EMPTY_PARAM,
       metricsVisible: state.graphOverview?.metricsVisible?.join(URL_ELEMENT_SEPARATOR) || ROUTE_EMPTY_PARAM,
@@ -109,5 +111,7 @@ export function* generalSaga() {
   yield takeLatest([ACTION_GET_DATA_SUCCESS, ACTION_REPARSE_DATA], () =>
     action(ACTION_CHANGE_DATE_FILTER_MODE, {filterMode: DATE_FILTER.LAST_14_DAYS})
   )
-  yield takeLatest([ACTION_CHANGE_FILTERS_CONTINENT], () => action(ACTION_UPDATE_GEOID_VISIBILITY))
+  yield takeLatest([ACTION_CHANGE_FILTERS_CONTINENT, ACTION_CHANGE_FILTERS_POPULATION], () =>
+    action(ACTION_UPDATE_GEOID_VISIBILITY)
+  )
 }

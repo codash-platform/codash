@@ -37,7 +37,7 @@ export const colors = [
   '#fb9a99',
   '#b2df8a',
   '#b15928',
-  '#ffff99',
+  '#f1f10f',
 ]
 
 interface GraphsComponentProps extends WithTranslation {

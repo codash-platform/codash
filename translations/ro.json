@@ -121,5 +121,12 @@
     "general:filter_continent_south_america": "America de Sud",
     "general:filter_continent_australia": "Australia",
     "general:filter_continent_africa": "Africa",
-    "general:filter_continent_antarctica": "Antarctica"
+    "general:filter_continent_antarctica": "Antarctica",
+    "menu:filters_population_label": "Mărime Populație",
+    "general:filter_population_all": "Toate",
+    "general:filter_population_none": "Niciuna",
+    "general:filter_population_small": "Mică 0 - 1M",
+    "general:filter_population_medium": "Medie 1M - 10M",
+    "general:filter_population_big": "Mare 10M - 100M",
+    "general:filter_population_huge": "Enormă 100M+"
 }

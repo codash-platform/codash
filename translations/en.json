@@ -128,5 +128,6 @@
     "general:filter_population_small": "Small 0 - 1M",
     "general:filter_population_medium": "Medium 1M - 10M",
     "general:filter_population_big": "Big 10M - 100M",
-    "general:filter_population_huge": "Huge 100M+"
+    "general:filter_population_huge": "Huge 100M+",
+    "graph:no_element_visible": "No country fits the filter and selection criteria. Please use the checkbox from the first column of the tables and enable more countries via the filters."
 }

@@ -130,7 +130,7 @@ class GraphsComponent extends Component<GraphsComponentProps> {
           graphScale
         )
 
-        if (lineGraphVisible) {
+        if (lineGraphVisible && processedData.lineData?.length) {
           graphs.push(
             <Card key={`line-${metricName}`} className="mb-3">
               <Card.Header>
@@ -147,7 +147,7 @@ class GraphsComponent extends Component<GraphsComponentProps> {
           )
         }
 
-        if (barGraphVisible) {
+        if (barGraphVisible && processedData.barData?.data.length) {
           graphs.push(
             <Card key={`bar-${metricName}`} className="mb-3">
               <Card.Header>
@@ -166,6 +166,10 @@ class GraphsComponent extends Component<GraphsComponentProps> {
           )
         }
       })
+
+    if (graphs.length === 0) {
+      return <NotificationBoxElement messagePlaceholder={t('graph:no_element_visible')} variant="warning" />
+    }
 
     return graphs
   }

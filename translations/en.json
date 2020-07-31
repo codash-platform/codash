@@ -121,5 +121,12 @@
     "general:filter_continent_south_america": "South America",
     "general:filter_continent_australia": "Australia",
     "general:filter_continent_africa": "Africa",
-    "general:filter_continent_antarctica": "Antarctica"
+    "general:filter_continent_antarctica": "Antarctica",
+    "menu:filters_population_label": "Population Size",
+    "general:filter_population_all": "All",
+    "general:filter_population_none": "None",
+    "general:filter_population_small": "Small 0 - 1M",
+    "general:filter_population_medium": "Medium 1M - 10M",
+    "general:filter_population_big": "Big 10M - 100M",
+    "general:filter_population_huge": "Huge 100M+"
 }

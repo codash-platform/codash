@@ -35,6 +35,13 @@ const mergeStrategy = {
   'entry.js': 'prepend',
 }
 
+const cssLoaderWithOptions = {
+  loader: 'css-loader',
+  options: {
+    url: false,
+  },
+}
+
 // config used as a base for both production and development
 const baseConfig = {
   context: sourcePath,
@@ -156,11 +163,11 @@ if (isProd) {
       rules: [
         {
           test: /\.scss$/,
-          use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+          use: [MiniCssExtractPlugin.loader, cssLoaderWithOptions, 'sass-loader'],
         },
         {
           test: /\.css$/,
-          use: [MiniCssExtractPlugin.loader, 'css-loader'],
+          use: [MiniCssExtractPlugin.loader, cssLoaderWithOptions],
         },
       ],
     },
@@ -196,7 +203,7 @@ if (isProd) {
           test: /\.scss$/,
           use: [
             'style-loader', // fallback to style-loader in development for hot reload
-            'css-loader',
+            cssLoaderWithOptions,
             'sass-loader',
           ],
         },
@@ -204,7 +211,7 @@ if (isProd) {
           test: /\.css$/,
           use: [
             'style-loader', // fallback to style-loader in development for hot reload
-            'css-loader',
+            cssLoaderWithOptions,
           ],
         },
       ],

@@ -62,7 +62,7 @@
     "bootstrap": "~4.5.0",
     "classnames": "~2.2.6",
     "copy-webpack-plugin": "~6.0.3",
-    "css-loader": "~3.6.0",
+    "css-loader": "~4.2.0",
     "dotenv": "latest",
     "dotenv-safe": "~8.2.0",
     "dotenv-webpack": "~2.0.0",

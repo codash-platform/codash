@@ -36,7 +36,6 @@
     "prettier-eslint-cli": "~5.0.0",
     "source-map-loader": "~1.0.1",
     "style-loader": "~1.2.1",
-    "ts-loader": "~7.0.5",
     "typescript": "~3.9.7",
     "webpack-dev-server": "~3.11.0"
   },
@@ -68,7 +67,7 @@
     "dotenv-safe": "~8.2.0",
     "dotenv-webpack": "~2.0.0",
     "file-loader": "~6.0.0",
-    "fork-ts-checker-webpack-plugin": "~4.1.6",
+    "fork-ts-checker-webpack-plugin": "~5.0.13",
     "google-fonts-plugin": "~5.0.2",
     "html-webpack-plugin": "~4.3.0",
     "i18next": "~19.6.3",

@@ -114,9 +114,13 @@ const baseConfig = {
     }),
     new ForkTsCheckerWebpackPlugin({
       async: false,
-      eslint: true,
-      ignoreLintWarnings: true,
-      tsconfig: tsConfigPath,
+      eslint: {
+        enabled: false,
+        files: '**/*.{ts,tsx}',
+      },
+      typescript: {
+        configFile: tsConfigPath,
+      },
     }),
     // downloads fonts directly from google fonts
     new GoogleFontsPlugin({

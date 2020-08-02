@@ -6,7 +6,7 @@ import {ACTION_CHANGE_DATE_FILTER_INTERVAL, ACTION_TOGGLE_DATE_FILTER, DATE_FORM
 import {action} from '../global/util'
 import {Overview} from '../global/typeUtils'
 
-interface DateFilterComponentProps extends React.HTMLProps<{}> {
+interface DateFilterComponentProps extends React.HTMLProps<HTMLDivElement> {
   overview: Overview;
   isDeviceDesktop: boolean;
 }

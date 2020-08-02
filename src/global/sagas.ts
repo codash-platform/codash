@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {call, put, select, takeLatest} from 'redux-saga/effects'
+import {call, put, select, takeLatest, ForkEffect} from 'redux-saga/effects'
 import {
   ACTION_CHANGE_DATE_FILTER_INTERVAL,
   ACTION_CHANGE_DATE_FILTER_MODE,
@@ -105,7 +105,7 @@ function* changeUrl() {
   }
 }
 
-export function* generalSaga() {
+export function* generalSaga(): Generator<ForkEffect<never>> {
   yield takeLatest(ACTION_GET_DATA_START, getData)
   yield takeLatest(routingActions, changeUrl)
   yield takeLatest([ACTION_GET_DATA_SUCCESS, ACTION_REPARSE_DATA], () =>

@@ -1,5 +1,6 @@
 import {IconDefinition} from '@fortawesome/fontawesome-svg-core'
 import {
+  ACTION_CHANGE_SIZE_PER_PAGE,
   ACTION_EXPAND_ONLY_SIDEBAR_MENU,
   ACTION_TOGGLE_SIDEBAR_MENU,
   ASYNC_STATUS,
@@ -8,15 +9,16 @@ import {
   POPULATION_CATEGORY,
   TABLE_TYPE,
 } from './constants'
-import React from 'react'
 import {FocusedInputShape} from 'react-dates'
-import {ColumnDescription, HeaderFormatter} from 'react-bootstrap-table-next'
+import {ColumnDescription} from 'react-bootstrap-table-next'
 import {Variant} from 'react-bootstrap/esm/types'
+import {AnyAction} from 'redux'
+import {CustomHeaderFormatter} from '../pages/dashboard/tables/Tables'
 
 export type SubMenuT = {
   labelPlaceholder: string;
   key: string | number;
-  action: Function;
+  action: () => AnyAction
 }
 
 export type MenuDataT = {
@@ -197,9 +199,9 @@ export type BarEntryData = {
   nameToGeoId: Record<string, string>;
 }
 
-export interface ColumnEntry extends Partial<ColumnDescription> {
+export interface ColumnEntry extends Partial<Omit<ColumnDescription, 'headerFormatter'>> {
   text?: string;
   textPlaceholder?: string;
-  headerFormatter?: HeaderFormatter;
+  headerFormatter?: CustomHeaderFormatter<Record<string, unknown>>;
   infoPlaceholder?: string;
 }

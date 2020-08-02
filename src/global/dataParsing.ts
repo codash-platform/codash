@@ -104,7 +104,7 @@ const getSortedDates = (datesSet: Set<string>): string[] => {
 
 const calculateRatesData = <T extends InitialDataEntry, U extends RatesDataEntry>(
   data: T[],
-  geoIdInfo: GeoIdInfo
+  geoIdInfo: GeoIdInfo,
 ): U[] => {
   const result: RatesDataEntry[] = data.map(element => ({
     ...element,
@@ -119,7 +119,7 @@ const calculateRatesData = <T extends InitialDataEntry, U extends RatesDataEntry
 const calculateAccumulatedData = (
   perDateData: Record<string, InitialDataEntry[]>,
   sortedDates: string[],
-  geoIdInfo: GeoIdInfo
+  geoIdInfo: GeoIdInfo,
 ): Record<string, DataEntry[]> => {
   const perGeoIdAccumulatedData: Record<string, Partial<AccumulatedDataEntry>> = {}
 
@@ -141,17 +141,17 @@ const calculateAccumulatedData = (
       entry[METRIC.CASES_PER_CAPITA_ACCUMULATED] = calculateRate(
         perGeoIdAccumulatedData[entry.geoId][METRIC.CASES_ACCUMULATED],
         geoIdInfo[entry.geoId].population,
-        1000000
+        1000000,
       )
       entry[METRIC.DEATHS_PER_CAPITA_ACCUMULATED] = calculateRate(
         perGeoIdAccumulatedData[entry.geoId][METRIC.DEATHS_ACCUMULATED],
         geoIdInfo[entry.geoId].population,
-        1000000
+        1000000,
       )
       entry[METRIC.MORTALITY_PERCENTAGE_ACCUMULATED] = calculateRate(
         perGeoIdAccumulatedData[entry.geoId][METRIC.DEATHS_ACCUMULATED],
         perGeoIdAccumulatedData[entry.geoId][METRIC.CASES_ACCUMULATED],
-        100
+        100,
       )
     })
   }
@@ -164,7 +164,7 @@ const parseSectionData = (
   startDate: moment.Moment,
   endDate: moment.Moment,
   visibleGeoIds: Record<string, boolean>,
-  geoIdInfo: GeoIdInfo
+  geoIdInfo: GeoIdInfo,
 ): DataEntry[] => {
   const perGeoIdData = {}
 
@@ -261,7 +261,7 @@ export const getTableData = (
   data: Data,
   dateFilter: DateFilter,
   selectedGeoIds: Record<string, boolean>,
-  maxSelectionReached: boolean
+  maxSelectionReached: boolean,
 ): TableDataEntry[] => {
   const startDate = moment(dateFilter.startDate, DATE_FORMAT_APP)
   const endDate = moment(dateFilter.endDate, DATE_FORMAT_APP)
@@ -275,7 +275,7 @@ const addExtraInfo = (
   tableData: DataEntry[],
   selectedGeoIds: Record<string, boolean>,
   maxSelectionReached: boolean,
-  geoIdInfo: GeoIdInfo
+  geoIdInfo: GeoIdInfo,
 ): TableDataEntry[] => {
   return tableData.map(entry => {
     return {
@@ -295,7 +295,7 @@ export const getGraphData = (
   propertyName: string,
   lineGraphVisible: boolean,
   barGraphVisible: boolean,
-  graphScale: string
+  graphScale: string,
 ): Partial<GraphData> => {
   const result: Partial<GraphData> = {}
 
@@ -319,7 +319,7 @@ export const getGraphData = (
     }
 
     cleanedData[dateKey] = entriesForDate.filter(
-      entry => selectedGeoIds[entry.geoId] && data.visibleGeoIds[entry.geoId]
+      entry => selectedGeoIds[entry.geoId] && data.visibleGeoIds[entry.geoId],
     )
   }
 
@@ -340,7 +340,7 @@ const getBarGraphData = (
   cleanedData: Record<string, DataEntry[]>,
   geoIdInfo: GeoIdInfo,
   selectedGeoIds: Record<string, boolean>,
-  propertyName: string
+  propertyName: string,
 ): BarData => {
   const parsedData: BarEntryData[] = []
 
@@ -370,7 +370,7 @@ const getLineGraphData = (
   cleanedData: Record<string, DataEntry[]>,
   geoIdInfo: GeoIdInfo,
   propertyName: string,
-  graphScale: string
+  graphScale: string,
 ): LineGraphData => {
   const result: LineData[] = []
   const parsedData: Record<string, LineParsedData[]> = {}
@@ -425,8 +425,8 @@ const getLineGraphData = (
   }
 }
 
-const sortArrayByDateProperty = <T extends Record<string, any>>(array: Array<T>, datePropertyKey: string): Array<T> => {
+const sortArrayByDateProperty = <T extends Record<string, unknown>>(array: Array<T>, datePropertyKey: string): Array<T> => {
   return array.sort(
-    (a, b) => moment(a[datePropertyKey], DATE_FORMAT_APP).unix() - moment(b[datePropertyKey], DATE_FORMAT_APP).unix()
+    (a, b) => moment(a[datePropertyKey], DATE_FORMAT_APP).unix() - moment(b[datePropertyKey], DATE_FORMAT_APP).unix(),
   )
 }

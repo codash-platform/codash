@@ -21,14 +21,14 @@ interface TableComponentProps extends WithTranslation {
   tableOverview: TableOverview;
 }
 
-export type CustomHeaderFormatter<T extends object = any> = (
+export type CustomHeaderFormatter<T extends Record<string, unknown>> = (
   column: ColumnDescription<T>,
   colIndex: number,
   components: {
     sortElement: React.ReactNode;
     filterElement: React.ReactNode;
   },
-  infoPlaceholder?: string
+  infoPlaceholder?: string,
 ) => React.ReactNode
 
 class TableComponent extends Component<TableComponentProps> {
@@ -40,7 +40,7 @@ class TableComponent extends Component<TableComponentProps> {
     return cell.toLocaleString(LOCALE_DEFAULT)
   }
 
-  headerFormatter: CustomHeaderFormatter = (column, colIndex, components, infoPlaceholder) => {
+  headerFormatter: CustomHeaderFormatter<Record<string, unknown>> = (column, colIndex, components, infoPlaceholder) => {
     return (
       <>
         <div>{column.text}</div>
@@ -216,7 +216,7 @@ class TableComponent extends Component<TableComponentProps> {
               }
               const geoIdData = processedData.filter(entry => entry.geoId !== GEOID_WORLD_WIDE_COMBINED)
               const rankColumns = this.columns.filter(column =>
-                ['selected', 'name', tableType].includes(column.dataField)
+                ['selected', 'name', tableType].includes(column.dataField),
               )
 
               // insert the rank column as the second one in the table

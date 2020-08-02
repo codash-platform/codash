@@ -11,29 +11,30 @@ import {ACTION_CHANGE_SIZE_PER_PAGE, TABLE_TYPE} from '../../../global/constants
 import {action} from '../../../global/util'
 import {WithTranslation} from 'react-i18next'
 import {ColumnEntry, TableDataEntry} from '../../../global/typeUtils'
+import {CustomHeaderFormatter} from './Tables'
 
 interface CustomTableProps extends Partial<WithTranslation> {
   sizePerPage: number;
   count: number;
   data: TableDataEntry[];
   columns: ColumnEntry[];
-  headerFormatter: Function;
+  headerFormatter: CustomHeaderFormatter<Record<string, unknown>>;
   tableType: string;
   defaultSorted?: string;
   smallPagination?: boolean;
 }
 
 export const CustomTable: FC<CustomTableProps> = ({
-  sizePerPage,
-  count,
-  t,
-  data,
-  columns,
-  headerFormatter,
-  tableType,
-  defaultSorted,
-  smallPagination,
-}) => {
+                                                    sizePerPage,
+                                                    count,
+                                                    t,
+                                                    data,
+                                                    columns,
+                                                    headerFormatter,
+                                                    tableType,
+                                                    defaultSorted,
+                                                    smallPagination,
+                                                  }) => {
   const {SearchBar} = Search
 
   const paginationOptions = {

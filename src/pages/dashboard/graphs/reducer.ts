@@ -5,7 +5,7 @@ import {
   ACTION_PARSE_URL_PARAMS,
   GRAPH_MODE,
   GRAPH_SCALE,
-  METRICS,
+  METRIC,
   URL_ELEMENT_SEPARATOR,
 } from '../../../global/constants'
 import {graphMetricsOrder} from './Graphs'
@@ -15,10 +15,10 @@ const initialState = {
   graphScale: GRAPH_SCALE.LINEAR,
   lineGraphVisible: true,
   barGraphVisible: false,
-  metricsVisible: Object.values(METRICS),
+  metricsVisible: Object.values(METRIC),
 }
 
-export const graphOverview = (state = initialState, action = {}) => {
+export const graphOverview = (state = initialState, action: Record<string, any> = {}) => {
   switch (action.type) {
     case ACTION_CHANGE_GRAPH_MODE:
       return {
@@ -80,7 +80,7 @@ export const graphOverview = (state = initialState, action = {}) => {
       if (params.metricsVisible) {
         const metrics = params.metricsVisible
           .split(URL_ELEMENT_SEPARATOR)
-          .filter(metric => Object.values(METRICS).includes(metric))
+          .filter(metric => Object.values(METRIC).includes(metric))
 
         newStateParams = {
           ...newStateParams,

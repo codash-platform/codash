@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const webpack = require('webpack')
-const merge = require('webpack-merge')
+const {mergeWithCustomize, customizeObject} = require('webpack-merge')
 const TerserPlugin = require('terser-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -7,6 +8,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const GoogleFontsPlugin = require('google-fonts-plugin')
 const DotenvWebpack = require('dotenv-webpack')
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 
 // use absolute paths to avoid build errors and other surprises
 const path = require('path')
@@ -16,6 +18,7 @@ const distPath = path.join(rootPath, './dist')
 const staticPath = path.join(rootPath, './static')
 const stylePath = path.join(rootPath, './style')
 const libPath = path.join(rootPath, './node_modules')
+const tsConfigPath = path.join(rootPath, './tsconfig.json')
 
 // load vars for current config file
 require('dotenv-safe').config({
@@ -30,6 +33,13 @@ let combinedConfig = {}
 // per key merging strategy
 const mergeStrategy = {
   'entry.js': 'prepend',
+}
+
+const cssLoaderWithOptions = {
+  loader: 'css-loader',
+  options: {
+    url: false,
+  },
 }
 
 // config used as a base for both production and development
@@ -53,7 +63,7 @@ const baseConfig = {
     js: [
       path.join(libPath, 'react-dates/initialize.js'),
       path.join(libPath, 'react-dates/lib/css/_datepicker.css'),
-      path.join(sourcePath, 'index.js'),
+      path.join(sourcePath, 'index.tsx'),
       path.join(stylePath, 'app.scss'),
     ],
   },
@@ -70,9 +80,15 @@ const baseConfig = {
         },
       },
       {
-        test: /\.(js|jsx)$/,
+        test: /\.[tj]sx?$/,
         exclude: /node_modules/,
-        use: ['babel-loader'],
+        use: {
+          loader: 'babel-loader',
+          options: {
+            cacheDirectory: true,
+            cacheCompression: false,
+          },
+        },
       },
       {
         test: /.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
@@ -103,6 +119,16 @@ const baseConfig = {
       template: path.join(staticPath, 'index.ejs'),
       inject: 'body',
     }),
+    new ForkTsCheckerWebpackPlugin({
+      async: false,
+      eslint: {
+        enabled: false,
+        files: '**/*.{ts,tsx}',
+      },
+      typescript: {
+        configFile: tsConfigPath,
+      },
+    }),
     // downloads fonts directly from google fonts
     new GoogleFontsPlugin({
       fonts: [
@@ -117,7 +143,7 @@ const baseConfig = {
     }),
   ],
   resolve: {
-    extensions: ['.js', '.jsx', '.scss', '.css'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.scss', '.css'],
     modules: [sourcePath, 'node_modules'],
   },
 }
@@ -137,11 +163,11 @@ if (isProd) {
       rules: [
         {
           test: /\.scss$/,
-          use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+          use: [MiniCssExtractPlugin.loader, cssLoaderWithOptions, 'sass-loader'],
         },
         {
           test: /\.css$/,
-          use: [MiniCssExtractPlugin.loader, 'css-loader'],
+          use: [MiniCssExtractPlugin.loader, cssLoaderWithOptions],
         },
       ],
     },
@@ -158,11 +184,11 @@ if (isProd) {
         filename: 'style.[hash].css',
         chunkFilename: '[id].css',
       }),
-      new CopyWebpackPlugin([{from: staticPath, to: distPath, ignore: ['*.ejs']}]),
+      new CopyWebpackPlugin({patterns: [{from: staticPath, to: distPath, globOptions: {ignore: ['**/*.ejs']}}]}),
     ],
   }
 
-  combinedConfig = merge.strategy(mergeStrategy)(baseConfig, prodConfig)
+  combinedConfig = mergeWithCustomize({customizeObject: customizeObject(mergeStrategy)})(baseConfig, prodConfig)
 } else {
   // development specific settings
   const devConfig = {
@@ -170,14 +196,14 @@ if (isProd) {
       compress: false,
       hot: true,
     },
-    devtool: process.env.DEV_TOOL_MODE,
+    devtool: 'source-map',
     module: {
       rules: [
         {
           test: /\.scss$/,
           use: [
             'style-loader', // fallback to style-loader in development for hot reload
-            'css-loader',
+            cssLoaderWithOptions,
             'sass-loader',
           ],
         },
@@ -185,7 +211,7 @@ if (isProd) {
           test: /\.css$/,
           use: [
             'style-loader', // fallback to style-loader in development for hot reload
-            'css-loader',
+            cssLoaderWithOptions,
           ],
         },
       ],
@@ -198,7 +224,7 @@ if (isProd) {
     },
   }
 
-  combinedConfig = merge.strategy(mergeStrategy)(baseConfig, devConfig)
+  combinedConfig = mergeWithCustomize({customizeObject: customizeObject(mergeStrategy)})(baseConfig, devConfig)
 }
 
 module.exports = combinedConfig

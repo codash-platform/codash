@@ -6,9 +6,14 @@ import {connect} from 'react-redux'
 import {HeaderLogo} from '../header/HeaderLogo'
 import {SidebarMenus} from './SidebarMenus'
 
-class SidebarComponent extends Component {
+export interface SidebarComponentProps {
+  backgroundColor: string;
+  enableSidebarShadow: boolean;
+}
+
+class SidebarComponent extends Component<SidebarComponentProps> {
   render() {
-    let {backgroundColor, enableSidebarShadow} = this.props
+    const {backgroundColor, enableSidebarShadow} = this.props
 
     return (
       <>

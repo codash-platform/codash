@@ -1,12 +1,14 @@
 import moment from 'moment'
 import React, {Component} from 'react'
 import {Col, Row} from 'react-bootstrap'
-import {withTranslation} from 'react-i18next'
+import {withTranslation, WithTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import {DATE_TIME_FORMAT_APP} from '../global/constants'
 import {appName, buildTime} from '../global/variables'
 
-class FooterComponent extends Component {
+type FooterComponentProps = WithTranslation
+
+class FooterComponent extends Component<FooterComponentProps> {
   render() {
     const {t} = this.props
 
@@ -24,9 +26,7 @@ class FooterComponent extends Component {
               {buildTime && (
                 <Col xs={12}>
                   {t('footer:build_time', {
-                    time: moment(buildTime)
-                      .utc()
-                      .format(DATE_TIME_FORMAT_APP),
+                    time: moment(buildTime).utc().format(DATE_TIME_FORMAT_APP),
                   })}
                 </Col>
               )}
@@ -36,6 +36,7 @@ class FooterComponent extends Component {
             {t('footer:data_source')}
             <a
               target="_blank"
+              rel="noreferrer"
               className="font-weight-bold"
               href="https://www.ecdc.europa.eu/en/publications-data/download-todays-data-geographic-distribution-covid-19-cases-worldwide"
             >

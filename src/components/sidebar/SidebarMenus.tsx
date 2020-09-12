@@ -1,33 +1,45 @@
 import {
   faAddressCard,
+  faBalanceScale,
   faChartBar,
   faClock,
+  faGlobe,
   faLayerGroup,
   faRulerCombined,
-  faTasks,
+  faUsers,
 } from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import React, {Component} from 'react'
-import {withTranslation} from 'react-i18next'
+import {WithTranslation, withTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import {
   ACTION_CHANGE_DATE_FILTER_MODE,
+  ACTION_CHANGE_FILTERS_CONTINENT,
+  ACTION_CHANGE_FILTERS_POPULATION,
   ACTION_CHANGE_GRAPH_MODE,
   ACTION_CHANGE_GRAPH_SCALE,
   ACTION_CHANGE_METRIC_GRAPH_VISIBILITY,
   ACTION_CHANGE_VIEW_MODE,
+  CONTINENT,
   DATE_FILTER,
   GRAPH_MODE,
   GRAPH_SCALE,
+  POPULATION_CATEGORY,
   SIDEBAR_MENUS,
   VIEW_MODE,
 } from '../../global/constants'
 import {action} from '../../global/util'
 import {graphMetricsOrder} from '../../pages/dashboard/graphs/Graphs'
 import {SidebarMenuSet} from './SidebarMenuSet'
+import {GraphOverviewT, MenuDataT, Overview} from '../../global/typeUtils'
 
-class SidebarMenusComponent extends Component {
-  menus = [
+export interface SidebarMenusComponentProps extends WithTranslation {
+  graphOverview: GraphOverviewT;
+  overview: Overview;
+}
+
+class SidebarMenusComponent extends Component<SidebarMenusComponentProps> {
+  menus: MenuDataT[] = [
     {
       id: SIDEBAR_MENUS.VIEW_MODE_MENU,
       labelPlaceholder: 'menu:view_mode_label',
@@ -40,6 +52,34 @@ class SidebarMenusComponent extends Component {
       })),
       extraProps: {
         'data-feature-tour': 'view-mode',
+      },
+    },
+    {
+      id: SIDEBAR_MENUS.FILTERS_CONTINENT_MENU,
+      labelPlaceholder: 'menu:filters_continent_label',
+      icon: faGlobe,
+      activeKeys: [],
+      subMenu: ['all', 'none', ...Object.values(CONTINENT)].map(key => ({
+        labelPlaceholder: `general:filter_continent_${key}`,
+        key: key,
+        action: () => action(ACTION_CHANGE_FILTERS_CONTINENT, {continent: key}),
+      })),
+      extraProps: {
+        'data-feature-tour': 'filters-continent',
+      },
+    },
+    {
+      id: SIDEBAR_MENUS.FILTERS_POPULATION_MENU,
+      labelPlaceholder: 'menu:filters_population_label',
+      icon: faUsers,
+      activeKeys: [],
+      subMenu: ['all', 'none', ...Object.values(POPULATION_CATEGORY)].map(key => ({
+        labelPlaceholder: `general:filter_population_${key}`,
+        key: key,
+        action: () => action(ACTION_CHANGE_FILTERS_POPULATION, {population: key}),
+      })),
+      extraProps: {
+        'data-feature-tour': 'filters-population',
       },
     },
     {
@@ -87,7 +127,7 @@ class SidebarMenusComponent extends Component {
     {
       id: SIDEBAR_MENUS.GRAPH_METRICS_MENU,
       labelPlaceholder: 'menu:graph_metrics_label',
-      icon: faTasks,
+      icon: faBalanceScale,
       activeKeys: [],
       subMenu: ['all', 'none', ...graphMetricsOrder].map(key => ({
         labelPlaceholder: `general:metrics_${key}`,
@@ -100,7 +140,7 @@ class SidebarMenusComponent extends Component {
     },
   ]
 
-  getActiveKeysForMenu(menuId) {
+  getActiveKeysForMenu(menuId: string): string[] {
     const {graphOverview, overview} = this.props
 
     switch (menuId) {
@@ -108,12 +148,16 @@ class SidebarMenusComponent extends Component {
         return [overview.dateFilter.mode]
       case SIDEBAR_MENUS.VIEW_MODE_MENU:
         return [overview.viewMode]
+      case SIDEBAR_MENUS.FILTERS_CONTINENT_MENU:
+        return overview.filters?.continent || []
+      case SIDEBAR_MENUS.FILTERS_POPULATION_MENU:
+        return overview.filters?.population || []
       case SIDEBAR_MENUS.GRAPH_SCALE_MENU:
         return [graphOverview.graphScale]
       case SIDEBAR_MENUS.GRAPH_MODE_MENU:
         return [graphOverview.graphMode]
       case SIDEBAR_MENUS.GRAPH_METRICS_MENU:
-        return [...graphOverview.metricsVisible]
+        return graphOverview.metricsVisible || []
     }
   }
 
@@ -122,6 +166,8 @@ class SidebarMenusComponent extends Component {
 
     const intervalsMenu = this.menus.find(menuData => menuData.id === SIDEBAR_MENUS.INTERVALS_MENU)
     const viewModeMenu = this.menus.find(menuData => menuData.id === SIDEBAR_MENUS.VIEW_MODE_MENU)
+    const filtersContinentMenu = this.menus.find(menuData => menuData.id === SIDEBAR_MENUS.FILTERS_CONTINENT_MENU)
+    const filtersPopulationMenu = this.menus.find(menuData => menuData.id === SIDEBAR_MENUS.FILTERS_POPULATION_MENU)
     const graphModeMenu = this.menus.find(menuData => menuData.id === SIDEBAR_MENUS.GRAPH_MODE_MENU)
     const graphScaleMenu = this.menus.find(menuData => menuData.id === SIDEBAR_MENUS.GRAPH_SCALE_MENU)
     const graphMetricsMenu = this.menus.find(menuData => menuData.id === SIDEBAR_MENUS.GRAPH_METRICS_MENU)
@@ -133,6 +179,16 @@ class SidebarMenusComponent extends Component {
             <h5 className="app-sidebar__heading">{t('sidebar:header_time')}</h5>
             <SidebarMenuSet menuData={intervalsMenu} activeKeys={this.getActiveKeysForMenu(intervalsMenu.id)} />
 
+            <h5 className="app-sidebar__heading">{t('sidebar:header_filters')}</h5>
+            <SidebarMenuSet
+              menuData={filtersContinentMenu}
+              activeKeys={this.getActiveKeysForMenu(filtersContinentMenu.id)}
+            />
+            <SidebarMenuSet
+              menuData={filtersPopulationMenu}
+              activeKeys={this.getActiveKeysForMenu(filtersPopulationMenu.id)}
+            />
+
             <h5 className="app-sidebar__heading">{t('sidebar:header_view')}</h5>
             <SidebarMenuSet menuData={viewModeMenu} activeKeys={this.getActiveKeysForMenu(viewModeMenu.id)} />
 
@@ -143,7 +199,12 @@ class SidebarMenusComponent extends Component {
 
             <h5 className="app-sidebar__heading">{t('sidebar:header_project')}</h5>
             <li className="sidebar-menu-item">
-              <a className="sidebar-menu-link" target="_blank" href="https://github.com/codash-platform/codash">
+              <a
+                className="sidebar-menu-link"
+                target="_blank"
+                rel="noreferrer"
+                href="https://github.com/codash-platform/codash"
+              >
                 <FontAwesomeIcon className="sidebar-menu-icon" icon={faAddressCard} />
                 {t('sidebar:menu_about')}
               </a>

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import {withTranslation} from 'react-i18next'
-import Joyride, {EVENTS, STATUS} from 'react-joyride'
+import {withTranslation, WithTranslation} from 'react-i18next'
+import Joyride, {EVENTS, STATUS, Step, CallBackProps} from 'react-joyride'
 import {connect} from 'react-redux'
 import {
   ACTION_CHANGE_METRIC_GRAPH_VISIBILITY,
@@ -14,6 +14,7 @@ import {
   VIEW_MODE,
 } from '../global/constants'
 import {action} from '../global/util'
+import {Overview} from '../global/typeUtils'
 
 const tourStepOrder = {
   dateFilter: 0,
@@ -26,7 +27,11 @@ const tourStepOrder = {
   tourButton: 7,
 }
 
-const steps = [
+interface StepWithTranslation extends Partial<Step> {
+  contentPlaceholder: string;
+}
+
+const steps: Array<StepWithTranslation> = [
   {
     target: '.DateRangePicker_1',
     contentPlaceholder: 'tour:step_date_filter',
@@ -69,7 +74,11 @@ const steps = [
   },
 ]
 
-class FeatureTourComponent extends Component {
+interface FeatureTourComponentProps extends WithTranslation {
+  overview: Overview;
+}
+
+class FeatureTourComponent extends Component<FeatureTourComponentProps> {
   render() {
     const {overview, t} = this.props
     const {tourEnabled} = overview
@@ -83,7 +92,7 @@ class FeatureTourComponent extends Component {
       <Joyride
         run={tourEnabled}
         disableOverlayClose={true}
-        steps={translatedSteps}
+        steps={translatedSteps as Step[]}
         showSkipButton={true}
         locale={{
           back: t('tour:button_back'),
@@ -92,7 +101,7 @@ class FeatureTourComponent extends Component {
           next: t('tour:button_next'),
           skip: t('tour:button_skip'),
         }}
-        callback={data => {
+        callback={(data: CallBackProps) => {
           if (data.type === EVENTS.BEACON) {
             switch (data.index) {
               case tourStepOrder.dateFilter:
@@ -106,7 +115,10 @@ class FeatureTourComponent extends Component {
                 break
 
               case tourStepOrder.countrySelection:
-                action(ACTION_TOGGLE_SIDEBAR_MENU, {menuId: SIDEBAR_MENUS.VIEW_MODE_MENU, expanded: false})
+                action(ACTION_TOGGLE_SIDEBAR_MENU, {
+                  menuId: SIDEBAR_MENUS.VIEW_MODE_MENU,
+                  expanded: false,
+                })
                 break
 
               case tourStepOrder.viewMode:
@@ -128,9 +140,9 @@ class FeatureTourComponent extends Component {
                 break
             }
           }
-
           // Need to set our running state to false, so we can restart if we click start again.
-          if ([STATUS.FINISHED, STATUS.SKIPPED].includes(data.status)) {
+          const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED]
+          if (finishedStatuses.includes(data.status)) {
             action(ACTION_CHANGE_TOUR_STATE, {enabled: false})
             action(ACTION_CHANGE_TOUR_COMPLETION, {completed: true})
           }

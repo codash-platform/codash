@@ -1,24 +1,28 @@
 import {Bar} from '@nivo/bar'
 import {Line} from '@nivo/line'
-import React, {Component} from 'react'
+import {LinearScale, LogScale} from '@nivo/scales'
+import React, {Component, ReactElement} from 'react'
 import {Card} from 'react-bootstrap'
-import {withTranslation} from 'react-i18next'
+import {withTranslation, WithTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import AutoSizer from 'react-virtualized-auto-sizer'
-import {GRAPH_SCALE, LOCALE_DEFAULT, METRICS} from '../../../global/constants'
+import {GRAPH_SCALE, LOCALE_DEFAULT, METRIC} from '../../../global/constants'
 import {getGraphData} from '../../../global/dataParsing'
+import {GraphOverviewT, Overview} from '../../../global/typeUtils'
+import {InfoHover} from '../../../components/InfoHover'
+import {NotificationBoxElement} from '../../../components/NotificationBox'
 
 export const graphMetricsOrder = [
-  METRICS.CASES_NEW,
-  METRICS.CASES_PER_CAPITA,
-  METRICS.CASES_ACCUMULATED,
-  METRICS.CASES_PER_CAPITA_ACCUMULATED,
-  METRICS.DEATHS_NEW,
-  METRICS.DEATHS_PER_CAPITA,
-  METRICS.DEATHS_ACCUMULATED,
-  METRICS.DEATHS_PER_CAPITA_ACCUMULATED,
-  METRICS.MORTALITY_PERCENTAGE,
-  METRICS.MORTALITY_PERCENTAGE_ACCUMULATED,
+  METRIC.CASES_NEW,
+  METRIC.CASES_PER_CAPITA,
+  METRIC.CASES_ACCUMULATED,
+  METRIC.CASES_PER_CAPITA_ACCUMULATED,
+  METRIC.DEATHS_NEW,
+  METRIC.DEATHS_PER_CAPITA,
+  METRIC.DEATHS_ACCUMULATED,
+  METRIC.DEATHS_PER_CAPITA_ACCUMULATED,
+  METRIC.MORTALITY_PERCENTAGE,
+  METRIC.MORTALITY_PERCENTAGE_ACCUMULATED,
 ]
 
 export const colors = [
@@ -33,14 +37,19 @@ export const colors = [
   '#fb9a99',
   '#b2df8a',
   '#b15928',
-  '#ffff99',
+  '#f1f10f',
 ]
 
-class GraphsComponent extends Component {
-  getColorForDataSet = databject => {
+interface GraphsComponentProps extends WithTranslation {
+  overview: Overview;
+  graphOverview: GraphOverviewT;
+}
+
+class GraphsComponent extends Component<GraphsComponentProps> {
+  getColorForDataSet = dataObject => {
     const {selectedGeoIds, data} = this.props.overview
 
-    if (!selectedGeoIds || !data?.geoIdToNameMapping) {
+    if (!selectedGeoIds || !data?.geoIdInfo) {
       return colors[0]
     }
 
@@ -49,10 +58,10 @@ class GraphsComponent extends Component {
       .map(([key, value]) => key)
       .sort()
 
-    let dataGeoId = databject.geoId
+    let dataGeoId = dataObject.geoId
     if (!dataGeoId) {
-      if (databject.data?.nameToGeoId?.[databject.id]) {
-        dataGeoId = databject.data.nameToGeoId[databject.id]
+      if (dataObject.data?.nameToGeoId?.[dataObject.id]) {
+        dataGeoId = dataObject.data.nameToGeoId[dataObject.id]
       } else {
         return colors[0]
       }
@@ -69,7 +78,7 @@ class GraphsComponent extends Component {
 
   getColorForTooltip = dataGeoId => {
     const {selectedGeoIds, data} = this.props.overview
-    if (!selectedGeoIds || !data?.geoIdToNameMapping) {
+    if (!selectedGeoIds || !data?.geoIdInfo) {
       return colors[0]
     }
 
@@ -97,14 +106,20 @@ class GraphsComponent extends Component {
       return graphs
     }
 
+    const selectedGeoIdCount = Object.values(selectedGeoIds).filter(selected => selected).length
+
+    if (selectedGeoIdCount === 0) {
+      return <NotificationBoxElement messagePlaceholder={t('graph:no_element_selected')} variant="warning" />
+    }
+
     // disable animations when too much data causes UI lagging
-    const animationsEnabled =
-      metricsVisible.length < 5 && Object.values(selectedGeoIds).filter(selected => selected).length < 5
+    const animationsEnabled = metricsVisible.length < 5 && selectedGeoIdCount < 5
 
     graphMetricsOrder
       .filter(metric => metricsVisible.includes(metric))
       .map(metricName => {
-        const metricLabel = t(`graph:metrics_${metricName}`)
+        const metricLabel = t(`general:metrics_${metricName}`)
+        const metricInfoPlaceholder = `graph:metric_info_${metricName}`
         const processedData = getGraphData(
           data,
           dateFilter,
@@ -112,13 +127,15 @@ class GraphsComponent extends Component {
           metricName,
           lineGraphVisible,
           barGraphVisible,
-          graphScale
+          graphScale,
         )
 
-        if (lineGraphVisible) {
+        if (lineGraphVisible && processedData.lineData?.length) {
           graphs.push(
             <Card key={`line-${metricName}`} className="mb-3">
-              <Card.Header>{metricLabel}</Card.Header>
+              <Card.Header>
+                {metricLabel} <InfoHover messagePlaceholder={metricInfoPlaceholder} />
+              </Card.Header>
               <LineGraph
                 data={processedData.lineData}
                 scale={graphScale}
@@ -126,14 +143,16 @@ class GraphsComponent extends Component {
                 getColorForDataSet={this.getColorForDataSet}
                 animationsEnabled={animationsEnabled}
               />
-            </Card>
+            </Card>,
           )
         }
 
-        if (barGraphVisible) {
+        if (barGraphVisible && processedData.barData?.data.length) {
           graphs.push(
             <Card key={`bar-${metricName}`} className="mb-3">
-              <Card.Header>{metricLabel}</Card.Header>
+              <Card.Header>
+                {metricLabel} <InfoHover messagePlaceholder={metricInfoPlaceholder} />
+              </Card.Header>
               <Card.Body>
                 <BarGraph
                   data={processedData.barData?.data}
@@ -143,16 +162,20 @@ class GraphsComponent extends Component {
                   animationsEnabled={animationsEnabled}
                 />
               </Card.Body>
-            </Card>
+            </Card>,
           )
         }
       })
+
+    if (graphs.length === 0) {
+      return <NotificationBoxElement messagePlaceholder={t('graph:no_element_visible')} variant="warning" />
+    }
 
     return graphs
   }
 }
 
-export const BarGraph = ({data, keys, getColorForDataSet, getColorForTooltip, animationsEnabled}) => {
+export const BarGraph = ({data, keys, getColorForDataSet, getColorForTooltip, animationsEnabled}): ReactElement => {
   return (
     <AutoSizer disableHeight>
       {({width}) => (
@@ -160,24 +183,13 @@ export const BarGraph = ({data, keys, getColorForDataSet, getColorForTooltip, an
           <Bar
             height={500}
             width={width}
-            data={data || []}
+            data={data ?? []}
             keys={keys}
             animate={animationsEnabled}
             margin={{top: 50, right: 120, bottom: 70, left: 70}}
             groupMode="grouped"
             layout="vertical"
             indexBy="date"
-            xScale={{
-              type: 'time',
-              format: '%d.%m.%Y',
-              precision: 'day',
-              useUTC: false,
-            }}
-            xFormat="time:%d.%m.%Y"
-            yScale={{
-              type: 'linear',
-              stacked: false,
-            }}
             axisLeft={{
               tickSize: 5,
               tickPadding: 3,
@@ -218,26 +230,26 @@ export const BarGraph = ({data, keys, getColorForDataSet, getColorForTooltip, an
                 <div className="font-weight-bold text-center">{data.indexValue}</div>
                 <table style={{width: '100%', borderCollapse: 'collapse'}}>
                   <tbody>
-                    {Object.entries(data.data)
-                      .filter(([name, value]) => !['date', 'nameToGeoId'].includes(name))
-                      .sort((a, b) => b?.[1] - a?.[1])
-                      .map(([name, value]) => (
-                        <tr key={name}>
-                          <td style={{padding: '3px 5px'}}>
-                            <div
-                              style={{
-                                width: '12px',
-                                height: '12px',
-                                backgroundColor: getColorForTooltip(data.data.nameToGeoId[name]),
-                              }}
-                            />
-                          </td>
-                          <td style={{padding: '3px 5px'}}>{name}</td>
-                          <td className="font-weight-bold text-right" style={{padding: '3px 5px'}}>
-                            {value.toLocaleString(LOCALE_DEFAULT)}
-                          </td>
-                        </tr>
-                      ))}
+                  {Object.entries(data.data)
+                    .filter(([name, value]) => !['date', 'nameToGeoId'].includes(name))
+                    .sort((a, b) => (b?.[1] as number) - (a?.[1] as number))
+                    .map(([name, value]) => (
+                      <tr key={name}>
+                        <td style={{padding: '3px 5px'}}>
+                          <div
+                            style={{
+                              width: '12px',
+                              height: '12px',
+                              backgroundColor: getColorForTooltip(data.data.nameToGeoId[name]),
+                            }}
+                          />
+                        </td>
+                        <td style={{padding: '3px 5px'}}>{name}</td>
+                        <td className="font-weight-bold text-right" style={{padding: '3px 5px'}}>
+                          {value.toLocaleString(LOCALE_DEFAULT)}
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </>
@@ -267,23 +279,19 @@ export const BarGraph = ({data, keys, getColorForDataSet, getColorForTooltip, an
   )
 }
 
-export const LineGraph = ({data, scale, logarithmParams, getColorForDataSet, animationsEnabled}) => {
-  let yScaleConfig = {
+export const LineGraph = ({data, scale, logarithmParams, getColorForDataSet, animationsEnabled}): ReactElement => {
+  let yScaleConfig: LinearScale | LogScale = {
     type: 'linear',
     stacked: false,
   }
   let leftAxisFormatter = value => value.toLocaleString(LOCALE_DEFAULT)
 
   if (scale === GRAPH_SCALE.LOGARITHMIC) {
-    const LogYScale = {
+    yScaleConfig = {
       type: 'log',
       base: 10,
-      min: logarithmParams.min || 'auto',
-      max: logarithmParams.max || 'auto',
-    }
-    yScaleConfig = {
-      ...yScaleConfig,
-      ...LogYScale,
+      min: logarithmParams.min ?? 'auto',
+      max: logarithmParams.max ?? 'auto',
     }
 
     // show the axis ticks for every power of 10
@@ -301,7 +309,7 @@ export const LineGraph = ({data, scale, logarithmParams, getColorForDataSet, ani
       {({width}) => (
         <div style={{width: width + 'px'}}>
           <Line
-            data={data || []}
+            data={data ?? []}
             height={500}
             width={width}
             animate={animationsEnabled}
@@ -350,25 +358,25 @@ export const LineGraph = ({data, scale, logarithmParams, getColorForDataSet, ani
                   <div className="font-weight-bold text-center">{slice.points[0].data.xFormatted}</div>
                   <table style={{width: '100%', borderCollapse: 'collapse'}}>
                     <tbody>
-                      {slice.points
-                        .sort((a, b) => b?.data?.yFormatted - a?.data?.yFormatted)
-                        .map(point => (
-                          <tr key={point.id}>
-                            <td style={{padding: '3px 5px'}}>
-                              <div
-                                style={{
-                                  width: '12px',
-                                  height: '12px',
-                                  backgroundColor: point.serieColor,
-                                }}
-                              />
-                            </td>
-                            <td style={{padding: '3px 5px'}}>{point.serieId}</td>
-                            <td className="font-weight-bold text-right" style={{padding: '3px 5px'}}>
-                              {point.data.yFormatted.toLocaleString(LOCALE_DEFAULT)}
-                            </td>
-                          </tr>
-                        ))}
+                    {slice.points
+                      .sort((a, b) => (b?.data?.yFormatted as number) - (a?.data?.yFormatted as number))
+                      .map(point => (
+                        <tr key={point.id}>
+                          <td style={{padding: '3px 5px'}}>
+                            <div
+                              style={{
+                                width: '12px',
+                                height: '12px',
+                                backgroundColor: point.serieColor,
+                              }}
+                            />
+                          </td>
+                          <td style={{padding: '3px 5px'}}>{point.serieId}</td>
+                          <td className="font-weight-bold text-right" style={{padding: '3px 5px'}}>
+                            {point.data.yFormatted.toLocaleString(LOCALE_DEFAULT)}
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 </div>

@@ -1,8 +1,10 @@
 import axios from 'axios'
-import {call, put, select, takeLatest} from 'redux-saga/effects'
+import {call, put, select, takeLatest, ForkEffect} from 'redux-saga/effects'
 import {
   ACTION_CHANGE_DATE_FILTER_INTERVAL,
   ACTION_CHANGE_DATE_FILTER_MODE,
+  ACTION_CHANGE_FILTERS_CONTINENT,
+  ACTION_CHANGE_FILTERS_POPULATION,
   ACTION_CHANGE_GEOID_SELECTION,
   ACTION_CHANGE_GRAPH_MODE,
   ACTION_CHANGE_GRAPH_SCALE,
@@ -15,6 +17,7 @@ import {
   ACTION_GET_DATA_SUCCESS,
   ACTION_REPARSE_DATA,
   ACTION_SET_NOTIFICATION,
+  ACTION_UPDATE_GEOID_VISIBILITY,
   DATE_FILTER,
   ROUTE_DASHBOARD,
   ROUTE_EMPTY_PARAM,
@@ -31,12 +34,18 @@ const routingActions = [
   ACTION_CHANGE_GRAPH_MODE,
   ACTION_CHANGE_GRAPH_SCALE,
   ACTION_CHANGE_METRIC_GRAPH_VISIBILITY,
+  ACTION_CHANGE_FILTERS_CONTINENT,
 ]
 
 function* getData() {
   try {
     yield put({type: ACTION_SET_NOTIFICATION, message: 'global:notification_loading', showSpinner: true})
-    const result = yield call(axios.get, '//api.codash.io/download.php')
+    const result = yield call(axios.get, '//api.codash.io/download')
+
+    if (!result?.data?.records) {
+      throw new Error('error.data_unavailable')
+    }
+
     yield put({type: ACTION_GET_DATA_SUCCESS, result: result.data})
     yield put({type: ACTION_CLEAR_NOTIFICATION})
 
@@ -55,16 +64,19 @@ function* getData() {
 
 function* changeUrl() {
   const urlParams = yield select(state => {
-    const result = {
+    const result: Record<string, string> = {
       viewMode: state.overview?.viewMode || ROUTE_EMPTY_PARAM,
       startDate: state.overview?.dateFilter?.startDate || ROUTE_EMPTY_PARAM,
       endDate: state.overview?.dateFilter?.endDate || ROUTE_EMPTY_PARAM,
+      filtersContinent: state.overview?.filters?.continent?.join(URL_ELEMENT_SEPARATOR) || ROUTE_EMPTY_PARAM,
+      filtersPopulation: state.overview?.filters?.population?.join(URL_ELEMENT_SEPARATOR) || ROUTE_EMPTY_PARAM,
       graphMode: state.graphOverview?.graphMode || ROUTE_EMPTY_PARAM,
       graphScale: state.graphOverview?.graphScale || ROUTE_EMPTY_PARAM,
       metricsVisible: state.graphOverview?.metricsVisible?.join(URL_ELEMENT_SEPARATOR) || ROUTE_EMPTY_PARAM,
     }
 
-    if (state.overview?.selectedGeoIds) {
+    // check if we have at least one selected geoId
+    if (state.overview?.selectedGeoIds && Object.values(state.overview.selectedGeoIds).some(selected => !!selected)) {
       result.selectedGeoIds =
         Object.entries(state.overview.selectedGeoIds)
           .filter(([geoId, active]) => active)
@@ -84,7 +96,7 @@ function* changeUrl() {
   })
 
   const route = Object.entries(urlParams).reduce(
-    (parsedRoute, [paramName, paramValue]) => parsedRoute.replace(`:${paramName}?`, paramValue),
+    (parsedRoute, [paramName, paramValue]) => parsedRoute.replace(`:${paramName}?`, paramValue as string),
     ROUTE_DASHBOARD
   )
 
@@ -93,10 +105,14 @@ function* changeUrl() {
   }
 }
 
-export function* generalSaga() {
+export function* generalSaga(): Generator<ForkEffect<never>> {
   yield takeLatest(ACTION_GET_DATA_START, getData)
   yield takeLatest(routingActions, changeUrl)
   yield takeLatest([ACTION_GET_DATA_SUCCESS, ACTION_REPARSE_DATA], () =>
     action(ACTION_CHANGE_DATE_FILTER_MODE, {filterMode: DATE_FILTER.LAST_14_DAYS})
+  )
+  yield takeLatest(
+    [ACTION_GET_DATA_SUCCESS, ACTION_REPARSE_DATA, ACTION_CHANGE_FILTERS_CONTINENT, ACTION_CHANGE_FILTERS_POPULATION],
+    () => action(ACTION_UPDATE_GEOID_VISIBILITY)
   )
 }

@@ -1,8 +1,8 @@
 # CoDash - COVID-19 Dashboard <img align="right" width="300" src="https://github.com/codash-platform/codash/blob/master/static/images/logo/logo_large.png?raw=true" alt="CoDash" >
 
-Live website: https://codash.io
+**UPDATE**: The project has been dicontinued. The live website has been suspended because of the great work from ourworldindata.org. I highly suggest you check them out as the main information source going forward.
 
-This dashboard focuses on providing a more customisable way to sort and visualise the currently available covid data.
+This dashboard focused on providing a more customisable way to sort and visualise the currently available covid data.
 
 
 

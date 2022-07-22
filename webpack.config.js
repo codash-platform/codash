@@ -2,11 +2,11 @@
 const webpack = require('webpack')
 const {mergeWithCustomize, customizeObject} = require('webpack-merge')
 const TerserPlugin = require('terser-webpack-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const GoogleFontsPlugin = require('google-fonts-plugin')
+const GoogleFontsPlugin = require('@beyonk/google-fonts-webpack-plugin')
 const DotenvWebpack = require('dotenv-webpack')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 
@@ -47,17 +47,21 @@ const baseConfig = {
   context: sourcePath,
   devServer: {
     host: '0.0.0.0',
-    disableHostCheck: true,
-    contentBase: staticPath,
+    allowedHosts: 'all',
+    static: {
+      directory : staticPath,
+    },
     historyApiFallback: {
       disableDotRule: true,
     },
-    clientLogLevel: process.env.DEV_CLIENT_LOG_LEVEL,
-    port: process.env.DEV_SERVER_PORT,
-    stats: {
-      children: false,
-      modules: false,
+    client: {
+      logging: process.env.DEV_CLIENT_LOG_LEVEL,
     },
+    port: process.env.DEV_SERVER_PORT,
+  },
+  stats: {
+    children: false,
+    modules: false,
   },
   entry: {
     js: [
@@ -74,7 +78,7 @@ const baseConfig = {
         exclude: /node_modules/,
         use: {
           loader: 'file-loader',
-          query: {
+          options: {
             name: '[name].[hash].[ext]',
           },
         },
@@ -172,11 +176,11 @@ if (isProd) {
       ],
     },
     optimization: {
-      minimizer: [new TerserPlugin(), new OptimizeCSSAssetsPlugin({})],
+      minimizer: [new TerserPlugin(), new CssMinimizerPlugin()],
     },
     performance: {
-      maxAssetSize: 2e6,
-      maxEntrypointSize: 2e6,
+      maxAssetSize: 3e6,
+      maxEntrypointSize: 3e6,
       hints: 'warning',
     },
     plugins: [

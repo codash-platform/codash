@@ -40,7 +40,7 @@ const routingActions = [
 function* getData() {
   try {
     yield put({type: ACTION_SET_NOTIFICATION, message: 'global:notification_loading', showSpinner: true})
-    const result = yield call(axios.get, '//api.codash.io/download')
+    const result = yield call(axios.get, 'https://opendata.ecdc.europa.eu/covid19/casedistribution/json/')
 
     if (!result?.data?.records) {
       throw new Error('error.data_unavailable')

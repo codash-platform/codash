@@ -243,6 +243,7 @@ const hardcodedPopulationData = {
   ER: 3452786,
   EH: 567402,
   FK: 3234,
+  WF: 11558,
   JPG11668: 3711, // Diamond Princess cruise ship
 }
 

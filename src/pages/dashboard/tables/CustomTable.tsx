@@ -6,7 +6,7 @@ import paginationFactory, {
   PaginationProvider,
   PaginationTotalStandalone,
 } from 'react-bootstrap-table2-paginator'
-import ToolkitProvider, {Search} from 'react-bootstrap-table2-toolkit'
+import ToolkitProvider, {Search} from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit'
 import {ACTION_CHANGE_SIZE_PER_PAGE, TABLE_TYPE} from '../../../global/constants'
 import {action} from '../../../global/util'
 import {WithTranslation} from 'react-i18next'

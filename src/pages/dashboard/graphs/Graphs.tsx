@@ -1,6 +1,6 @@
 import {Bar} from '@nivo/bar'
 import {Line} from '@nivo/line'
-import {LinearScale, LogScale} from '@nivo/scales'
+import {ScaleLinearSpec, ScaleLogSpec} from '@nivo/scales'
 import React, {Component, ReactElement} from 'react'
 import {Card} from 'react-bootstrap'
 import {withTranslation, WithTranslation} from 'react-i18next'
@@ -280,7 +280,7 @@ export const BarGraph = ({data, keys, getColorForDataSet, getColorForTooltip, an
 }
 
 export const LineGraph = ({data, scale, logarithmParams, getColorForDataSet, animationsEnabled}): ReactElement => {
-  let yScaleConfig: LinearScale | LogScale = {
+  let yScaleConfig: ScaleLinearSpec | ScaleLogSpec = {
     type: 'linear',
     stacked: false,
   }

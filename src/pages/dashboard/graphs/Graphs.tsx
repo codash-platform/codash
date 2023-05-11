@@ -322,6 +322,7 @@ export const LineGraph = ({data, scale, logarithmParams, getColorForDataSet, ani
             }}
             xFormat="time:%d.%m.%Y"
             yScale={yScaleConfig}
+            pointLabelYOffset={0}
             axisRight={null}
             axisLeft={{
               tickSize: 5,

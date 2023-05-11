@@ -144,6 +144,7 @@ const baseConfig = {
       formats: ['woff'],
       encode: true,
       cache: true,
+      apiUrl: 'https://gwfh.mranftl.com/api/fonts',
     }),
   ],
   resolve: {
